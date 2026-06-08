@@ -1,0 +1,13 @@
+{
+  "name": "web-test-app",
+  "version": "1.0.0",
+  "description": "Simple web application for testing registration form and user listing",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": ["testing", "registration", "web"],
+  "author": "",
+  "license": "ISC"
+}
