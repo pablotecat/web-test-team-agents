@@ -1,4 +1,4 @@
-import { FormPage, UsersPage } from './index'
+import { FormPage, UsersPage} from '../pages'
 import {test as base, expect, type Page} from '@playwright/test'
 
 export const test = base.extend<{
