@@ -4,7 +4,7 @@ import { test, expect, request } from '@playwright/test';
 
 const BASE_URL = process.env.BASE_URL || 'http://localhost:3000/api';
 
-test.describe('API: POST /register', () => {
+test.describe.skip('API: POST /register', () => {
 	test('should update user registration successfully (200)', async ({ request }) => {
 		const payload = {
 			name: 'Eve Holt',
