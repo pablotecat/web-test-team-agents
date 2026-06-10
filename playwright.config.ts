@@ -43,17 +43,26 @@ export default defineConfig({
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
+      testIgnore: /.*\.api\.spec\.ts/,
     },
 
     {
       name: 'firefox',
       use: { ...devices['Desktop Firefox'] },
+      testIgnore: /.*\.api\.spec\.ts/,
     },
 
     {
       name: 'webkit',
       use: { ...devices['Desktop Safari'] },
+      testIgnore: /.*\.api\.spec\.ts/,
     },
+
+    { name: "API Test", 
+      testMatch: /.*\.api\.spec\.ts/,  
+      use: { baseURL: 'http://localhost:3000/api',
+  },    
+  },
 
     /* Test against mobile viewports. */
     // {
