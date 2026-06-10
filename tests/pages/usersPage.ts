@@ -2,42 +2,15 @@ import { Locator, Page } from '@playwright/test';
 
 export class UsersPage {
   readonly page: Page;
-  readonly addUserButton: Locator;
-  readonly userNameInput: Locator;
-  readonly userEmailInput: Locator;
-  readonly saveUserButton: Locator;
   readonly usersTable: Locator;
 
   constructor(page: Page) {
     this.page = page;
-    this.addUserButton = page.locator('button:has-text("Add User")');
-    this.userNameInput = page.locator('input[name="name"]');
-    this.userEmailInput = page.locator('input[name="email"]');
-    this.saveUserButton = page.locator('button:has-text("Save")');
-    this.usersTable = page.locator('table#users');
+    this.usersTable = page.locator('//table[@id="usersTable"]');
   }
 
   async goto() {
     await this.page.goto('/users');
-  }
-
-  async clickAddUser() {
-    await this.addUserButton.click();
-  }
-
-  async fillUserForm(name: string, email: string) {
-    await this.userNameInput.fill(name);
-    await this.userEmailInput.fill(email);
-  }
-
-  async saveUser() {
-    await this.saveUserButton.click();
-  }
-
-  async addUser(name: string, email: string) {
-    await this.clickAddUser();
-    await this.fillUserForm(name, email);
-    await this.saveUser();
   }
 
   async getUserRowByEmail(email: string) {
@@ -46,6 +19,10 @@ export class UsersPage {
 
   async deleteUserByEmail(email: string) {
     const row = await this.getUserRowByEmail(email);
-    await row.locator('button:has-text("Delete")').click();
+    await row.locator('//button[@class="btn-action btn-delete"]').click();
   }
+  async editUserByEmail(email: string) {
+    const row = await this.getUserRowByEmail(email);
+    await row.locator('//button[@class="btn-action btn-edit"]').click();
+    }
 }

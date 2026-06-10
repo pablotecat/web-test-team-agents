@@ -6,7 +6,7 @@ export class FormPage {
   // Locators
   readonly nameInput: Locator;
   readonly emailInput: Locator;
-  readonly passwordInput: Locator;
+  readonly phoneInput: Locator;
   readonly submitButton: Locator;
   readonly successMessage: Locator;
 
@@ -14,11 +14,11 @@ export class FormPage {
     this.page = page;
 
     // Initialize locators
-    this.nameInput = page.locator('input[name="name"]');
-    this.emailInput = page.locator('input[name="email"]');
-    this.passwordInput = page.locator('input[name="password"]');
-    this.submitButton = page.locator('button[type="submit"]');
-    this.successMessage = page.locator('.success-message');
+    this.nameInput = page.locator('//*[@id="name"]');
+    this.emailInput = page.locator('//*[@id="email"]');
+    this.phoneInput = page.locator('//*[@id="phone"]');
+    this.submitButton = page.locator('//*[@type="submit"]');
+    this.successMessage = page.locator('//*[@id="message"]');
   }
 
   // Methods
@@ -34,8 +34,8 @@ export class FormPage {
     await this.emailInput.fill(email);
   }
 
-  async fillPassword(password: string) {
-    await this.passwordInput.fill(password);
+  async fillPhone(phone: string) {
+    await this.phoneInput.fill(phone);
   }
 
   async submitForm() {
@@ -46,10 +46,10 @@ export class FormPage {
     return await this.successMessage.textContent();
   }
 
-  async fillFormAndSubmit(name: string, email: string, password: string) {
+  async fillFormAndSubmit(name: string, email: string, phone: string) {
     await this.fillName(name);
     await this.fillEmail(email);
-    await this.fillPassword(password);
+    await this.fillPhone(phone);
     await this.submitForm();
   }
 }
