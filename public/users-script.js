@@ -48,7 +48,7 @@ async function loadUsers() {
           <td>${user.id}</td>
           <td>${user.name}</td>
           <td>${user.email}</td>
-          <td>${user.phone}</td>
+          <td>${user.phone || ''}</td>
           <td>${user.registeredAt}</td>
           <td class="actions">
             <button class="btn-action btn-edit" data-id="${user.id}">Editar</button>
@@ -81,7 +81,7 @@ async function openEditModal(userId) {
       document.getElementById('editUserId').value = user.id;
       document.getElementById('editName').value = user.name;
       document.getElementById('editEmail').value = user.email;
-      document.getElementById('editPhone').value = user.phone;
+      document.getElementById('editPhone').value = user.phone || '';
 
       document.getElementById('editModal').style.display = 'block';
     } else {
