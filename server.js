@@ -94,9 +94,9 @@ const server = http.createServer(async (req, res) => {
         const body = await parseBody(req);
         const { name, email, phone } = body;
 
-        if (!name || !email || !phone) {
+        if (!name || !email) {
           res.writeHead(400, { 'Content-Type': 'application/json' });
-          res.end(JSON.stringify({ error: 'All fields are required' }));
+          res.end(JSON.stringify({ error: 'Name and email are required' }));
           return;
         }
 
@@ -154,9 +154,9 @@ const server = http.createServer(async (req, res) => {
         const body = await parseBody(req);
         const { name, email, phone } = body;
 
-        if (!name || !email || !phone) {
+        if (!name || !email) {
           res.writeHead(400, { 'Content-Type': 'application/json' });
-          res.end(JSON.stringify({ error: 'All fields are required' }));
+          res.end(JSON.stringify({ error: 'Name and email are required' }));
           return;
         }
 
