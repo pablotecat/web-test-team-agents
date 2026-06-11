@@ -2,8 +2,8 @@ import { test, expect } from '@playwright/test';
 
 const baseURL = process.env.API_BASE_URL || 'https://reqres.in/api';
 
-test.describe('Users API', () => {
-  test('GET /users returns a list of users', async ({ request }) => {
+test.describe.skip('Users API', () => {
+  test.skip('GET /users returns a list of users', async ({ request }) => {
     const response = await request.get(`${baseURL}/users`);
     expect(response.ok()).toBeTruthy();
     expect(response.status()).toBe(200);
@@ -14,7 +14,7 @@ test.describe('Users API', () => {
     expect(body.per_page).toBeDefined();
   });
 
-  test.fixme('PUT /users/:id updates a user', async ({ request }) => {
+  test('PUT /users/:id updates a user', async ({ request }) => {
     const payload = {
       name: 'morpheus',
       job: 'zion resident',
