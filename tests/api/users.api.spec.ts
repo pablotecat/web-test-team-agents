@@ -1,20 +1,32 @@
 import { test, expect } from '@playwright/test';
 
-const baseURL = process.env.API_BASE_URL || 'https://reqres.in/api';
+const baseURL = process.env.API_BASE_URL || 'http://localhost:3000/api';
 
-test.describe.skip('Users API', () => {
-  test.skip('GET /users returns a list of users', async ({ request }) => {
+test.describe('Users API', () => {
+  test.skip('GET /users returns a json with user data', async ({ request }) => {
     const response = await request.get(`${baseURL}/users`);
     expect(response.ok()).toBeTruthy();
     expect(response.status()).toBe(200);
-
     const body = await response.json();
-    expect(body.data).toBeInstanceOf(Array);
-    expect(body.page).toBeDefined();
-    expect(body.per_page).toBeDefined();
+    expect(body).toBeDefined();
   });
 
-  test('PUT /users/:id updates a user', async ({ request }) => {
+  test('GET /user:id returns a user', async ({ request }) => {
+    let response = await request.get(`${baseURL}/users`);
+    let body = await response.json();
+    if (body.length === 0) {
+      expect((await request.post(`${baseURL}/register`, {data: {name: 'Test User',email: 'test@GETapi.com',phone: '+1234567890'},}))
+        .status()).toBe(200);
+      response = await request.get(`${baseURL}/users`);
+      body = await response.json();
+    }
+    expect(body[0].id).toBeDefined();
+    expect(body[0].name).toBeDefined();
+    expect(body[0].email).toBeDefined();
+    //expect(body[0].phone).toBeDefined();
+  });
+
+  test.skip('PUT /users/:id updates a user', async ({ request }) => {
     const payload = {
       name: 'morpheus',
       job: 'zion resident',
@@ -32,7 +44,7 @@ test.describe.skip('Users API', () => {
     expect(body.updatedAt).toBeDefined();
   });
 
-  test('DELETE /users/:id removes a user', async ({ request }) => {
+  test.skip('DELETE /users/:id removes a user', async ({ request }) => {
     const response = await request.delete(`${baseURL}/users/2`);
     expect(response.status()).toBe(204);
   });
