@@ -1,7 +1,5 @@
 import { test, expect, request } from '@playwright/test';
 
-// Scaffolding de tests para endpoint PUT /register
-
 const BASE_URL = process.env.BASE_URL || 'http://localhost:3000/api';
 
 test.describe('API: POST /register', () => {
@@ -71,7 +69,7 @@ test.describe('API: POST /register', () => {
         expect(response.status()).toBe(400);
     });
 
-        test.skip('should return 400 when email is empty', async ({ request }) => {
+    test.skip('should return 400 when email is empty', async ({ request }) => {
         const response = await request.post(`${BASE_URL}/register`, {
             data: {
                 name: 'Eve Holt',

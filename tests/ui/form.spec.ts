@@ -59,7 +59,8 @@ test('Phone field should not be mandatory', async ({
       await formPage.submitForm();
 
       await expect(formPage.successMessage).not.toBeVisible();
-    });
+  });
+  
   test('should show validation error when email is empty', async ({ 
     formPage,
     browserName  }) => {
@@ -70,5 +71,5 @@ test('Phone field should not be mandatory', async ({
       await formPage.submitForm();
 
       await expect(formPage.successMessage).not.toBeVisible();
-    });  
+  });  
 });
