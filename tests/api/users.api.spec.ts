@@ -12,18 +12,20 @@ test.describe('Users API', () => {
   });
 
   test('GET /user:id returns a user', async ({ request }) => {
-    let response = await request.get(`${baseURL}/users`);
-    let body = await response.json();
-    if (body.length === 0) {
-      expect((await request.post(`${baseURL}/register`, {data: {name: 'Test User',email: 'test@GETapi.com',phone: '+1234567890'},}))
-        .status()).toBe(200);
-      response = await request.get(`${baseURL}/users`);
-      body = await response.json();
-    }
-    expect(body[0].id).toBeDefined();
-    expect(body[0].name).toBeDefined();
-    expect(body[0].email).toBeDefined();
-    //expect(body[0].phone).toBeDefined();
+    //Setup
+    const setupResponse = await request.post(`${baseURL}/register`, {
+      data: { name: 'Test User', email: 'test@GETapi.com', phone: '+1234567890' },
+    });
+    expect(setupResponse.status()).toBe(200);
+    const createdUsr = await setupResponse.json();
+    const createdUsrId = createdUsr.user.id;
+    //Test
+    const response = await request.get(`${baseURL}/users/${createdUsrId}`);
+    const body = await response.json();
+    expect(body.id).toBeDefined();
+    expect(body.name).toBeDefined();
+    expect(body.email).toBeDefined();
+    expect(body.phone).toBeDefined();
   });
 
   test.skip('PUT /users/:id updates a user', async ({ request }) => {
