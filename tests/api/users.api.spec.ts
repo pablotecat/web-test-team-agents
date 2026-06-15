@@ -12,36 +12,46 @@ test.describe('Users API', () => {
   });
 
   test('GET /user:id returns a user', async ({ request }) => {
-    let response = await request.get(`${baseURL}/users`);
-    let body = await response.json();
-    if (body.length === 0) {
-      expect((await request.post(`${baseURL}/register`, {data: {name: 'Test User',email: 'test@GETapi.com',phone: '+1234567890'},}))
-        .status()).toBe(200);
-      response = await request.get(`${baseURL}/users`);
-      body = await response.json();
-    }
-    expect(body[0].id).toBeDefined();
-    expect(body[0].name).toBeDefined();
-    expect(body[0].email).toBeDefined();
-    //expect(body[0].phone).toBeDefined();
+    //Setup
+    const setupResponse = await request.post(`${baseURL}/register`, {
+      data: { name: 'Test User', email: 'test@GETapi.com', phone: '+1234567890' },
+    });
+    expect(setupResponse.status()).toBe(200);
+    const createdUsr = await setupResponse.json();
+    const createdUsrId = createdUsr.user.id;
+    //Test
+    const response = await request.get(`${baseURL}/users/${createdUsrId}`);
+    const body = await response.json();
+    expect(body.id).toBe(createdUsrId);
+    expect(body.name).toBe('Test User');
+    expect(body.email).toBe('test@GETapi.com');
+    expect(body.phone).toBe('+1234567890');
+    //Cleanup
+    //const delResp = await request.delete(`${baseURL}/users/${createdUsrId}`);
+    //expect([200, 204]).toContain(delResp.status());
   });
 
-  test.skip('PUT /users/:id updates a user', async ({ request }) => {
-    const payload = {
-      name: 'morpheus',
-      job: 'zion resident',
-    };
-
-    const response = await request.put(`${baseURL}/users/2`, {
-      data: payload,
+  test('PUT /users/:id updates a user', async ({ request }) => {
+    // Setup
+    const createResp = await request.post(`${baseURL}/register`, {
+      data: { name: 'User To Update', email: 'update@test.com', phone: '+100000000' },
+    });
+    expect(createResp.status()).toBe(200);
+    const createdUsr = await createResp.json();
+    const CreatedUsrId = createdUsr.user.id;
+    // Test
+    const response = await request.put(`${baseURL}/users/${CreatedUsrId}`, { 
+      data: { name: 'EDITED', email: 'test@EDITED.com', phone: '+1234567890' } 
     });
     expect(response.ok()).toBeTruthy();
     expect([200, 201]).toContain(response.status());
-
     const body = await response.json();
-    expect(body.name).toBe(payload.name);
-    expect(body.job).toBe(payload.job);
-    expect(body.updatedAt).toBeDefined();
+    expect(body.user.name).toBe('EDITED');
+    expect(body.user.email).toBe('test@EDITED.com');
+    expect(body.user.phone).toBe('+1234567890');
+    // Cleanup: remove the created user
+    //const remove = await request.delete(`${baseURL}/users/${CreatedUsrId}`);
+    //expect([200, 204]).toContain(remove.status());
   });
 
   test.skip('DELETE /users/:id removes a user', async ({ request }) => {
