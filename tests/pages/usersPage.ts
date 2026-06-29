@@ -1,12 +1,15 @@
 import { Locator, Page } from '@playwright/test';
+import { NavMenu } from './common-components/navigationMenu';
 
 export class UsersPage {
   readonly page: Page;
   readonly usersTable: Locator;
+  readonly navMenu: NavMenu;
 
   constructor(page: Page) {
     this.page = page;
     this.usersTable = page.locator('//table[@id="usersTable"]');
+    this.navMenu = new NavMenu(page);
   }
 
   async goto() {

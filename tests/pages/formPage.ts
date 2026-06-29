@@ -1,7 +1,9 @@
 import { Page, Locator } from '@playwright/test';
+import { NavMenu } from './common-components/navigationMenu';
 
 export class FormPage {
   readonly page: Page;
+  readonly navMenu: NavMenu;
 
   // Locators
   readonly nameInput: Locator;
@@ -12,7 +14,7 @@ export class FormPage {
 
   constructor(page: Page) {
     this.page = page;
-
+    this.navMenu = new NavMenu(page);
     // Initialize locators
     this.nameInput = page.locator('//*[@id="name"]');
     this.emailInput = page.locator('//*[@id="email"]');
