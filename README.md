@@ -20,14 +20,14 @@ No requiere instalación de dependencias. Simplemente clona o descarga el proyec
 Se recomienda subirlo a un nuevo repositorio personal. 
 1. Crea un bare clone de este repositorio.
 ```bash
-git clone --bare https://github.com/pablotecat/web-test.git
+git clone --bare https://github.com/pablotecat/web-test-playwright.git
 ```
 2. Mirror-push a un nuevo repositorio personal.
 ```bash
 cd web-test
 git push --mirror https://github.com/tu-usuario/tu-nuevo-repositorio.git
 ```
-3. puedes eliminar la carpeta "web-test"
+3. puedes eliminar la carpeta "web-test-playwright"
 4. clona tu repositorio personal. Ya puedes subir tus commits a tu proyecto!
 
 Si quieres tener tu propio repositorio, pero con las actualizaciones que se hagan de este sigue las instrucciones en: https://docs.github.com/en/repositories/creating-and-managing-repositories/duplicating-a-repository#mirroring-a-repository-in-another-location
