@@ -1,0 +1,376 @@
+{
+  "artifact": "test_plan_artifact",
+  "version": "1.0",
+  "workflow_id": "wf-qa-plan2-20260701",
+  "strategy_summary": "Plan de pruebas trazable para UI y API que combina cobertura smoke, funcional y regresion sobre registro, listado, CRUD de usuarios, navegacion, validaciones, contratos HTTP/JSON, CORS y comportamiento de persistencia en memoria, asegurando mapeo completo de REQ-001 a REQ-025.",
+  "suites": [
+    {
+      "id": "SUITE-001",
+      "name": "Smoke E2E UI+API",
+      "objective": "Validar rutas criticas de disponibilidad y flujo principal de negocio en UI y API.",
+      "scope": [
+        "Carga de / y /users",
+        "Registro basico exitoso",
+        "Listado posterior al alta",
+        "Navegacion bidireccional entre pantallas"
+      ],
+      "entry_criteria": [
+        "Servidor Node.js iniciado",
+        "Aplicacion accesible en entorno objetivo",
+        "Sin bloqueos de red locales"
+      ],
+      "exit_criteria": [
+        "Flujo registro->listado completo sin errores bloqueantes",
+        "Navegacion principal operativa",
+        "Endpoints criticos responden con codigos esperados"
+      ],
+      "test_types": [
+        "smoke",
+        "functional",
+        "integration"
+      ],
+      "mapped_requirements": [
+        "REQ-001",
+        "REQ-004",
+        "REQ-007",
+        "REQ-010",
+        "REQ-012",
+        "REQ-020"
+      ]
+    },
+    {
+      "id": "SUITE-002",
+      "name": "UI Functional - Registro y Listado",
+      "objective": "Verificar comportamiento funcional de la interfaz de registro, feedback al usuario y renderizado del listado.",
+      "scope": [
+        "Formulario de registro",
+        "Mensajeria y reset de formulario",
+        "Estado vacio y con datos en /users",
+        "Componentes visuales de tabla y acciones"
+      ],
+      "entry_criteria": [
+        "Frontend servido por Node.js",
+        "Navegador soportado disponible",
+        "Datos de prueba controlados"
+      ],
+      "exit_criteria": [
+        "Controles de UI cumplen comportamiento esperado",
+        "Estados vacio/con datos validados",
+        "No hay fallos funcionales criticos en interaccion UI"
+      ],
+      "test_types": [
+        "functional",
+        "regression",
+        "integration"
+      ],
+      "mapped_requirements": [
+        "REQ-002",
+        "REQ-003",
+        "REQ-008",
+        "REQ-009",
+        "REQ-011",
+        "REQ-012",
+        "REQ-018",
+        "REQ-020"
+      ]
+    },
+    {
+      "id": "SUITE-003",
+      "name": "API Functional - Registro y Consulta",
+      "objective": "Validar contratos funcionales y de error de endpoints de alta y consulta de usuarios.",
+      "scope": [
+        "POST /api/register",
+        "GET /api/users",
+        "GET /api/users/:id",
+        "Contratos de error 400/404"
+      ],
+      "entry_criteria": [
+        "Servidor API iniciado",
+        "Cabeceras y serializacion JSON habilitadas",
+        "Cliente HTTP de pruebas disponible"
+      ],
+      "exit_criteria": [
+        "Respuestas exitosas y de error conformes al contrato",
+        "Payload JSON consistente",
+        "Cobertura de casos positivos y negativos de consulta"
+      ],
+      "test_types": [
+        "functional",
+        "integration",
+        "regression"
+      ],
+      "mapped_requirements": [
+        "REQ-004",
+        "REQ-005",
+        "REQ-006",
+        "REQ-010",
+        "REQ-013",
+        "REQ-014",
+        "REQ-023",
+        "REQ-024",
+        "REQ-025"
+      ]
+    },
+    {
+      "id": "SUITE-004",
+      "name": "API Functional - Actualizacion y Eliminacion",
+      "objective": "Comprobar operaciones PUT y DELETE incluyendo validaciones y errores de recurso inexistente.",
+      "scope": [
+        "PUT /api/users/:id",
+        "DELETE /api/users/:id",
+        "Validacion de requeridos en actualizacion",
+        "Errores 404 para ids inexistentes"
+      ],
+      "entry_criteria": [
+        "Existen usuarios semilla para pruebas de actualizacion/eliminacion",
+        "Servidor API activo",
+        "Datos de IDs controlados"
+      ],
+      "exit_criteria": [
+        "Actualizacion y eliminacion ejecutadas con respuestas correctas",
+        "Reglas de validacion backend verificadas",
+        "Estado de datos reflejado en consultas posteriores"
+      ],
+      "test_types": [
+        "functional",
+        "integration",
+        "regression"
+      ],
+      "mapped_requirements": [
+        "REQ-015",
+        "REQ-016",
+        "REQ-017",
+        "REQ-018",
+        "REQ-019",
+        "REQ-021"
+      ]
+    },
+    {
+      "id": "SUITE-005",
+      "name": "Regression - Datos y Comportamiento Operativo",
+      "objective": "Asegurar estabilidad de reglas de persistencia temporal, reinicio y consistencia transversal UI/API.",
+      "scope": [
+        "Persistencia durante vida del proceso",
+        "No persistencia tras reinicio",
+        "Consistencia entre acciones UI y estado API",
+        "Regresion de flujos criticos"
+      ],
+      "entry_criteria": [
+        "Capacidad de reiniciar servidor durante ejecucion de pruebas",
+        "Escenarios base de registro/listado previamente validados",
+        "Ambiente limpio inicial"
+      ],
+      "exit_criteria": [
+        "Comportamiento de almacenamiento en memoria confirmado",
+        "No se detectan regresiones en flujos principales",
+        "Resultados repetibles en dos corridas consecutivas"
+      ],
+      "test_types": [
+        "regression",
+        "functional",
+        "integration"
+      ],
+      "mapped_requirements": [
+        "REQ-021",
+        "REQ-022",
+        "REQ-024",
+        "REQ-025"
+      ]
+    }
+  ],
+  "execution_phases": [
+    {
+      "phase": "Phase 1 - Environment & Smoke Gate",
+      "description": "Preparacion de entorno y verificacion de flujo minimo operativo UI+API.",
+      "includes": [
+        "Disponibilidad de / y /users",
+        "POST /api/register happy path",
+        "GET /api/users baseline",
+        "Navegacion principal"
+      ]
+    },
+    {
+      "phase": "Phase 2 - Functional UI",
+      "description": "Ejecucion de cobertura funcional de interfaz, validaciones de formulario y estados de listado.",
+      "includes": [
+        "Validaciones cliente de name/email",
+        "Phone opcional",
+        "Feedback visual, reset y expiracion de mensajes",
+        "Estado vacio y tabla con datos"
+      ]
+    },
+    {
+      "phase": "Phase 3 - Functional API",
+      "description": "Validacion profunda de contratos de endpoints CRUD, errores HTTP y contenido JSON.",
+      "includes": [
+        "Alta con validaciones backend e invalid JSON",
+        "Consulta listado y por ID",
+        "PUT y DELETE con escenarios positivo/negativo",
+        "404 API inexistente y CORS preflight"
+      ]
+    },
+    {
+      "phase": "Phase 4 - Regression & Data Behavior",
+      "description": "Re-ejecucion de casos de regresion y comprobacion de reglas de persistencia en memoria.",
+      "includes": [
+        "Persistencia entre requests",
+        "Reinicio de servidor y perdida de datos esperada",
+        "Consistencia UI/API tras CRUD",
+        "Revalidacion de contratos JSON"
+      ]
+    }
+  ],
+  "coverage_matrix": [
+    {
+      "requirement_id": "REQ-001",
+      "suite_id": "SUITE-001",
+      "coverage": "full"
+    },
+    {
+      "requirement_id": "REQ-002",
+      "suite_id": "SUITE-002",
+      "coverage": "full"
+    },
+    {
+      "requirement_id": "REQ-003",
+      "suite_id": "SUITE-002",
+      "coverage": "full"
+    },
+    {
+      "requirement_id": "REQ-004",
+      "suite_id": "SUITE-003",
+      "coverage": "full"
+    },
+    {
+      "requirement_id": "REQ-005",
+      "suite_id": "SUITE-003",
+      "coverage": "full"
+    },
+    {
+      "requirement_id": "REQ-006",
+      "suite_id": "SUITE-003",
+      "coverage": "full"
+    },
+    {
+      "requirement_id": "REQ-007",
+      "suite_id": "SUITE-002",
+      "coverage": "full"
+    },
+    {
+      "requirement_id": "REQ-008",
+      "suite_id": "SUITE-002",
+      "coverage": "full"
+    },
+    {
+      "requirement_id": "REQ-009",
+      "suite_id": "SUITE-002",
+      "coverage": "full"
+    },
+    {
+      "requirement_id": "REQ-010",
+      "suite_id": "SUITE-003",
+      "coverage": "full"
+    },
+    {
+      "requirement_id": "REQ-011",
+      "suite_id": "SUITE-002",
+      "coverage": "full"
+    },
+    {
+      "requirement_id": "REQ-012",
+      "suite_id": "SUITE-002",
+      "coverage": "full"
+    },
+    {
+      "requirement_id": "REQ-013",
+      "suite_id": "SUITE-003",
+      "coverage": "full"
+    },
+    {
+      "requirement_id": "REQ-014",
+      "suite_id": "SUITE-003",
+      "coverage": "full"
+    },
+    {
+      "requirement_id": "REQ-015",
+      "suite_id": "SUITE-004",
+      "coverage": "full"
+    },
+    {
+      "requirement_id": "REQ-016",
+      "suite_id": "SUITE-004",
+      "coverage": "full"
+    },
+    {
+      "requirement_id": "REQ-017",
+      "suite_id": "SUITE-004",
+      "coverage": "full"
+    },
+    {
+      "requirement_id": "REQ-018",
+      "suite_id": "SUITE-004",
+      "coverage": "full"
+    },
+    {
+      "requirement_id": "REQ-019",
+      "suite_id": "SUITE-004",
+      "coverage": "full"
+    },
+    {
+      "requirement_id": "REQ-020",
+      "suite_id": "SUITE-001",
+      "coverage": "full"
+    },
+    {
+      "requirement_id": "REQ-021",
+      "suite_id": "SUITE-005",
+      "coverage": "full"
+    },
+    {
+      "requirement_id": "REQ-022",
+      "suite_id": "SUITE-005",
+      "coverage": "full"
+    },
+    {
+      "requirement_id": "REQ-023",
+      "suite_id": "SUITE-003",
+      "coverage": "full"
+    },
+    {
+      "requirement_id": "REQ-024",
+      "suite_id": "SUITE-003",
+      "coverage": "full"
+    },
+    {
+      "requirement_id": "REQ-025",
+      "suite_id": "SUITE-003",
+      "coverage": "full"
+    }
+  ],
+  "environments": [
+    {
+      "name": "local-dev",
+      "url": "http://localhost:3000",
+      "data_notes": "Datos en memoria; iniciar servidor limpio para baseline y conservar proceso activo para validar persistencia temporal."
+    },
+    {
+      "name": "local-api",
+      "url": "http://localhost:3000/api",
+      "data_notes": "Validar contratos JSON, codigos HTTP, cabeceras Content-Type y CORS/OPTIONS en rutas API."
+    }
+  ],
+  "assumptions": [
+    "La ejecucion de pruebas se realiza con servidor Node.js en puerto 3000.",
+    "No existe autenticacion/autorizacion y el acceso API es abierto en entorno de prueba.",
+    "La fuente de verdad de requisitos es documentation_artifact del workflow wf-qa-plan2-20260701.",
+    "Los IDs de usuario son generados por servidor y tratados como identificadores unicos para el contexto de prueba.",
+    "Las pruebas UI y API pueden compartir datos creados durante la misma corrida controlada."
+  ],
+  "out_of_scope": [
+    "Pruebas de seguridad avanzada (autenticacion, autorizacion, hardening).",
+    "Pruebas de performance, carga y estres de alto volumen.",
+    "Persistencia en base de datos externa o recuperacion de datos tras reinicio.",
+    "Compatibilidad cross-browser extensa fuera de navegador base definido para la corrida.",
+    "Internals de infraestructura CI/CD no relacionados con comportamiento funcional del AUT."
+  ]
+}

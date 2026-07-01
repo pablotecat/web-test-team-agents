@@ -1,0 +1,902 @@
+{
+  "artifact": "generated_test_cases_artifact",
+  "version": "1.0",
+  "workflow_id": "wf-qa-plan2-20260701",
+  "test_cases": [
+    {
+      "id": "TC-GEN-001",
+      "title": "Validar que UI bloquea envio sin name o email",
+      "type": "ui",
+      "priority": "P0",
+      "preconditions": [
+        "Servidor iniciado con npm start",
+        "Navegador abierto en /"
+      ],
+      "steps": [
+        "Abrir la pagina de registro en /",
+        "Dejar vacios los campos name y email",
+        "Intentar enviar el formulario con el boton Register",
+        "Observar comportamiento del navegador y del formulario"
+      ],
+      "expected_results": [
+        "El formulario no se envia al backend",
+        "El navegador marca los campos requeridos",
+        "No aparece mensaje de exito"
+      ],
+      "test_data": [
+        "name=\"\"",
+        "email=\"\"",
+        "phone=\"\""
+      ],
+      "mapped_requirements": [
+        "REQ-001"
+      ],
+      "source_priority_case": "TC-PRIO-001",
+      "automation_candidate": false,
+      "tags": [
+        "suite:SUITE-001",
+        "classification:Smoke",
+        "area:UI",
+        "workflow:wf-qa-plan2-20260701"
+      ]
+    },
+    {
+      "id": "TC-GEN-002",
+      "title": "Validar formato email en cliente con valor invalido",
+      "type": "ui",
+      "priority": "P0",
+      "preconditions": [
+        "Servidor iniciado",
+        "Pagina / cargada"
+      ],
+      "steps": [
+        "Ingresar name valido",
+        "Ingresar email con formato invalido (por ejemplo qa-at-mail)",
+        "Hacer submit del formulario",
+        "Verificar validacion HTML del campo email"
+      ],
+      "expected_results": [
+        "El submit se bloquea en cliente",
+        "El campo email se reporta invalido por el navegador",
+        "No se ejecuta alta de usuario"
+      ],
+      "test_data": [
+        "name=\"QA User\"",
+        "email=\"qa-at-mail\"",
+        "phone=\"123456\""
+      ],
+      "mapped_requirements": [
+        "REQ-002"
+      ],
+      "source_priority_case": "TC-PRIO-002",
+      "automation_candidate": false,
+      "tags": [
+        "suite:SUITE-002",
+        "classification:Smoke",
+        "area:Validation",
+        "workflow:wf-qa-plan2-20260701"
+      ]
+    },
+    {
+      "id": "TC-GEN-003",
+      "title": "Registrar usuario omitiendo phone",
+      "type": "ui",
+      "priority": "P1",
+      "preconditions": [
+        "Servidor iniciado",
+        "Pagina / disponible"
+      ],
+      "steps": [
+        "Completar name y email validos",
+        "Dejar phone vacio",
+        "Enviar el formulario",
+        "Consultar listado de usuarios"
+      ],
+      "expected_results": [
+        "Registro exitoso sin requerir phone",
+        "Usuario aparece en listado con telefono vacio o placeholder",
+        "No se muestran errores de validacion por phone"
+      ],
+      "test_data": [
+        "name=\"User Sin Telefono\"",
+        "email=\"sin.telefono@example.com\"",
+        "phone=\"\""
+      ],
+      "mapped_requirements": [
+        "REQ-003"
+      ],
+      "source_priority_case": "TC-PRIO-003",
+      "automation_candidate": false,
+      "tags": [
+        "suite:SUITE-002",
+        "classification:Regression",
+        "area:Validation",
+        "workflow:wf-qa-plan2-20260701"
+      ]
+    },
+    {
+      "id": "TC-GEN-004",
+      "title": "POST /api/register exitoso retorna contrato esperado",
+      "type": "api",
+      "priority": "P0",
+      "preconditions": [
+        "Servidor API iniciado",
+        "Cliente HTTP disponible"
+      ],
+      "steps": [
+        "Enviar POST /api/register con JSON valido",
+        "Verificar codigo de estado",
+        "Verificar estructura de respuesta JSON",
+        "Verificar existencia de user.id y user.registeredAt"
+      ],
+      "expected_results": [
+        "Status 200",
+        "Body incluye success=true y message",
+        "Body incluye objeto user con name, email, phone, id, registeredAt"
+      ],
+      "test_data": [
+        "payload={name:'Api Alta',email:'api.alta@example.com',phone:'555123'}"
+      ],
+      "mapped_requirements": [
+        "REQ-004"
+      ],
+      "source_priority_case": "TC-PRIO-004",
+      "automation_candidate": false,
+      "tags": [
+        "suite:SUITE-003",
+        "classification:Smoke",
+        "area:API",
+        "workflow:wf-qa-plan2-20260701"
+      ]
+    },
+    {
+      "id": "TC-GEN-005",
+      "title": "POST /api/register sin name o email devuelve 400",
+      "type": "api",
+      "priority": "P0",
+      "preconditions": [
+        "Servidor API iniciado"
+      ],
+      "steps": [
+        "Enviar POST /api/register sin name",
+        "Validar status y mensaje de error",
+        "Enviar POST /api/register sin email",
+        "Validar status y mensaje de error"
+      ],
+      "expected_results": [
+        "Ambas solicitudes responden 400",
+        "El error describe que name y email son requeridos",
+        "No se crean usuarios con datos incompletos"
+      ],
+      "test_data": [
+        "payload1={name:'',email:'missing.name@example.com'}",
+        "payload2={name:'Missing Email',email:''}"
+      ],
+      "mapped_requirements": [
+        "REQ-005"
+      ],
+      "source_priority_case": "TC-PRIO-005",
+      "automation_candidate": false,
+      "tags": [
+        "suite:SUITE-003",
+        "classification:Smoke",
+        "area:Validation",
+        "workflow:wf-qa-plan2-20260701"
+      ]
+    },
+    {
+      "id": "TC-GEN-006",
+      "title": "POST /api/register con JSON invalido devuelve 400",
+      "type": "api",
+      "priority": "P2",
+      "preconditions": [
+        "Servidor API iniciado",
+        "Cliente HTTP permite enviar body malformado"
+      ],
+      "steps": [
+        "Enviar POST /api/register con Content-Type application/json y body truncado",
+        "Capturar respuesta del servidor",
+        "Verificar codigo HTTP y body de error"
+      ],
+      "expected_results": [
+        "Status 400",
+        "Mensaje indica solicitud JSON invalida",
+        "El servidor no se cae ante el parseo fallido"
+      ],
+      "test_data": [
+        "raw_body={\"name\":\"Bad Json\",\"email\":\"bad@example.com\""
+      ],
+      "mapped_requirements": [
+        "REQ-006"
+      ],
+      "source_priority_case": "TC-PRIO-006",
+      "automation_candidate": true,
+      "tags": [
+        "suite:SUITE-003",
+        "classification:AutomationCandidate",
+        "area:API",
+        "workflow:wf-qa-plan2-20260701"
+      ]
+    },
+    {
+      "id": "TC-GEN-007",
+      "title": "UI muestra mensaje de exito tras registro",
+      "type": "ui",
+      "priority": "P2",
+      "preconditions": [
+        "Servidor iniciado",
+        "Pagina / abierta"
+      ],
+      "steps": [
+        "Completar formulario con datos validos",
+        "Enviar formulario",
+        "Observar area de mensaje de estado"
+      ],
+      "expected_results": [
+        "Se muestra mensaje visible de registro exitoso",
+        "El mensaje corresponde al resultado del backend",
+        "No se muestra error"
+      ],
+      "test_data": [
+        "name=\"Feedback User\"",
+        "email=\"feedback.user@example.com\"",
+        "phone=\"7890\""
+      ],
+      "mapped_requirements": [
+        "REQ-007"
+      ],
+      "source_priority_case": "TC-PRIO-007",
+      "automation_candidate": false,
+      "tags": [
+        "suite:SUITE-002",
+        "classification:Regression",
+        "area:UI",
+        "workflow:wf-qa-plan2-20260701"
+      ]
+    },
+    {
+      "id": "TC-GEN-008",
+      "title": "Formulario se resetea despues de alta exitosa",
+      "type": "ui",
+      "priority": "P2",
+      "preconditions": [
+        "Servidor iniciado",
+        "Pagina / abierta"
+      ],
+      "steps": [
+        "Ingresar datos validos en name, email y phone",
+        "Enviar formulario",
+        "Esperar respuesta exitosa",
+        "Verificar valores de los campos"
+      ],
+      "expected_results": [
+        "Campos quedan vacios despues del registro",
+        "El formulario queda listo para un nuevo alta",
+        "No persisten valores anteriores"
+      ],
+      "test_data": [
+        "name=\"Reset User\"",
+        "email=\"reset.user@example.com\"",
+        "phone=\"101010\""
+      ],
+      "mapped_requirements": [
+        "REQ-008"
+      ],
+      "source_priority_case": "TC-PRIO-008",
+      "automation_candidate": false,
+      "tags": [
+        "suite:SUITE-002",
+        "classification:Regression",
+        "area:UI",
+        "workflow:wf-qa-plan2-20260701"
+      ]
+    },
+    {
+      "id": "TC-GEN-009",
+      "title": "Mensaje de exito expira automaticamente en ~3 segundos",
+      "type": "ui",
+      "priority": "P3",
+      "preconditions": [
+        "Servidor iniciado",
+        "Pagina / abierta"
+      ],
+      "steps": [
+        "Registrar un usuario valido",
+        "Confirmar que el mensaje de exito aparece",
+        "Esperar aproximadamente 3 segundos sin interactuar",
+        "Volver a observar el area del mensaje"
+      ],
+      "expected_results": [
+        "El mensaje de exito desaparece o se limpia automaticamente",
+        "No quedan mensajes obsoletos en pantalla"
+      ],
+      "test_data": [
+        "name=\"Timer User\"",
+        "email=\"timer.user@example.com\"",
+        "phone=\"303030\""
+      ],
+      "mapped_requirements": [
+        "REQ-009"
+      ],
+      "source_priority_case": "TC-PRIO-009",
+      "automation_candidate": false,
+      "tags": [
+        "suite:SUITE-002",
+        "classification:ManualOnly",
+        "area:UI",
+        "workflow:wf-qa-plan2-20260701"
+      ]
+    },
+    {
+      "id": "TC-GEN-010",
+      "title": "GET /api/users devuelve arreglo JSON",
+      "type": "api",
+      "priority": "P0",
+      "preconditions": [
+        "Servidor API iniciado"
+      ],
+      "steps": [
+        "Enviar GET /api/users",
+        "Verificar status HTTP",
+        "Verificar tipo de dato del body"
+      ],
+      "expected_results": [
+        "Status 200",
+        "El body es un arreglo JSON",
+        "Cada elemento del arreglo representa un usuario"
+      ],
+      "test_data": [
+        "request=GET /api/users"
+      ],
+      "mapped_requirements": [
+        "REQ-010"
+      ],
+      "source_priority_case": "TC-PRIO-010",
+      "automation_candidate": false,
+      "tags": [
+        "suite:SUITE-001",
+        "classification:Smoke",
+        "area:API",
+        "workflow:wf-qa-plan2-20260701"
+      ]
+    },
+    {
+      "id": "TC-GEN-011",
+      "title": "UI /users muestra estado vacio y oculta tabla sin datos",
+      "type": "ui",
+      "priority": "P2",
+      "preconditions": [
+        "Servidor iniciado sin usuarios en memoria",
+        "Pagina /users accesible"
+      ],
+      "steps": [
+        "Abrir /users",
+        "Esperar carga de GET /api/users",
+        "Revisar componentes visibles"
+      ],
+      "expected_results": [
+        "Se muestra mensaje No hay usuarios registrados",
+        "La tabla de usuarios no se muestra"
+      ],
+      "test_data": [
+        "dataset=sin usuarios"
+      ],
+      "mapped_requirements": [
+        "REQ-011"
+      ],
+      "source_priority_case": "TC-PRIO-011",
+      "automation_candidate": false,
+      "tags": [
+        "suite:SUITE-002",
+        "classification:Regression",
+        "area:UI",
+        "workflow:wf-qa-plan2-20260701"
+      ]
+    },
+    {
+      "id": "TC-GEN-012",
+      "title": "UI /users renderiza tabla y columnas esperadas con datos",
+      "type": "ui",
+      "priority": "P0",
+      "preconditions": [
+        "Servidor iniciado",
+        "Existe al menos un usuario en memoria"
+      ],
+      "steps": [
+        "Crear usuario de prueba si no existe",
+        "Abrir /users",
+        "Verificar visibilidad de tabla",
+        "Verificar columnas ID, Nombre, Email, Telefono, Fecha de Registro y Acciones",
+        "Verificar al menos una fila de usuario"
+      ],
+      "expected_results": [
+        "La tabla se muestra cuando hay datos",
+        "Las columnas requeridas estan presentes",
+        "Cada fila incluye acciones Editar y Eliminar"
+      ],
+      "test_data": [
+        "usuario={name:'Tabla User',email:'tabla.user@example.com',phone:'404040'}"
+      ],
+      "mapped_requirements": [
+        "REQ-012"
+      ],
+      "source_priority_case": "TC-PRIO-012",
+      "automation_candidate": false,
+      "tags": [
+        "suite:SUITE-001",
+        "classification:Smoke",
+        "area:UI",
+        "workflow:wf-qa-plan2-20260701"
+      ]
+    },
+    {
+      "id": "TC-GEN-013",
+      "title": "GET /api/users/:id para usuario existente responde 200",
+      "type": "api",
+      "priority": "P2",
+      "preconditions": [
+        "Servidor API iniciado",
+        "Existe un usuario creado"
+      ],
+      "steps": [
+        "Crear usuario y guardar id retornado",
+        "Enviar GET /api/users/{id}",
+        "Comparar datos retornados con los enviados"
+      ],
+      "expected_results": [
+        "Status 200",
+        "Respuesta contiene usuario solicitado",
+        "id en respuesta coincide con id consultado"
+      ],
+      "test_data": [
+        "usuario_creado={name:'Lookup User',email:'lookup.user@example.com',phone:'454545'}"
+      ],
+      "mapped_requirements": [
+        "REQ-013"
+      ],
+      "source_priority_case": "TC-PRIO-013",
+      "automation_candidate": true,
+      "tags": [
+        "suite:SUITE-003",
+        "classification:AutomationCandidate",
+        "area:API",
+        "workflow:wf-qa-plan2-20260701"
+      ]
+    },
+    {
+      "id": "TC-GEN-014",
+      "title": "GET /api/users/:id inexistente responde 404",
+      "type": "api",
+      "priority": "P2",
+      "preconditions": [
+        "Servidor API iniciado",
+        "ID inexistente identificado"
+      ],
+      "steps": [
+        "Enviar GET /api/users/999999",
+        "Capturar respuesta",
+        "Validar codigo y mensaje"
+      ],
+      "expected_results": [
+        "Status 404",
+        "Body contiene error User not found",
+        "No se altera el estado de datos"
+      ],
+      "test_data": [
+        "id_inexistente=999999"
+      ],
+      "mapped_requirements": [
+        "REQ-014"
+      ],
+      "source_priority_case": "TC-PRIO-014",
+      "automation_candidate": true,
+      "tags": [
+        "suite:SUITE-003",
+        "classification:AutomationCandidate",
+        "area:API",
+        "workflow:wf-qa-plan2-20260701"
+      ]
+    },
+    {
+      "id": "TC-GEN-015",
+      "title": "PUT /api/users/:id existente actualiza datos",
+      "type": "api",
+      "priority": "P1",
+      "preconditions": [
+        "Servidor API iniciado",
+        "Usuario existente con id valido"
+      ],
+      "steps": [
+        "Crear usuario base y capturar id",
+        "Enviar PUT /api/users/{id} con nuevos valores",
+        "Verificar status y body de respuesta",
+        "Consultar GET /api/users/{id} para confirmar persistencia"
+      ],
+      "expected_results": [
+        "Status 200 en PUT",
+        "Respuesta devuelve usuario con campos actualizados",
+        "GET posterior refleja los nuevos datos"
+      ],
+      "test_data": [
+        "usuario_inicial={name:'Edit Base',email:'edit.base@example.com',phone:'111111'}",
+        "usuario_actualizado={name:'Edit Final',email:'edit.final@example.com',phone:'222222'}"
+      ],
+      "mapped_requirements": [
+        "REQ-015"
+      ],
+      "source_priority_case": "TC-PRIO-015",
+      "automation_candidate": false,
+      "tags": [
+        "suite:SUITE-004",
+        "classification:Regression",
+        "area:API",
+        "workflow:wf-qa-plan2-20260701"
+      ]
+    },
+    {
+      "id": "TC-GEN-016",
+      "title": "PUT /api/users/:id sin name o email responde 400",
+      "type": "api",
+      "priority": "P1",
+      "preconditions": [
+        "Servidor API iniciado",
+        "Usuario existente para actualizar"
+      ],
+      "steps": [
+        "Crear usuario y capturar id",
+        "Enviar PUT /api/users/{id} sin name",
+        "Enviar PUT /api/users/{id} sin email",
+        "Validar respuestas de error"
+      ],
+      "expected_results": [
+        "Ambas variantes responden 400",
+        "Mensaje de error indica campos requeridos",
+        "Los datos previos del usuario se conservan"
+      ],
+      "test_data": [
+        "payload_sin_name={name:'',email:'valid@example.com'}",
+        "payload_sin_email={name:'Valid Name',email:''}"
+      ],
+      "mapped_requirements": [
+        "REQ-016"
+      ],
+      "source_priority_case": "TC-PRIO-016",
+      "automation_candidate": true,
+      "tags": [
+        "suite:SUITE-004",
+        "classification:AutomationCandidate",
+        "area:Validation",
+        "workflow:wf-qa-plan2-20260701"
+      ]
+    },
+    {
+      "id": "TC-GEN-017",
+      "title": "PUT /api/users/:id inexistente responde 404",
+      "type": "api",
+      "priority": "P2",
+      "preconditions": [
+        "Servidor API iniciado"
+      ],
+      "steps": [
+        "Enviar PUT /api/users/999999 con payload valido",
+        "Capturar respuesta",
+        "Validar codigo y body"
+      ],
+      "expected_results": [
+        "Status 404",
+        "Mensaje de error User not found",
+        "No se crean registros nuevos por PUT a id inexistente"
+      ],
+      "test_data": [
+        "id_inexistente=999999",
+        "payload={name:'Ghost',email:'ghost@example.com',phone:'000'}"
+      ],
+      "mapped_requirements": [
+        "REQ-017"
+      ],
+      "source_priority_case": "TC-PRIO-017",
+      "automation_candidate": true,
+      "tags": [
+        "suite:SUITE-004",
+        "classification:AutomationCandidate",
+        "area:API",
+        "workflow:wf-qa-plan2-20260701"
+      ]
+    },
+    {
+      "id": "TC-GEN-018",
+      "title": "DELETE /api/users/:id existente elimina registro",
+      "type": "api",
+      "priority": "P0",
+      "preconditions": [
+        "Servidor API iniciado",
+        "Usuario existente para eliminar"
+      ],
+      "steps": [
+        "Crear usuario y capturar id",
+        "Enviar DELETE /api/users/{id}",
+        "Validar respuesta exitosa",
+        "Consultar GET /api/users/{id}"
+      ],
+      "expected_results": [
+        "DELETE responde 200",
+        "Usuario deja de existir despues de eliminar",
+        "GET posterior del mismo id devuelve 404"
+      ],
+      "test_data": [
+        "usuario={name:'Delete Me',email:'delete.me@example.com',phone:'999999'}"
+      ],
+      "mapped_requirements": [
+        "REQ-018"
+      ],
+      "source_priority_case": "TC-PRIO-018",
+      "automation_candidate": false,
+      "tags": [
+        "suite:SUITE-004",
+        "classification:Smoke",
+        "area:Data",
+        "workflow:wf-qa-plan2-20260701"
+      ]
+    },
+    {
+      "id": "TC-GEN-019",
+      "title": "DELETE /api/users/:id inexistente responde 404",
+      "type": "api",
+      "priority": "P2",
+      "preconditions": [
+        "Servidor API iniciado"
+      ],
+      "steps": [
+        "Enviar DELETE /api/users/999999",
+        "Capturar respuesta",
+        "Validar contrato de error"
+      ],
+      "expected_results": [
+        "Status 404",
+        "Error User not found",
+        "No hay efectos colaterales en datos existentes"
+      ],
+      "test_data": [
+        "id_inexistente=999999"
+      ],
+      "mapped_requirements": [
+        "REQ-019"
+      ],
+      "source_priority_case": "TC-PRIO-019",
+      "automation_candidate": true,
+      "tags": [
+        "suite:SUITE-004",
+        "classification:AutomationCandidate",
+        "area:API",
+        "workflow:wf-qa-plan2-20260701"
+      ]
+    },
+    {
+      "id": "TC-GEN-020",
+      "title": "Navegacion bidireccional entre / y /users",
+      "type": "ui",
+      "priority": "P0",
+      "preconditions": [
+        "Servidor web iniciado"
+      ],
+      "steps": [
+        "Abrir /",
+        "Usar enlace o boton para ir a /users",
+        "Confirmar URL y contenido de pagina usuarios",
+        "Usar enlace para volver a /",
+        "Confirmar URL y contenido de pagina registro"
+      ],
+      "expected_results": [
+        "La navegacion hacia /users funciona",
+        "La navegacion de regreso a / funciona",
+        "No aparecen errores de carga de pagina"
+      ],
+      "test_data": [
+        "ruta_inicial=/",
+        "ruta_destino=/users"
+      ],
+      "mapped_requirements": [
+        "REQ-020"
+      ],
+      "source_priority_case": "TC-PRIO-020",
+      "automation_candidate": false,
+      "tags": [
+        "suite:SUITE-001",
+        "classification:Smoke",
+        "area:Navigation",
+        "workflow:wf-qa-plan2-20260701"
+      ]
+    },
+    {
+      "id": "TC-GEN-021",
+      "title": "Persistencia en memoria entre requests con servidor activo",
+      "type": "functional",
+      "priority": "P1",
+      "preconditions": [
+        "Servidor iniciado y sin reiniciar durante el caso"
+      ],
+      "steps": [
+        "Registrar usuario A",
+        "Registrar usuario B",
+        "Ejecutar GET /api/users",
+        "Verificar que ambos usuarios siguen presentes",
+        "Navegar a /users y validar consistencia visual"
+      ],
+      "expected_results": [
+        "Los usuarios permanecen disponibles entre requests",
+        "La API y la UI muestran el mismo estado de datos",
+        "No hay perdida de informacion mientras el proceso sigue activo"
+      ],
+      "test_data": [
+        "usuarioA={name:'Mem A',email:'mem.a@example.com',phone:'121212'}",
+        "usuarioB={name:'Mem B',email:'mem.b@example.com',phone:'343434'}"
+      ],
+      "mapped_requirements": [
+        "REQ-021"
+      ],
+      "source_priority_case": "TC-PRIO-021",
+      "automation_candidate": false,
+      "tags": [
+        "suite:SUITE-005",
+        "classification:Regression",
+        "area:Data",
+        "workflow:wf-qa-plan2-20260701"
+      ]
+    },
+    {
+      "id": "TC-GEN-022",
+      "title": "No persistencia de datos despues de reinicio del servidor",
+      "type": "functional",
+      "priority": "P3",
+      "preconditions": [
+        "Capacidad de detener y levantar servidor",
+        "Usuario creado antes del reinicio"
+      ],
+      "steps": [
+        "Registrar al menos un usuario",
+        "Confirmar presencia con GET /api/users",
+        "Reiniciar proceso Node.js",
+        "Ejecutar GET /api/users luego del reinicio",
+        "Abrir /users para validar estado visual"
+      ],
+      "expected_results": [
+        "Antes del reinicio existen usuarios",
+        "Despues del reinicio el arreglo de usuarios queda vacio",
+        "UI vuelve a mostrar estado vacio"
+      ],
+      "test_data": [
+        "usuario={name:'Reset Memory',email:'reset.memory@example.com',phone:'565656'}"
+      ],
+      "mapped_requirements": [
+        "REQ-022"
+      ],
+      "source_priority_case": "TC-PRIO-022",
+      "automation_candidate": false,
+      "tags": [
+        "suite:SUITE-005",
+        "classification:Regression",
+        "area:Data",
+        "workflow:wf-qa-plan2-20260701"
+      ]
+    },
+    {
+      "id": "TC-GEN-023",
+      "title": "Endpoint /api inexistente retorna 404 con error estandar",
+      "type": "api",
+      "priority": "P2",
+      "preconditions": [
+        "Servidor API iniciado"
+      ],
+      "steps": [
+        "Enviar GET /api/no-existe",
+        "Capturar status y body",
+        "Verificar mensaje de error del endpoint"
+      ],
+      "expected_results": [
+        "Status 404",
+        "Body indica API endpoint not found",
+        "La respuesta mantiene formato JSON"
+      ],
+      "test_data": [
+        "request=GET /api/no-existe"
+      ],
+      "mapped_requirements": [
+        "REQ-023"
+      ],
+      "source_priority_case": "TC-PRIO-023",
+      "automation_candidate": true,
+      "tags": [
+        "suite:SUITE-003",
+        "classification:AutomationCandidate",
+        "area:API",
+        "workflow:wf-qa-plan2-20260701"
+      ]
+    },
+    {
+      "id": "TC-GEN-024",
+      "title": "Endpoints API exponen Content-Type application/json",
+      "type": "api",
+      "priority": "P2",
+      "preconditions": [
+        "Servidor API iniciado"
+      ],
+      "steps": [
+        "Ejecutar POST /api/register valido",
+        "Ejecutar GET /api/users",
+        "Ejecutar GET /api/users/{id} con id existente",
+        "Revisar header Content-Type en cada respuesta"
+      ],
+      "expected_results": [
+        "Cada endpoint devuelve Content-Type application/json",
+        "No se retornan content-types incompatibles con clientes JSON"
+      ],
+      "test_data": [
+        "usuario={name:'Content Type',email:'ctype@example.com',phone:'787878'}"
+      ],
+      "mapped_requirements": [
+        "REQ-024"
+      ],
+      "source_priority_case": "TC-PRIO-024",
+      "automation_candidate": false,
+      "tags": [
+        "suite:SUITE-003",
+        "classification:Regression",
+        "area:API",
+        "workflow:wf-qa-plan2-20260701"
+      ]
+    },
+    {
+      "id": "TC-GEN-025",
+      "title": "CORS habilitado y preflight OPTIONS responde 200",
+      "type": "api",
+      "priority": "P2",
+      "preconditions": [
+        "Servidor API iniciado",
+        "Cliente HTTP permite custom headers"
+      ],
+      "steps": [
+        "Enviar request OPTIONS /api/register con Origin y Access-Control-Request-Method",
+        "Validar status HTTP",
+        "Validar headers CORS en respuesta",
+        "Repetir OPTIONS sobre /api/users"
+      ],
+      "expected_results": [
+        "OPTIONS responde 200",
+        "Headers CORS estan presentes (Access-Control-Allow-Origin, metodos y headers)",
+        "Preflight habilita consumo cross-origin"
+      ],
+      "test_data": [
+        "origin=https://example-frontend.test",
+        "access_control_request_method=POST"
+      ],
+      "mapped_requirements": [
+        "REQ-025"
+      ],
+      "source_priority_case": "TC-PRIO-025",
+      "automation_candidate": true,
+      "tags": [
+        "suite:SUITE-003",
+        "classification:AutomationCandidate",
+        "area:API",
+        "workflow:wf-qa-plan2-20260701"
+      ]
+    }
+  ],
+  "summary": {
+    "total": 25,
+    "by_type": {
+      "ui": 9,
+      "api": 14,
+      "functional": 2,
+      "smoke": 0,
+      "regression": 0
+    },
+    "by_priority": {
+      "P0": 8,
+      "P1": 4,
+      "P2": 11,
+      "P3": 2
+    },
+    "automation_candidates": 8
+  }
+}

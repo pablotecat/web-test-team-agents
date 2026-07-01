@@ -1,0 +1,391 @@
+{
+  "artifact": "automation_artifact",
+  "version": "1.0",
+  "workflow_id": "wf-qa-plan2-20260701",
+  "automation_strategy": "Priorizar automatizacion Playwright sobre contratos API estables y flujos UI criticos ya soportados por tests/api, tests/ui y Page Objects existentes, excluyendo escenarios con alta fragilidad temporal u operativa (expiracion visual exacta y reinicio de servidor).",
+  "candidate_selection": [
+    {
+      "test_case_id": "TC-GEN-001",
+      "reason": "Validacion de campos requeridos en formulario; flujo smoke critico y estable en UI.",
+      "framework": "Playwright",
+      "layer": "ui",
+      "estimated_effort": "S"
+    },
+    {
+      "test_case_id": "TC-GEN-002",
+      "reason": "Validacion HTML de email invalido ya alineada con form.spec y alta repetibilidad.",
+      "framework": "Playwright",
+      "layer": "ui",
+      "estimated_effort": "S"
+    },
+    {
+      "test_case_id": "TC-GEN-003",
+      "reason": "Comportamiento phone opcional cubrible en formulario con POM actual.",
+      "framework": "Playwright",
+      "layer": "ui",
+      "estimated_effort": "S"
+    },
+    {
+      "test_case_id": "TC-GEN-004",
+      "reason": "Contrato exitoso de POST /api/register; endpoint central y estable.",
+      "framework": "Playwright",
+      "layer": "api",
+      "estimated_effort": "S"
+    },
+    {
+      "test_case_id": "TC-GEN-005",
+      "reason": "Negativo de campos requeridos en API; alto valor para smoke de integridad.",
+      "framework": "Playwright",
+      "layer": "api",
+      "estimated_effort": "S"
+    },
+    {
+      "test_case_id": "TC-GEN-006",
+      "reason": "JSON malformado en POST; caso negativo robusto y ya clasificado como automation candidate.",
+      "framework": "Playwright",
+      "layer": "api",
+      "estimated_effort": "S"
+    },
+    {
+      "test_case_id": "TC-GEN-007",
+      "reason": "Feedback de exito visible en UI, validable con locator de mensaje existente.",
+      "framework": "Playwright",
+      "layer": "ui",
+      "estimated_effort": "S"
+    },
+    {
+      "test_case_id": "TC-GEN-008",
+      "reason": "Reset de formulario post alta; cobertura de regresion UI con aserciones directas a campos.",
+      "framework": "Playwright",
+      "layer": "ui",
+      "estimated_effort": "M"
+    },
+    {
+      "test_case_id": "TC-GEN-010",
+      "reason": "GET /api/users devuelve arreglo JSON; smoke API transversal para UI de listado.",
+      "framework": "Playwright",
+      "layer": "api",
+      "estimated_effort": "S"
+    },
+    {
+      "test_case_id": "TC-GEN-011",
+      "reason": "Estado vacio en /users es deterministico y automatizable en UI.",
+      "framework": "Playwright",
+      "layer": "ui",
+      "estimated_effort": "M"
+    },
+    {
+      "test_case_id": "TC-GEN-012",
+      "reason": "Render de tabla y columnas en /users; depende de seed via API y POM de users.",
+      "framework": "Playwright",
+      "layer": "ui",
+      "estimated_effort": "M"
+    },
+    {
+      "test_case_id": "TC-GEN-013",
+      "reason": "GET /api/users/:id existente actualmente soportado por endpoint y tests API.",
+      "framework": "Playwright",
+      "layer": "api",
+      "estimated_effort": "S"
+    },
+    {
+      "test_case_id": "TC-GEN-014",
+      "reason": "GET /api/users/:id inexistente 404; caso negativo estable.",
+      "framework": "Playwright",
+      "layer": "api",
+      "estimated_effort": "S"
+    },
+    {
+      "test_case_id": "TC-GEN-015",
+      "reason": "PUT /api/users/:id existente es CRUD critico y ya parcialmente cubierto.",
+      "framework": "Playwright",
+      "layer": "api",
+      "estimated_effort": "S"
+    },
+    {
+      "test_case_id": "TC-GEN-016",
+      "reason": "PUT sin requeridos 400; negativo estable con bajo costo de mantenimiento.",
+      "framework": "Playwright",
+      "layer": "api",
+      "estimated_effort": "S"
+    },
+    {
+      "test_case_id": "TC-GEN-017",
+      "reason": "PUT a id inexistente 404; robustez de contrato de error.",
+      "framework": "Playwright",
+      "layer": "api",
+      "estimated_effort": "S"
+    },
+    {
+      "test_case_id": "TC-GEN-018",
+      "reason": "DELETE /api/users/:id existente valida operacion destructiva critica.",
+      "framework": "Playwright",
+      "layer": "api",
+      "estimated_effort": "M"
+    },
+    {
+      "test_case_id": "TC-GEN-019",
+      "reason": "DELETE id inexistente 404; caso negativo repetible.",
+      "framework": "Playwright",
+      "layer": "api",
+      "estimated_effort": "S"
+    },
+    {
+      "test_case_id": "TC-GEN-020",
+      "reason": "Navegacion entre / y /users ya soportada por navigation.spec y nav menu POM.",
+      "framework": "Playwright",
+      "layer": "ui",
+      "estimated_effort": "S"
+    },
+    {
+      "test_case_id": "TC-GEN-021",
+      "reason": "Persistencia en memoria durante uptime puede validarse combinando API setup + verificacion UI.",
+      "framework": "Playwright",
+      "layer": "api",
+      "estimated_effort": "M"
+    },
+    {
+      "test_case_id": "TC-GEN-023",
+      "reason": "Ruta /api inexistente con 404 JSON estandar; contrato tecnico estable.",
+      "framework": "Playwright",
+      "layer": "api",
+      "estimated_effort": "S"
+    },
+    {
+      "test_case_id": "TC-GEN-024",
+      "reason": "Content-Type JSON en endpoints principales; cobertura de contrato transversal.",
+      "framework": "Playwright",
+      "layer": "api",
+      "estimated_effort": "S"
+    },
+    {
+      "test_case_id": "TC-GEN-025",
+      "reason": "Preflight OPTIONS 200 y headers CORS son automatizables en APIRequestContext.",
+      "framework": "Playwright",
+      "layer": "api",
+      "estimated_effort": "S"
+    }
+  ],
+  "execution_groups": [
+    {
+      "name": "smoke-api-ui-gate",
+      "includes": [
+        "TC-GEN-001",
+        "TC-GEN-002",
+        "TC-GEN-004",
+        "TC-GEN-005",
+        "TC-GEN-010",
+        "TC-GEN-012",
+        "TC-GEN-020"
+      ],
+      "trigger": "smoke"
+    },
+    {
+      "name": "regression-core-crud",
+      "includes": [
+        "TC-GEN-003",
+        "TC-GEN-007",
+        "TC-GEN-008",
+        "TC-GEN-011",
+        "TC-GEN-013",
+        "TC-GEN-014",
+        "TC-GEN-015",
+        "TC-GEN-016",
+        "TC-GEN-017",
+        "TC-GEN-018",
+        "TC-GEN-019",
+        "TC-GEN-021",
+        "TC-GEN-024"
+      ],
+      "trigger": "regression"
+    },
+    {
+      "name": "nightly-negative-and-platform",
+      "includes": [
+        "TC-GEN-006",
+        "TC-GEN-023",
+        "TC-GEN-025"
+      ],
+      "trigger": "nightly"
+    }
+  ],
+  "implementation_plan": [
+    {
+      "order": 1,
+      "action": "Completar smoke UI de formulario y navegacion reutilizando FormPage y NavigationMenu.",
+      "target_files": [
+        "tests/ui/form.spec.ts",
+        "tests/ui/navigation.spec.ts",
+        "tests/pages/formPage.ts",
+        "tests/pages/common-components/navigationMenu.ts"
+      ]
+    },
+    {
+      "order": 2,
+      "action": "Cerrar cobertura de contratos POST/GET base en register.api y users.api.",
+      "target_files": [
+        "tests/api/register.api.spec.ts",
+        "tests/api/users.api.spec.ts"
+      ]
+    },
+    {
+      "order": 3,
+      "action": "Agregar CRUD negativo/positivo restante (PUT/DELETE/404) en users.api.",
+      "target_files": [
+        "tests/api/users.api.spec.ts"
+      ]
+    },
+    {
+      "order": 4,
+      "action": "Incorporar validaciones de CORS, preflight y Content-Type en suites API.",
+      "target_files": [
+        "tests/api/register.api.spec.ts",
+        "tests/api/users.api.spec.ts"
+      ]
+    },
+    {
+      "order": 5,
+      "action": "Agregar trazabilidad case_id y requirement_id en titulos de test y etiquetas de describe.",
+      "target_files": [
+        "tests/ui/form.spec.ts",
+        "tests/ui/navigation.spec.ts",
+        "tests/api/register.api.spec.ts",
+        "tests/api/users.api.spec.ts"
+      ]
+    }
+  ],
+  "coverage_traceability": [
+    {
+      "requirement_id": "REQ-001",
+      "automated_by": ["TC-GEN-001"]
+    },
+    {
+      "requirement_id": "REQ-002",
+      "automated_by": ["TC-GEN-002"]
+    },
+    {
+      "requirement_id": "REQ-003",
+      "automated_by": ["TC-GEN-003"]
+    },
+    {
+      "requirement_id": "REQ-004",
+      "automated_by": ["TC-GEN-004"]
+    },
+    {
+      "requirement_id": "REQ-005",
+      "automated_by": ["TC-GEN-005"]
+    },
+    {
+      "requirement_id": "REQ-006",
+      "automated_by": ["TC-GEN-006"]
+    },
+    {
+      "requirement_id": "REQ-007",
+      "automated_by": ["TC-GEN-007"]
+    },
+    {
+      "requirement_id": "REQ-008",
+      "automated_by": ["TC-GEN-008"]
+    },
+    {
+      "requirement_id": "REQ-010",
+      "automated_by": ["TC-GEN-010"]
+    },
+    {
+      "requirement_id": "REQ-011",
+      "automated_by": ["TC-GEN-011"]
+    },
+    {
+      "requirement_id": "REQ-012",
+      "automated_by": ["TC-GEN-012"]
+    },
+    {
+      "requirement_id": "REQ-013",
+      "automated_by": ["TC-GEN-013"]
+    },
+    {
+      "requirement_id": "REQ-014",
+      "automated_by": ["TC-GEN-014"]
+    },
+    {
+      "requirement_id": "REQ-015",
+      "automated_by": ["TC-GEN-015"]
+    },
+    {
+      "requirement_id": "REQ-016",
+      "automated_by": ["TC-GEN-016"]
+    },
+    {
+      "requirement_id": "REQ-017",
+      "automated_by": ["TC-GEN-017"]
+    },
+    {
+      "requirement_id": "REQ-018",
+      "automated_by": ["TC-GEN-018"]
+    },
+    {
+      "requirement_id": "REQ-019",
+      "automated_by": ["TC-GEN-019"]
+    },
+    {
+      "requirement_id": "REQ-020",
+      "automated_by": ["TC-GEN-020"]
+    },
+    {
+      "requirement_id": "REQ-021",
+      "automated_by": ["TC-GEN-021"]
+    },
+    {
+      "requirement_id": "REQ-023",
+      "automated_by": ["TC-GEN-023"]
+    },
+    {
+      "requirement_id": "REQ-024",
+      "automated_by": ["TC-GEN-024"]
+    },
+    {
+      "requirement_id": "REQ-025",
+      "automated_by": ["TC-GEN-025"]
+    }
+  ],
+  "risks_and_mitigations": [
+    {
+      "risk": "Fragilidad por estado compartido en memoria entre pruebas API/UI.",
+      "mitigation": "Crear datos de prueba por caso y limpiar con DELETE cuando aplique; evitar dependencia de orden entre tests."
+    },
+    {
+      "risk": "Falsos negativos UI por validaciones nativas del navegador en distintos engines.",
+      "mitigation": "Aserciones basadas en comportamiento observable estable (no submit, URL/mensaje) y ejecucion cross-browser solo en smoke clave."
+    },
+    {
+      "risk": "Colisiones de datos por emails repetidos en ejecuciones paralelas.",
+      "mitigation": "Generar emails unicos con timestamp/worker index en fixtures o helper local."
+    },
+    {
+      "risk": "Cobertura incompleta de casos no automatizables de forma estable (timing estricto o reinicio de proceso).",
+      "mitigation": "Mantener TC-GEN-009 y TC-GEN-022 en checklist manual de regresion operativa."
+    }
+  ],
+  "kpis": [
+    {
+      "metric": "Smoke pass rate",
+      "target": ">= 98%"
+    },
+    {
+      "metric": "Flaky rate (rerun failures)",
+      "target": "<= 2%"
+    },
+    {
+      "metric": "Automation coverage de requisitos plan2",
+      "target": "23/25 requisitos (92%)"
+    },
+    {
+      "metric": "Duracion suite smoke",
+      "target": "<= 3 minutos"
+    },
+    {
+      "metric": "Defect leakage a UAT sobre API contracts",
+      "target": "0 defectos P0/P1 por release"
+    }
+  ]
+}

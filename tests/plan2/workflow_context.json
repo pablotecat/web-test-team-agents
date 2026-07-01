@@ -1,0 +1,124 @@
+{
+  "version": "1.0.0",
+  "workflow_id": "wf-qa-plan2-20260701",
+  "requested_at": "2026-07-01T00:00:00Z",
+  "status": "completed",
+  "request": {
+    "summary": "Estrategia QA end-to-end para app web de registro y listado de usuarios con API REST.",
+    "scope": "UI + API + E2E",
+    "constraints": [
+      "Cobertura funcional, smoke, regresion y seleccion de casos automatizables",
+      "Trazabilidad requirement -> artifact completa",
+      "Guardar todos los artefactos en tests/plan2",
+      "No saltar etapas sin justificacion"
+    ]
+  },
+  "stages": {
+    "documentation": {
+      "status": "completed",
+      "owner_agent": "Test Documentation",
+      "started_at": "2026-07-01T00:00:00Z",
+      "finished_at": "2026-07-01T00:00:00Z"
+    },
+    "planning": {
+      "status": "completed",
+      "owner_agent": "Test Planner",
+      "started_at": "2026-07-01T00:00:00Z",
+      "finished_at": "2026-07-01T00:00:00Z"
+    },
+    "prioritization": {
+      "status": "completed",
+      "owner_agent": "Test Prioritization",
+      "started_at": "2026-07-01T00:00:00Z",
+      "finished_at": "2026-07-01T00:00:00Z"
+    },
+    "generation": {
+      "status": "completed",
+      "owner_agent": "Test Generator",
+      "started_at": "2026-07-01T00:00:00Z",
+      "finished_at": "2026-07-01T00:00:00Z"
+    },
+    "automation": {
+      "status": "completed",
+      "owner_agent": "Test Automation",
+      "started_at": "2026-07-01T00:00:00Z",
+      "finished_at": "2026-07-01T00:00:00Z"
+    }
+  },
+  "artifacts": {
+    "documentation_artifact": {
+      "status": "ready",
+      "path": "tests/plan2/documentation_artifact.json",
+      "format": "json",
+      "updated_by": "Test Documentation"
+    },
+    "test_plan_artifact": {
+      "status": "ready",
+      "path": "tests/plan2/test_plan_artifact.json",
+      "format": "json",
+      "updated_by": "Test Planner"
+    },
+    "priority_matrix_artifact": {
+      "status": "ready",
+      "path": "tests/plan2/priority_matrix_artifact.json",
+      "format": "json",
+      "updated_by": "Test Prioritization"
+    },
+    "generated_test_cases_artifact": {
+      "status": "ready",
+      "path": "tests/plan2/generated_test_cases_artifact.json",
+      "format": "json",
+      "updated_by": "Test Generator"
+    },
+    "automation_artifact": {
+      "status": "ready",
+      "path": "tests/plan2/automation_artifact.json",
+      "format": "json",
+      "updated_by": "Test Automation"
+    },
+    "process_log_artifact": {
+      "status": "ready",
+      "path": "tests/plan2/proceso.md",
+      "format": "md",
+      "updated_by": "orchestrator"
+    }
+  },
+  "retry_policy": {
+    "max_attempts": 3,
+    "backoff_strategy": "linear",
+    "retryable_error_types": [
+      "network",
+      "timeout",
+      "transient_tool_failure",
+      "schema_validation"
+    ]
+  },
+  "error_log": [],
+  "traceability": [
+    {"requirement_id": "REQ-001", "artifact": "documentation_artifact", "agent": "Test Documentation", "notes": "Requisito base formulario"},
+    {"requirement_id": "REQ-002", "artifact": "generated_test_cases_artifact", "agent": "Test Generator", "notes": "TC-GEN-002"},
+    {"requirement_id": "REQ-003", "artifact": "generated_test_cases_artifact", "agent": "Test Generator", "notes": "TC-GEN-003"},
+    {"requirement_id": "REQ-004", "artifact": "generated_test_cases_artifact", "agent": "Test Generator", "notes": "TC-GEN-004"},
+    {"requirement_id": "REQ-005", "artifact": "generated_test_cases_artifact", "agent": "Test Generator", "notes": "TC-GEN-005"},
+    {"requirement_id": "REQ-006", "artifact": "generated_test_cases_artifact", "agent": "Test Generator", "notes": "TC-GEN-006"},
+    {"requirement_id": "REQ-007", "artifact": "generated_test_cases_artifact", "agent": "Test Generator", "notes": "TC-GEN-007"},
+    {"requirement_id": "REQ-008", "artifact": "generated_test_cases_artifact", "agent": "Test Generator", "notes": "TC-GEN-008"},
+    {"requirement_id": "REQ-009", "artifact": "generated_test_cases_artifact", "agent": "Test Generator", "notes": "TC-GEN-009"},
+    {"requirement_id": "REQ-010", "artifact": "generated_test_cases_artifact", "agent": "Test Generator", "notes": "TC-GEN-010"},
+    {"requirement_id": "REQ-011", "artifact": "generated_test_cases_artifact", "agent": "Test Generator", "notes": "TC-GEN-011"},
+    {"requirement_id": "REQ-012", "artifact": "generated_test_cases_artifact", "agent": "Test Generator", "notes": "TC-GEN-012"},
+    {"requirement_id": "REQ-013", "artifact": "generated_test_cases_artifact", "agent": "Test Generator", "notes": "TC-GEN-013"},
+    {"requirement_id": "REQ-014", "artifact": "generated_test_cases_artifact", "agent": "Test Generator", "notes": "TC-GEN-014"},
+    {"requirement_id": "REQ-015", "artifact": "generated_test_cases_artifact", "agent": "Test Generator", "notes": "TC-GEN-015"},
+    {"requirement_id": "REQ-016", "artifact": "generated_test_cases_artifact", "agent": "Test Generator", "notes": "TC-GEN-016"},
+    {"requirement_id": "REQ-017", "artifact": "generated_test_cases_artifact", "agent": "Test Generator", "notes": "TC-GEN-017"},
+    {"requirement_id": "REQ-018", "artifact": "generated_test_cases_artifact", "agent": "Test Generator", "notes": "TC-GEN-018"},
+    {"requirement_id": "REQ-019", "artifact": "generated_test_cases_artifact", "agent": "Test Generator", "notes": "TC-GEN-019"},
+    {"requirement_id": "REQ-020", "artifact": "generated_test_cases_artifact", "agent": "Test Generator", "notes": "TC-GEN-020"},
+    {"requirement_id": "REQ-021", "artifact": "generated_test_cases_artifact", "agent": "Test Generator", "notes": "TC-GEN-021"},
+    {"requirement_id": "REQ-022", "artifact": "generated_test_cases_artifact", "agent": "Test Generator", "notes": "TC-GEN-022"},
+    {"requirement_id": "REQ-023", "artifact": "generated_test_cases_artifact", "agent": "Test Generator", "notes": "TC-GEN-023"},
+    {"requirement_id": "REQ-024", "artifact": "generated_test_cases_artifact", "agent": "Test Generator", "notes": "TC-GEN-024"},
+    {"requirement_id": "REQ-025", "artifact": "generated_test_cases_artifact", "agent": "Test Generator", "notes": "TC-GEN-025"}
+  ]
+}
