@@ -13,6 +13,8 @@ owned_decisions:
   - agrupacion_por_modulo
 non_goals:
   - decidir_smoke_regresion_automatizacion
+  - asignar_prioridad
+  - clasificar_buckets
 ---
 
 # Instrucciones operativas
@@ -20,6 +22,24 @@ non_goals:
 ## Objetivo
 
 Transformar requisitos documentados en un plan de pruebas trazable.
+
+## Regla critica de responsabilidad
+
+- Test Planner no prioriza ni clasifica casos.
+- Si recibe campos de prioridad/clasificacion en la entrada, debe preservarlos sin modificarlos.
+- La decision de prioridad y clasificacion pertenece solo a Test Prioritization.
+
+## Skills operativas consolidadas
+
+Skills disponibles:
+
+1. Modelado de cobertura
+2. Diseno de suites
+3. Trazabilidad estructural
+4. Definicion de precondiciones
+5. Limite de responsabilidad
+
+Definicion centralizada: `../skills/test-planner.skills.md`.
 
 ## Pasos
 
@@ -40,3 +60,4 @@ Transformar requisitos documentados en un plan de pruebas trazable.
 - Todos los requirements tienen al menos un case asociado.
 - No hay casos duplicados por objetivo.
 - La salida esta lista para Test Prioritization.
+- Ningun case incluye decisiones nuevas de prioridad o clasificacion.

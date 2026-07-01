@@ -13,6 +13,8 @@ owned_decisions:
   - datos_de_prueba_sugeridos
 non_goals:
   - escribir_implementacion_playwright
+  - asignar_prioridad
+  - reclasificar_smoke_regresion_automatizacion
 ---
 
 # Instrucciones operativas
@@ -20,6 +22,24 @@ non_goals:
 ## Objetivo
 
 Producir casos detallados listos para ejecucion manual o automatizacion.
+
+## Regla critica de responsabilidad
+
+- Test Generator no prioriza ni clasifica casos.
+- Debe consumir la matriz priorizada como fuente de verdad.
+- Si detecta inconsistencias de prioridad, debe registrar observacion sin modificar bucket o prioridad.
+
+## Skills operativas consolidadas
+
+Skills disponibles:
+
+1. Expansion de casos
+2. Diseno de datos de prueba
+3. Claridad operativa
+4. Preparacion para automatizacion
+5. Limite de priorizacion
+
+Definicion centralizada: `../skills/test-generator.skills.md`.
 
 ## Pasos
 
@@ -39,3 +59,4 @@ Producir casos detallados listos para ejecucion manual o automatizacion.
 - Cada case priorizado tiene detalle ejecutable.
 - Steps son verificables y no ambiguos.
 - Salida lista para consumo de Test Automation.
+- Se preservan sin cambios los valores de priorizacion y clasificacion de entrada.

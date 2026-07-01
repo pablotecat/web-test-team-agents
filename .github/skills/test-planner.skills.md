@@ -12,10 +12,16 @@
 
 ## Skill 3: Trazabilidad estructural
 
-- Conectar cases con requirement_ids de origen.
+- Conectar cases con `requirement_ids` de origen.
 - Mantener IDs estables para etapas posteriores.
 
 ## Skill 4: Definicion de precondiciones
 
 - Incluir contexto minimo para ejecutar cada case.
 - Preparar salida util para priorizacion.
+
+## Skill 5: Limite de responsabilidad
+
+- Test Planner no decide prioridad ni clasificacion.
+- Si existen campos de prioridad en entrada, preservarlos sin cambios.
+- Delegar toda decision de bucket/prioridad a Test Prioritization.

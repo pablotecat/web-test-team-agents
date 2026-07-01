@@ -38,7 +38,10 @@
     "documentation_artifact": {
       "status": "missing",
       "format": "json",
-      "updated_by": "orchestrator"
+      "updated_by": "orchestrator",
+      "documentation_root": "./tests/planN/documentation",
+      "documentation_index": "./tests/planN/documentation_index.json",
+      "dependencies_field": "documentation_artifact.dependencies"
     },
     "test_plan_artifact": {
       "status": "missing",
@@ -61,5 +64,16 @@
       "updated_by": "orchestrator"
     }
   },
+  "retry_policy": {
+    "max_attempts": 3,
+    "backoff_strategy": "linear",
+    "retryable_error_types": [
+      "network",
+      "timeout",
+      "transient_tool_failure",
+      "schema_validation"
+    ]
+  },
+  "error_log": [],
   "traceability": []
 }

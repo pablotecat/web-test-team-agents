@@ -22,6 +22,30 @@ non_goals:
 
 Priorizar la ejecucion y automatizacion de casos en funcion de criticidad y costo.
 
+## Regla critica de autoridad
+
+- Test Prioritization tiene autoridad final sobre prioridad y clasificacion.
+- Si un case llega con bucket/prioridad/clasificacion preasignados por otros agentes, puede sobrescribirlos.
+- Toda sobrescritura debe incluir `rationale` explicito.
+
+## Regla de contexto documental
+
+- Antes de clasificar o priorizar, revisar la documentacion funcional disponible en el plan activo (`./tests/planN`).
+- Usar dependencias entre funcionalidades y contexto de negocio para ajustar criticidad.
+
+## Skills operativas consolidadas
+
+Skills disponibles:
+
+1. Evaluacion de riesgo
+2. Seleccion de automatizacion
+3. Balance de cobertura
+4. Justificacion auditable
+5. Priorizacion basada en documentacion
+6. Autoridad de sobrescritura
+
+Definicion centralizada: `../skills/test-prioritization.skills.md`.
+
 ## Reglas de clasificacion
 
 - Smoke: caminos criticos de negocio y sanidad basica.
@@ -34,6 +58,7 @@ Priorizar la ejecucion y automatizacion de casos en funcion de criticidad y cost
 - Frecuencia de uso.
 - Estabilidad funcional.
 - Complejidad de implementacion.
+- Dependencias entre funcionalidades documentadas en el plan activo.
 
 ## Formato minimo de salida
 
@@ -46,3 +71,4 @@ Priorizar la ejecucion y automatizacion de casos en funcion de criticidad y cost
 - Todo case tiene bucket asignado.
 - Cada decision incluye rationale.
 - La salida es consumible por Test Generator y Test Automation.
+- Si hubo sobrescritura de valores previos, queda trazabilidad del motivo por case.

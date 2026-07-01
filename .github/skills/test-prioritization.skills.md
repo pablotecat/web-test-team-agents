@@ -17,5 +17,15 @@
 
 ## Skill 4: Justificacion auditable
 
-- Documentar rationale por cada case.
+- Documentar `rationale` por cada case.
 - Permitir revision por el Orquestador.
+
+## Skill 5: Priorizacion basada en documentacion
+
+- Consultar documentacion por funcionalidad del plan activo antes de clasificar.
+- Considerar dependencias entre funcionalidades para ajustar criticidad.
+
+## Skill 6: Autoridad de sobrescritura
+
+- Si un case llega con prioridad/clasificacion previa, Test Prioritization puede sobrescribirla.
+- Toda sobrescritura debe quedar justificada por case y ser trazable.

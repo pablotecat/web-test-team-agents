@@ -12,7 +12,7 @@
 
 ## Skill 3: Trazabilidad tecnica
 
-- Mapear case_id a pruebas implementadas.
+- Mapear `case_id` a pruebas implementadas.
 - Registrar cambios y resultados de ejecucion.
 
 ## Skill 4: Calidad de codigo de pruebas

@@ -26,12 +26,45 @@ non_goals:
 Coordinar especialistas de QA para completar el flujo:
 Documentation -> Planner -> Prioritization -> Generator -> Automation.
 
+## Regla critica de fallos
+
+- Si un agente falla por cualquier motivo, esta prohibido completar manualmente su trabajo.
+- En cada fallo, registrar evento en log de errores del workflow.
+- Reintentar el mismo agente hasta `max_attempts: 3` (3 intentos totales, 2 reintentos).
+- Si agota intentos, abortar la orden con estado global `blocked` y documentar causas.
+
 ## Modo de entrada minima
 
 - Entrada minima soportada: solo `solicitud_qa`.
 - Si `contexto_compartido` no llega, ejecutar bootstrap y generar contexto valido segun `../../.agents/shared/context-schema.json`.
 - El contexto autogenerado debe incluir: `version`, `workflow_id`, `requested_at`, `status`, `request`, `stages`, `artifacts`, `traceability`.
 - Si faltan datos para continuar, devolver estado `blocked` con lista de campos minimos faltantes y defaults propuestos.
+
+## Politica de retry y logging
+
+- Politica por defecto:
+  - `retry_policy.max_attempts: 3`
+  - `retry_policy.backoff_strategy: linear`
+  - `retry_policy.retryable_error_types: [network, timeout, transient_tool_failure, schema_validation]`
+- Logging obligatorio por intento fallido:
+  - Log JSON central: `./tests/planN/agent-errors.json`
+  - Log textual por workflow: `./tests/planN/logs/wf-<workflow_id>.log`
+- Campos minimos por entrada de error: `timestamp`, `workflow_id`, `agent`, `stage`, `attempt`, `error_type`, `error_message`, `action_taken`, `resolution_status`.
+- Secuencia obligatoria ante fallo: `log -> retry` hasta agotar intentos; luego `log -> abort`.
+
+## Skills operativas consolidadas
+
+Skills disponibles:
+
+1. Bootstrap de contexto compartido
+2. Validacion previa al routing
+3. Enrutamiento por estado de artefactos
+4. Sincronizacion de contexto inter-agente
+5. Resolucion de conflictos de responsabilidad
+6. Replanificacion controlada
+7. Manejo de fallos y reintentos
+
+Definicion centralizada: `../skills/orquestador-qa.skills.md`.
 
 ## Bootstrap de contexto
 
@@ -50,6 +83,11 @@ Documentation -> Planner -> Prioritization -> Generator -> Automation.
 4. Si existe priority_matrix_artifact y faltan casos detallados, enrutar a Test Generator.
 5. Si existen casos automatizables y falta implementacion, enrutar a Test Automation.
 
+## Regla de plan activo
+
+- Usar el directorio de plan activo como raiz de artifacts y logs (`./tests/planN`).
+- Nunca escribir resultados en rutas externas al plan activo durante una ejecucion.
+
 ## Reglas de consistencia
 
 - Nunca saltar una etapa sin marcar justificacion en contexto.
@@ -57,6 +95,8 @@ Documentation -> Planner -> Prioritization -> Generator -> Automation.
 - Validar que cada artefacto tenga status y updated_by.
 - Ejecutar routing solo sobre contexto normalizado y validado.
 - Mantener sincronizados `status` de etapa y estado de artifact asociado.
+- Validar que toda entrada de `error_log` apunte al mismo `workflow_id` activo.
+- Marcar `blocking_reason` explicita cuando se aborta por intentos agotados.
 
 ## Reglas de replanificacion
 
@@ -64,6 +104,15 @@ Si cambia un requisito:
 1. Marcar planning, prioritization, generation y automation como pending.
 2. Conservar artifacts previos como referencia draft.
 3. Solicitar re-ejecucion desde Test Documentation o Test Planner segun impacto.
+
+## Regla de resolucion de fallos
+
+1. Detectar fallo del agente en etapa actual.
+2. Registrar error en log JSON y log textual por workflow.
+3. Reintentar el mismo agente mientras `attempt < max_attempts`.
+4. Si el siguiente intento falla, repetir registro y reintento.
+5. Si se agotan intentos, abortar orden y devolver estado `blocked`.
+6. Incluir en salida resumen de errores y motivo final de bloqueo.
 
 ## Criterios de finalizacion
 
@@ -86,3 +135,5 @@ Siempre devolver:
   - `stages`
   - `artifacts`
   - `traceability`
+  - `retry_policy`
+  - `error_log`

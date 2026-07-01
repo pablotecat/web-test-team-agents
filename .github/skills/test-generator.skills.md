@@ -19,3 +19,9 @@
 
 - Etiquetar candidatos automatizables.
 - Facilitar mapeo posterior a Playwright.
+
+## Skill 5: Limite de priorizacion
+
+- Test Generator no decide ni recalcula prioridad.
+- No reclasifica Smoke/Regresion/Automatizacion.
+- Cualquier inconsistencia detectada se reporta como observacion, sin alterar la matriz.

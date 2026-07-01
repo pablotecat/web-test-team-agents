@@ -30,6 +30,17 @@ Traducir casos automatizables a pruebas Playwright mantenibles.
 - Respetar separacion UI y API en la organizacion de specs.
 - Mantener alineacion con la configuracion de proyectos de Playwright.
 
+## Skills operativas consolidadas
+
+Skills disponibles:
+
+1. Implementacion Playwright
+2. Reutilizacion de POM
+3. Trazabilidad tecnica
+4. Calidad de codigo de pruebas
+
+Definicion centralizada: `../skills/test-automation.skills.md`.
+
 ## Pasos
 
 1. Mapear case_id a suite objetivo (UI o API).

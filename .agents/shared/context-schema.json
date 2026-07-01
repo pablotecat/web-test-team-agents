@@ -8,7 +8,9 @@
     "requested_at",
     "status",
     "stages",
-    "artifacts"
+    "artifacts",
+    "retry_policy",
+    "error_log"
   ],
   "properties": {
     "version": {
@@ -67,6 +69,31 @@
       },
       "additionalProperties": true
     },
+    "retry_policy": {
+      "type": "object",
+      "required": ["max_attempts", "backoff_strategy", "retryable_error_types"],
+      "properties": {
+        "max_attempts": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "backoff_strategy": {
+          "type": "string",
+          "enum": ["none", "linear", "exponential"]
+        },
+        "retryable_error_types": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "error_log": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/error_entry"
+      }
+    },
     "traceability": {
       "type": "array",
       "items": {
@@ -114,6 +141,38 @@
         "updated_by": { "type": "string" }
       },
       "additionalProperties": true
+    },
+    "error_entry": {
+      "type": "object",
+      "required": [
+        "timestamp",
+        "workflow_id",
+        "agent",
+        "stage",
+        "attempt",
+        "error_type",
+        "error_message",
+        "action_taken",
+        "resolution_status"
+      ],
+      "properties": {
+        "timestamp": { "type": "string" },
+        "workflow_id": { "type": "string" },
+        "agent": { "type": "string" },
+        "stage": { "type": "string" },
+        "attempt": { "type": "integer", "minimum": 1 },
+        "error_type": { "type": "string" },
+        "error_message": { "type": "string" },
+        "action_taken": {
+          "type": "string",
+          "enum": ["log", "retry", "abort"]
+        },
+        "resolution_status": {
+          "type": "string",
+          "enum": ["pending", "resolved", "escalated"]
+        }
+      },
+      "additionalProperties": false
     }
   },
   "additionalProperties": false
