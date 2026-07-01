@@ -1,0 +1,105 @@
+{
+  "version": "1.0.0",
+  "workflow_id": "wf-qa-plan1-20260701",
+  "requested_at": "2026-07-01T00:00:00Z",
+  "status": "completed",
+  "request": {
+    "summary": "Estrategia QA end-to-end para app de registro/listado con API REST, incluyendo funcional, smoke, regresion y automatizacion con trazabilidad completa.",
+    "scope": "UI + API + E2E",
+    "constraints": [
+      "No saltar etapas sin justificacion",
+      "Guardar artefactos en tests/plan1",
+      "Mantener trazabilidad requirement -> artifact"
+    ]
+  },
+  "stages": {
+    "documentation": {
+      "status": "completed",
+      "owner_agent": "Test Documentation",
+      "started_at": "2026-07-01T00:00:00Z",
+      "finished_at": "2026-07-01T00:00:00Z"
+    },
+    "planning": {
+      "status": "completed",
+      "owner_agent": "Test Planner",
+      "started_at": "2026-07-01T00:00:00Z",
+      "finished_at": "2026-07-01T00:00:00Z",
+      "blocking_reason": "Subagente devolvio matriz no alineada; se consolido manualmente sin romper flujo"
+    },
+    "prioritization": {
+      "status": "completed",
+      "owner_agent": "Test Prioritization",
+      "started_at": "2026-07-01T00:00:00Z",
+      "finished_at": "2026-07-01T00:00:00Z"
+    },
+    "generation": {
+      "status": "completed",
+      "owner_agent": "Test Generator",
+      "started_at": "2026-07-01T00:00:00Z",
+      "finished_at": "2026-07-01T00:00:00Z",
+      "blocking_reason": "Fallo de red en subagente; generacion completada manualmente por orquestador"
+    },
+    "automation": {
+      "status": "completed",
+      "owner_agent": "Test Automation",
+      "started_at": "2026-07-01T00:00:00Z",
+      "finished_at": "2026-07-01T00:00:00Z"
+    }
+  },
+  "artifacts": {
+    "documentation_artifact": {
+      "status": "ready",
+      "path": "tests/plan1/documentation_artifact.json",
+      "format": "json",
+      "updated_by": "orchestrator"
+    },
+    "test_plan_artifact": {
+      "status": "ready",
+      "path": "tests/plan1/test_plan_artifact.json",
+      "format": "json",
+      "updated_by": "orchestrator"
+    },
+    "priority_matrix_artifact": {
+      "status": "ready",
+      "path": "tests/plan1/priority_matrix_artifact.json",
+      "format": "json",
+      "updated_by": "orchestrator"
+    },
+    "generated_test_cases_artifact": {
+      "status": "ready",
+      "path": "tests/plan1/generated_test_cases_artifact.json",
+      "format": "json",
+      "updated_by": "orchestrator"
+    },
+    "automation_artifact": {
+      "status": "ready",
+      "path": "tests/plan1/automation_artifact.json",
+      "format": "json",
+      "updated_by": "orchestrator"
+    },
+    "process_log_artifact": {
+      "status": "ready",
+      "path": "tests/plan1/proceso.md",
+      "format": "md",
+      "updated_by": "orchestrator"
+    }
+  },
+  "traceability": [
+    {"requirement_id":"REQ-001","artifact":"documentation_artifact","agent":"Test Documentation","notes":"Definicion de UI formulario"},
+    {"requirement_id":"REQ-002","artifact":"generated_test_cases_artifact","agent":"Test Generator","notes":"TC-002"},
+    {"requirement_id":"REQ-003","artifact":"generated_test_cases_artifact","agent":"Test Generator","notes":"TC-003"},
+    {"requirement_id":"REQ-004","artifact":"generated_test_cases_artifact","agent":"Test Generator","notes":"TC-004"},
+    {"requirement_id":"REQ-005","artifact":"generated_test_cases_artifact","agent":"Test Generator","notes":"TC-005"},
+    {"requirement_id":"REQ-006","artifact":"generated_test_cases_artifact","agent":"Test Generator","notes":"TC-006"},
+    {"requirement_id":"REQ-007","artifact":"generated_test_cases_artifact","agent":"Test Generator","notes":"TC-007"},
+    {"requirement_id":"REQ-008","artifact":"generated_test_cases_artifact","agent":"Test Generator","notes":"TC-008"},
+    {"requirement_id":"REQ-009","artifact":"generated_test_cases_artifact","agent":"Test Generator","notes":"TC-009"},
+    {"requirement_id":"REQ-010","artifact":"generated_test_cases_artifact","agent":"Test Generator","notes":"TC-010"},
+    {"requirement_id":"REQ-011","artifact":"generated_test_cases_artifact","agent":"Test Generator","notes":"TC-011, TC-015"},
+    {"requirement_id":"REQ-012","artifact":"generated_test_cases_artifact","agent":"Test Generator","notes":"TC-012"},
+    {"requirement_id":"REQ-013","artifact":"generated_test_cases_artifact","agent":"Test Generator","notes":"TC-013"},
+    {"requirement_id":"REQ-014","artifact":"generated_test_cases_artifact","agent":"Test Generator","notes":"TC-014, TC-018"},
+    {"requirement_id":"REQ-015","artifact":"generated_test_cases_artifact","agent":"Test Generator","notes":"TC-017"},
+    {"requirement_id":"REQ-016","artifact":"generated_test_cases_artifact","agent":"Test Generator","notes":"TC-016"}
+  ]
+}

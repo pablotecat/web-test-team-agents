@@ -1,0 +1,70 @@
+{
+  "artifact_type": "priority_matrix_artifact",
+  "criterios_priorizacion": {
+    "factores": [
+      "impacto_falla",
+      "frecuencia_uso",
+      "estabilidad_funcional",
+      "complejidad_implementacion",
+      "detectabilidad"
+    ],
+    "reglas": [
+      "P0: flujo critico y alto impacto",
+      "P1: riesgo medio-alto o regresion probable",
+      "P2: no critico o baja frecuencia"
+    ]
+  },
+  "matriz": [
+    {"case_ref":"TC-001","requirement_id":"REQ-001","riesgo":"Alto","impacto_negocio":"Alto","frecuencia_uso":"Alta","detectabilidad":"Media","prioridad":"P0","clasificacion":"Smoke","automatizable":"si","razon_automatizacion":"Sanidad UI inicial"},
+    {"case_ref":"TC-002","requirement_id":"REQ-002","riesgo":"Alto","impacto_negocio":"Alto","frecuencia_uso":"Alta","detectabilidad":"Media","prioridad":"P0","clasificacion":"Smoke","automatizable":"si","razon_automatizacion":"Happy path registro"},
+    {"case_ref":"TC-003","requirement_id":"REQ-003","riesgo":"Medio","impacto_negocio":"Alto","frecuencia_uso":"Alta","detectabilidad":"Alta","prioridad":"P1","clasificacion":"Regression","automatizable":"si","razon_automatizacion":"Error UI controlado"},
+    {"case_ref":"TC-004","requirement_id":"REQ-004","riesgo":"Medio","impacto_negocio":"Medio","frecuencia_uso":"Media","detectabilidad":"Alta","prioridad":"P1","clasificacion":"Regression","automatizable":"si","razon_automatizacion":"Estado vacio"},
+    {"case_ref":"TC-005","requirement_id":"REQ-005","riesgo":"Alto","impacto_negocio":"Alto","frecuencia_uso":"Alta","detectabilidad":"Media","prioridad":"P0","clasificacion":"Smoke","automatizable":"si","razon_automatizacion":"Listado con datos"},
+    {"case_ref":"TC-006","requirement_id":"REQ-006","riesgo":"Alto","impacto_negocio":"Alto","frecuencia_uso":"Media","detectabilidad":"Media","prioridad":"P1","clasificacion":"Regression","automatizable":"si","razon_automatizacion":"Edicion modal"},
+    {"case_ref":"TC-007","requirement_id":"REQ-007","riesgo":"Alto","impacto_negocio":"Alto","frecuencia_uso":"Media","detectabilidad":"Media","prioridad":"P1","clasificacion":"Regression","automatizable":"si","razon_automatizacion":"Delete confirmar/cancelar"},
+    {"case_ref":"TC-008","requirement_id":"REQ-008","riesgo":"Medio","impacto_negocio":"Medio","frecuencia_uso":"Alta","detectabilidad":"Alta","prioridad":"P0","clasificacion":"Smoke","automatizable":"si","razon_automatizacion":"Navegacion critica"},
+    {"case_ref":"TC-009","requirement_id":"REQ-009","riesgo":"Alto","impacto_negocio":"Alto","frecuencia_uso":"Alta","detectabilidad":"Media","prioridad":"P0","clasificacion":"Smoke","automatizable":"si","razon_automatizacion":"POST register"},
+    {"case_ref":"TC-010","requirement_id":"REQ-010","riesgo":"Alto","impacto_negocio":"Alto","frecuencia_uso":"Alta","detectabilidad":"Media","prioridad":"P0","clasificacion":"Smoke","automatizable":"si","razon_automatizacion":"GET users"},
+    {"case_ref":"TC-011","requirement_id":"REQ-011","riesgo":"Medio","impacto_negocio":"Medio","frecuencia_uso":"Media","detectabilidad":"Media","prioridad":"P1","clasificacion":"Regression","automatizable":"si","razon_automatizacion":"GET by id"},
+    {"case_ref":"TC-012","requirement_id":"REQ-012","riesgo":"Alto","impacto_negocio":"Alto","frecuencia_uso":"Media","detectabilidad":"Media","prioridad":"P1","clasificacion":"Regression","automatizable":"si","razon_automatizacion":"PUT by id"},
+    {"case_ref":"TC-013","requirement_id":"REQ-013","riesgo":"Alto","impacto_negocio":"Alto","frecuencia_uso":"Media","detectabilidad":"Media","prioridad":"P1","clasificacion":"Regression","automatizable":"si","razon_automatizacion":"DELETE by id"},
+    {"case_ref":"TC-014","requirement_id":"REQ-014","riesgo":"Alto","impacto_negocio":"Alto","frecuencia_uso":"Media","detectabilidad":"Alta","prioridad":"P1","clasificacion":"Regression","automatizable":"si","razon_automatizacion":"Errores 400"},
+    {"case_ref":"TC-015","requirement_id":"REQ-011","riesgo":"Medio","impacto_negocio":"Medio","frecuencia_uso":"Baja","detectabilidad":"Alta","prioridad":"P2","clasificacion":"Functional","automatizable":"si","razon_automatizacion":"404 por id inexistente"},
+    {"case_ref":"TC-016","requirement_id":"REQ-016","riesgo":"Medio","impacto_negocio":"Medio","frecuencia_uso":"Baja","detectabilidad":"Media","prioridad":"P2","clasificacion":"Functional","automatizable":"no","razon_automatizacion":"Requiere reinicio controlado de servidor"},
+    {"case_ref":"TC-017","requirement_id":"REQ-015","riesgo":"Alto","impacto_negocio":"Alto","frecuencia_uso":"Media","detectabilidad":"Media","prioridad":"P0","clasificacion":"Smoke","automatizable":"si","razon_automatizacion":"E2E lifecycle"},
+    {"case_ref":"TC-018","requirement_id":"REQ-014","riesgo":"Medio","impacto_negocio":"Medio","frecuencia_uso":"Media","detectabilidad":"Alta","prioridad":"P1","clasificacion":"Regression","automatizable":"si","razon_automatizacion":"Valida update sin requeridos (400)"}
+  ],
+  "smoke_subset": ["TC-001", "TC-002", "TC-005", "TC-008", "TC-009", "TC-010", "TC-017"],
+  "regression_subset": ["TC-003", "TC-004", "TC-006", "TC-007", "TC-011", "TC-012", "TC-013", "TC-014", "TC-018"],
+  "automation_candidates": [
+    {"case_ref":"TC-001","enfoque":"UI"},
+    {"case_ref":"TC-002","enfoque":"UI"},
+    {"case_ref":"TC-005","enfoque":"UI"},
+    {"case_ref":"TC-008","enfoque":"UI"},
+    {"case_ref":"TC-009","enfoque":"API"},
+    {"case_ref":"TC-010","enfoque":"API"},
+    {"case_ref":"TC-011","enfoque":"API"},
+    {"case_ref":"TC-012","enfoque":"API"},
+    {"case_ref":"TC-013","enfoque":"API"},
+    {"case_ref":"TC-014","enfoque":"API"},
+    {"case_ref":"TC-017","enfoque":"E2E"}
+  ],
+  "cobertura_resumen": {
+    "REQ-001": ["TC-001"],
+    "REQ-002": ["TC-002"],
+    "REQ-003": ["TC-003"],
+    "REQ-004": ["TC-004"],
+    "REQ-005": ["TC-005"],
+    "REQ-006": ["TC-006"],
+    "REQ-007": ["TC-007"],
+    "REQ-008": ["TC-008"],
+    "REQ-009": ["TC-009"],
+    "REQ-010": ["TC-010"],
+    "REQ-011": ["TC-011", "TC-015"],
+    "REQ-012": ["TC-012"],
+    "REQ-013": ["TC-013"],
+    "REQ-014": ["TC-014", "TC-018"],
+    "REQ-015": ["TC-017"],
+    "REQ-016": ["TC-016"]
+  }
+}

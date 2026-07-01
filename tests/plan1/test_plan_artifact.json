@@ -1,0 +1,122 @@
+{
+  "artifact_type": "test_plan_artifact",
+  "test_strategy": {
+    "objective": "Asegurar calidad funcional end-to-end de registro y listado de usuarios, incluyendo API REST CRUD.",
+    "levels": ["UI", "API", "E2E"],
+    "types": ["functional", "smoke", "regression"],
+    "approach": "Risk-based testing con priorizacion P0/P1/P2 y trazabilidad REQ->TC."
+  },
+  "environments": [
+    {
+      "name": "local",
+      "base_url": "http://localhost:3000",
+      "api_base_url": "http://localhost:3000/api",
+      "browser": ["chromium"],
+      "notes": "Servidor Node local con almacenamiento en memoria"
+    },
+    {
+      "name": "ci",
+      "base_url": "http://localhost:3000",
+      "api_base_url": "http://localhost:3000/api",
+      "browser": ["chromium", "firefox", "webkit"],
+      "notes": "Playwright CI con workers controlados"
+    }
+  ],
+  "entry_exit_criteria": {
+    "entry": [
+      "Servidor iniciable con npm start",
+      "Endpoints API accesibles",
+      "Datos de prueba definidos",
+      "Suites smoke marcadas"
+    ],
+    "exit": [
+      "Smoke: 100% casos P0 en verde",
+      "Regression: >=95% en verde, sin defectos P0/P1 abiertos",
+      "Trazabilidad completa REQ->TC->archivo"
+    ]
+  },
+  "suites": [
+    {
+      "suite_id": "S-SMOKE-001",
+      "name": "Smoke Critico",
+      "type": "smoke",
+      "scope": "Disponibilidad de UI principal y API core",
+      "related_requirements": ["REQ-001", "REQ-002", "REQ-005", "REQ-008", "REQ-009", "REQ-010", "REQ-015"],
+      "casos_resumidos": ["TC-001", "TC-002", "TC-005", "TC-008", "TC-009", "TC-010", "TC-017"]
+    },
+    {
+      "suite_id": "S-REG-001",
+      "name": "Regression Funcional",
+      "type": "regression",
+      "scope": "CRUD completo UI/API y errores controlados",
+      "related_requirements": ["REQ-003", "REQ-004", "REQ-006", "REQ-007", "REQ-011", "REQ-012", "REQ-013", "REQ-014", "REQ-016"],
+      "casos_resumidos": ["TC-003", "TC-004", "TC-006", "TC-007", "TC-011", "TC-012", "TC-013", "TC-014", "TC-015", "TC-016", "TC-018"]
+    },
+    {
+      "suite_id": "S-FUNC-001",
+      "name": "Functional Extendida",
+      "type": "functional",
+      "scope": "Cobertura no critica y bordes",
+      "related_requirements": ["REQ-003", "REQ-014", "REQ-016"],
+      "casos_resumidos": ["TC-014", "TC-016", "TC-018"]
+    }
+  ],
+  "execution_order": [
+    "S-SMOKE-001",
+    "S-REG-001",
+    "S-FUNC-001"
+  ],
+  "defect_management": {
+    "severity": ["P0", "P1", "P2", "P3"],
+    "priority_rules": [
+      "P0 bloquea merge/release",
+      "P1 requiere plan de mitigacion antes de release",
+      "P2/P3 pueden diferirse segun riesgo"
+    ],
+    "minimum_bug_fields": ["title", "steps", "expected", "actual", "environment", "evidence"]
+  },
+  "metrics": {
+    "coverage_targets": {
+      "requirements_covered_pct": 100,
+      "smoke_automation_pct": 100,
+      "regression_automation_pct": 80
+    },
+    "execution_kpis": [
+      "Pass rate por suite",
+      "Defect density por requirement",
+      "Tiempo medio de ejecucion smoke"
+    ]
+  },
+  "risks_and_mitigations": [
+    {
+      "risk": "Flakiness por estado in-memory compartido",
+      "mitigation": "Datos unicos por test y limpieza explicita"
+    },
+    {
+      "risk": "Cambios de selectores UI",
+      "mitigation": "Uso de Page Objects y selectores estables"
+    },
+    {
+      "risk": "Falsos supuestos de validacion backend",
+      "mitigation": "Alinear aserciones con comportamiento real del server"
+    }
+  ],
+  "traceability_map": {
+    "REQ-001": ["S-SMOKE-001"],
+    "REQ-002": ["S-SMOKE-001"],
+    "REQ-003": ["S-REG-001", "S-FUNC-001"],
+    "REQ-004": ["S-REG-001"],
+    "REQ-005": ["S-SMOKE-001"],
+    "REQ-006": ["S-REG-001"],
+    "REQ-007": ["S-REG-001"],
+    "REQ-008": ["S-SMOKE-001"],
+    "REQ-009": ["S-SMOKE-001"],
+    "REQ-010": ["S-SMOKE-001"],
+    "REQ-011": ["S-REG-001"],
+    "REQ-012": ["S-REG-001"],
+    "REQ-013": ["S-REG-001"],
+    "REQ-014": ["S-REG-001", "S-FUNC-001"],
+    "REQ-015": ["S-SMOKE-001"],
+    "REQ-016": ["S-REG-001", "S-FUNC-001"]
+  }
+}

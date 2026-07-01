@@ -1,0 +1,108 @@
+{
+  "artifact_type": "automation_artifact",
+  "automation_scope": {
+    "in_scope": [
+      "UI registro",
+      "UI navegacion",
+      "UI listado/edicion/eliminacion",
+      "API CRUD completo",
+      "E2E lifecycle"
+    ],
+    "out_of_scope": [
+      "Performance de carga avanzada",
+      "Seguridad avanzada",
+      "Persistencia duradera"
+    ],
+    "notes_on_current_behavior": [
+      "POST /api/register responde 200 en implementacion actual",
+      "Validacion backend minima: name y email requeridos"
+    ]
+  },
+  "framework_and_tools": {
+    "language": "TypeScript",
+    "framework": "Playwright Test",
+    "reuse": {
+      "ui_specs": ["tests/ui/form.spec.ts", "tests/ui/navigation.spec.ts"],
+      "api_specs": ["tests/api/register.api.spec.ts", "tests/api/users.api.spec.ts"],
+      "page_objects": ["tests/pages/formPage.ts", "tests/pages/usersPage.ts", "tests/pages/common-components/navigationMenu.ts"],
+      "config": ["playwright.config.ts"]
+    },
+    "new_libraries_required": false
+  },
+  "execution_strategy": {
+    "pull_request_smoke": {
+      "goal": "Detectar regresiones criticas rapido",
+      "command_example": "npx playwright test --grep @smoke",
+      "target_minutes": 5
+    },
+    "nightly_regression": {
+      "goal": "Cobertura amplia de regresion",
+      "command_example": "npx playwright test --grep @regression",
+      "target_minutes": 15
+    },
+    "release_gate": {
+      "goal": "Bloquear release con defectos severos",
+      "rule": "0 fallos P0"
+    },
+    "tags": ["@smoke", "@regression", "@api", "@ui", "@e2e", "@negative"]
+  },
+  "mapping_cases_to_implementation": [
+    {"case_id":"TC-001","target_spec_file":"tests/ui/form.spec.ts","approach":"UI","reusable_components":["formPage"]},
+    {"case_id":"TC-002","target_spec_file":"tests/ui/form.spec.ts","approach":"UI","reusable_components":["formPage"]},
+    {"case_id":"TC-005","target_spec_file":"tests/ui/users-list.spec.ts","approach":"UI","reusable_components":["usersPage","navigationMenu"]},
+    {"case_id":"TC-006","target_spec_file":"tests/ui/users-edit.spec.ts","approach":"UI","reusable_components":["usersPage"]},
+    {"case_id":"TC-007","target_spec_file":"tests/ui/users-delete.spec.ts","approach":"UI","reusable_components":["usersPage"]},
+    {"case_id":"TC-009","target_spec_file":"tests/api/register.api.spec.ts","approach":"API","reusable_components":["request fixture"]},
+    {"case_id":"TC-010","target_spec_file":"tests/api/users.api.spec.ts","approach":"API","reusable_components":["request fixture"]},
+    {"case_id":"TC-011","target_spec_file":"tests/api/users.api.spec.ts","approach":"API","reusable_components":["request fixture"]},
+    {"case_id":"TC-012","target_spec_file":"tests/api/users.api.spec.ts","approach":"API","reusable_components":["request fixture"]},
+    {"case_id":"TC-013","target_spec_file":"tests/api/users.api.spec.ts","approach":"API","reusable_components":["request fixture"]},
+    {"case_id":"TC-017","target_spec_file":"tests/ui/registration-to-listing.e2e.spec.ts","approach":"UI","reusable_components":["formPage","usersPage","navigationMenu"]}
+  ],
+  "data_management_strategy": {
+    "principles": [
+      "Datos unicos por test",
+      "Setup por API cuando conviene",
+      "Limpieza por DELETE donde aplique",
+      "No dependencia entre tests"
+    ],
+    "pattern": {
+      "name": "qa-user-<timestamp>",
+      "email": "qa+<timestamp>@example.test"
+    }
+  },
+  "flakiness_risks_and_controls": {
+    "risks": [
+      "Estado in-memory compartido",
+      "Dialogs nativos confirm/alert",
+      "Selectores UI fragiles"
+    ],
+    "controls": [
+      "workers controlados en CI",
+      "Manejadores explicitos de dialog",
+      "Page Objects y aserciones con auto-wait"
+    ]
+  },
+  "ci_cd_integration": {
+    "pipelines": [
+      {"name":"pr-smoke","trigger":"pull_request","command":"npx playwright test --grep @smoke","blocking":true},
+      {"name":"nightly-regression","trigger":"schedule","command":"npx playwright test --grep @regression","blocking":false}
+    ],
+    "quality_gates": [
+      "0 fallos smoke",
+      "Sin defects P0/P1 abiertos para release"
+    ]
+  },
+  "implementation_backlog": [
+    {"phase":"F1","focus":"Etiquetado y alineacion de casos actuales","relative_effort":"S"},
+    {"phase":"F2","focus":"Nuevas specs UI users-list/edit/delete","relative_effort":"M"},
+    {"phase":"F3","focus":"Negativos API y contratos","relative_effort":"M"},
+    {"phase":"F4","focus":"Estabilidad y CI hardening","relative_effort":"S"}
+  ],
+  "done_criteria": [
+    "Cobertura smoke automatizada",
+    "Cobertura regresion definida y ejecutable",
+    "Trazabilidad TC->spec mantenida",
+    "Sin librerias nuevas obligatorias"
+  ]
+}

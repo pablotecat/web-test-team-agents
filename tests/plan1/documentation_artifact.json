@@ -1,0 +1,261 @@
+{
+  "artifact_type": "documentation_artifact",
+  "summary": "Estrategia QA para aplicacion web de registro y listado de usuarios con API REST CRUD y almacenamiento en memoria.",
+  "scope_in": [
+    "UI Registro en /",
+    "UI Listado en /users",
+    "CRUD de usuarios via API",
+    "Flujos end-to-end entre UI y API",
+    "Cobertura smoke y regresion"
+  ],
+  "scope_out": [
+    "Autenticacion/autorizacion",
+    "Persistencia en base de datos",
+    "Pruebas de carga avanzadas",
+    "Hardening de seguridad profunda"
+  ],
+  "assumptions": [
+    "El servidor corre en http://localhost:3000",
+    "El backend valida solo name y email como requeridos",
+    "El almacenamiento de usuarios es in-memory y se reinicia al reiniciar el servidor"
+  ],
+  "constraints": [
+    "Sin dependencias externas obligatorias para la estrategia",
+    "Trazabilidad completa requirement -> plan -> casos -> automatizacion",
+    "Artefactos guardados en tests/plan1"
+  ],
+  "requirements": [
+    {
+      "requirement_id": "REQ-001",
+      "title": "Render de formulario de registro",
+      "description": "La ruta / muestra formulario con name, email, phone y submit.",
+      "acceptance_criteria": [
+        "Se visualizan los tres campos",
+        "Se visualiza boton de submit",
+        "El formulario permite envio"
+      ],
+      "component": "UI",
+      "risk_level": "medio"
+    },
+    {
+      "requirement_id": "REQ-002",
+      "title": "Registro exitoso por UI",
+      "description": "Con datos validos, el registro muestra confirmacion de exito.",
+      "acceptance_criteria": [
+        "Submit con name+email exitoso",
+        "Se muestra mensaje de exito",
+        "No se muestra error"
+      ],
+      "component": "UI",
+      "risk_level": "alto"
+    },
+    {
+      "requirement_id": "REQ-003",
+      "title": "Manejo de error de registro en UI",
+      "description": "Cuando backend rechaza la solicitud, la UI muestra error.",
+      "acceptance_criteria": [
+        "Con rechazo backend se ve mensaje de error",
+        "No queda mensaje de exito activo"
+      ],
+      "component": "UI",
+      "risk_level": "alto"
+    },
+    {
+      "requirement_id": "REQ-004",
+      "title": "Estado vacio del listado",
+      "description": "En /users sin datos debe verse estado sin usuarios.",
+      "acceptance_criteria": [
+        "Sin usuarios se muestra mensaje de estado vacio",
+        "La tabla no se presenta como poblada"
+      ],
+      "component": "UI",
+      "risk_level": "medio"
+    },
+    {
+      "requirement_id": "REQ-005",
+      "title": "Tabla de usuarios",
+      "description": "Con usuarios registrados, /users muestra filas con datos y acciones.",
+      "acceptance_criteria": [
+        "Se muestran name y email",
+        "Se muestran acciones Editar/Eliminar"
+      ],
+      "component": "UI",
+      "risk_level": "alto"
+    },
+    {
+      "requirement_id": "REQ-006",
+      "title": "Edicion de usuario desde modal",
+      "description": "El usuario puede editar datos desde modal y ver cambios en tabla.",
+      "acceptance_criteria": [
+        "Se abre modal con datos precargados",
+        "Guardar actualiza datos visibles"
+      ],
+      "component": "UI",
+      "risk_level": "alto"
+    },
+    {
+      "requirement_id": "REQ-007",
+      "title": "Eliminacion con confirmacion",
+      "description": "Antes de borrar un usuario se solicita confirmacion.",
+      "acceptance_criteria": [
+        "Si confirma, elimina usuario",
+        "Si cancela, conserva usuario"
+      ],
+      "component": "UI",
+      "risk_level": "alto"
+    },
+    {
+      "requirement_id": "REQ-008",
+      "title": "Navegacion entre vistas",
+      "description": "Se puede navegar de Registro a Usuarios y viceversa.",
+      "acceptance_criteria": [
+        "Desde / se llega a /users",
+        "Desde /users se regresa a /"
+      ],
+      "component": "UI",
+      "risk_level": "medio"
+    },
+    {
+      "requirement_id": "REQ-009",
+      "title": "POST /api/register",
+      "description": "Crea usuario con name y email.",
+      "acceptance_criteria": [
+        "Con payload valido retorna exito",
+        "Retorna objeto user"
+      ],
+      "component": "API",
+      "risk_level": "alto"
+    },
+    {
+      "requirement_id": "REQ-010",
+      "title": "GET /api/users",
+      "description": "Retorna arreglo JSON de usuarios.",
+      "acceptance_criteria": [
+        "Status 200",
+        "Respuesta JSON tipo array"
+      ],
+      "component": "API",
+      "risk_level": "alto"
+    },
+    {
+      "requirement_id": "REQ-011",
+      "title": "GET /api/users/:id",
+      "description": "Retorna usuario por id o 404 si no existe.",
+      "acceptance_criteria": [
+        "Con id existente retorna user",
+        "Con id inexistente retorna 404"
+      ],
+      "component": "API",
+      "risk_level": "medio"
+    },
+    {
+      "requirement_id": "REQ-012",
+      "title": "PUT /api/users/:id",
+      "description": "Actualiza usuario existente.",
+      "acceptance_criteria": [
+        "Con id existente y payload valido retorna exito",
+        "Con id inexistente retorna 404"
+      ],
+      "component": "API",
+      "risk_level": "alto"
+    },
+    {
+      "requirement_id": "REQ-013",
+      "title": "DELETE /api/users/:id",
+      "description": "Elimina usuario existente.",
+      "acceptance_criteria": [
+        "Con id existente elimina usuario",
+        "Con id inexistente retorna 404"
+      ],
+      "component": "API",
+      "risk_level": "alto"
+    },
+    {
+      "requirement_id": "REQ-014",
+      "title": "Errores de validacion API",
+      "description": "POST/PUT manejan faltantes requeridos con error controlado.",
+      "acceptance_criteria": [
+        "Sin name o email retorna 400"
+      ],
+      "component": "API",
+      "risk_level": "alto"
+    },
+    {
+      "requirement_id": "REQ-015",
+      "title": "Flujo end-to-end de ciclo de vida",
+      "description": "Alta, visualizacion, edicion y baja del usuario sin romper consistencia.",
+      "acceptance_criteria": [
+        "Usuario creado en UI aparece en listado",
+        "Edicion y baja se reflejan en UI y API"
+      ],
+      "component": "E2E",
+      "risk_level": "alto"
+    },
+    {
+      "requirement_id": "REQ-016",
+      "title": "Comportamiento de estado en memoria",
+      "description": "La data no persiste tras reinicio del servidor.",
+      "acceptance_criteria": [
+        "Luego de reinicio, listado inicia vacio"
+      ],
+      "component": "NFR",
+      "risk_level": "medio"
+    }
+  ],
+  "data_profiles": {
+    "valid": [
+      {
+        "id": "DP-V-001",
+        "payload": {
+          "name": "Ana Perez",
+          "email": "ana@example.com",
+          "phone": "+34123456789"
+        }
+      },
+      {
+        "id": "DP-V-002",
+        "payload": {
+          "name": "Luis QA",
+          "email": "luis@example.com",
+          "phone": ""
+        }
+      }
+    ],
+    "invalid": [
+      {
+        "id": "DP-I-001",
+        "payload": {
+          "name": "",
+          "email": "x@example.com",
+          "phone": "123"
+        }
+      },
+      {
+        "id": "DP-I-002",
+        "payload": {
+          "name": "SinEmail",
+          "email": "",
+          "phone": "123"
+        }
+      }
+    ]
+  },
+  "traceability_seed": [
+    { "requirement_id": "REQ-001", "justification": "UI formulario" },
+    { "requirement_id": "REQ-002", "justification": "Feedback exito UI" },
+    { "requirement_id": "REQ-003", "justification": "Feedback error UI" },
+    { "requirement_id": "REQ-004", "justification": "Estado vacio listado" },
+    { "requirement_id": "REQ-005", "justification": "Tabla con acciones" },
+    { "requirement_id": "REQ-006", "justification": "Edicion modal" },
+    { "requirement_id": "REQ-007", "justification": "Delete con confirm" },
+    { "requirement_id": "REQ-008", "justification": "Navegacion" },
+    { "requirement_id": "REQ-009", "justification": "POST register" },
+    { "requirement_id": "REQ-010", "justification": "GET users" },
+    { "requirement_id": "REQ-011", "justification": "GET users by id" },
+    { "requirement_id": "REQ-012", "justification": "PUT users by id" },
+    { "requirement_id": "REQ-013", "justification": "DELETE users by id" },
+    { "requirement_id": "REQ-014", "justification": "Errores 400" },
+    { "requirement_id": "REQ-015", "justification": "E2E lifecycle" },
+    { "requirement_id": "REQ-016", "justification": "In-memory reset" }
+  ]
+}
