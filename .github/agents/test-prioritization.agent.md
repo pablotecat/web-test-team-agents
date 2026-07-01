@@ -1,5 +1,7 @@
 ---
 name: Test Prioritization
+description: Usar para clasificar casos en Smoke, Regresion y Automatizacion segun riesgo, valor e implementabilidad.
+user-invocable: false
 layer: 1-planificacion
 role: Clasifica casos en Regresion, Smoke y Automatizacion segun riesgo y valor.
 inputs:

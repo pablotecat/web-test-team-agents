@@ -2,6 +2,11 @@
 
 Este documento define responsabilidades, entradas, salidas y limites de los agentes QA.
 
+## Ubicacion de agentes
+
+- Definiciones de agentes custom para VS Code Chat: `.github/agents/*.agent.md`.
+- Recursos compartidos del workflow QA: `.agents/shared/`.
+
 ## Estado de implementacion
 
 Implementados en esta iteracion:
@@ -18,12 +23,18 @@ No implementados por ahora (placeholders sin logica):
 
 | Agente | Capa | Entrada principal | Salida principal | Dependencias | Limites |
 |---|---|---|---|---|---|
-| Orquestador | 0 | Solicitud QA, contexto workflow | Routing, plan de ejecucion por etapas | Todos los implementados | No crea casos ni tests directamente |
+| Orquestador | 0 | solicitud_qa (minimo) + contexto workflow (opcional) | Routing, plan de ejecucion por etapas, estado normalizado | Todos los implementados | No crea casos ni tests directamente |
 | Test Documentation | 1 Planificacion | Documentacion funcional, API, UI, historias | documentation_artifact JSON | Orquestador | No define suites ni prioridades |
 | Test Planner | 1 Planificacion | documentation_artifact JSON | test_plan_artifact JSON | Test Documentation | No clasifica Smoke/Regresion/Automatizacion |
 | Test Prioritization | 1 Planificacion | test_plan_artifact JSON | priority_matrix_artifact JSON | Test Planner | No escribe codigo de tests |
 | Test Generator | 2 Creacion | priority_matrix_artifact JSON | generated_test_cases_artifact JSON | Test Prioritization | No implementa pruebas Playwright |
 | Test Automation | 2 Creacion | generated_test_cases_artifact JSON | automation_artifact JSON + specs | Test Generator | No replanifica ni reprioriza |
+
+## Modo de entrada minima del Orquestador
+
+- El punto de entrada recomendado es solo `solicitud_qa`.
+- Si no existe `contexto_compartido`, el Orquestador debe autogenerarlo y validarlo contra `shared/context-schema.json`.
+- El routing solo se ejecuta despues de normalizar y validar el contexto.
 
 ## Flujo de trabajo esperado
 

@@ -1,5 +1,7 @@
 ---
 name: Test Planner
+description: Usar para estructurar plan de pruebas en suites y casos a partir del documentation_artifact.
+user-invocable: false
 layer: 1-planificacion
 role: Estructura el plan de pruebas en jerarquia Plan -> Suites -> Cases.
 inputs:

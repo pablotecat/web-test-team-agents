@@ -1,5 +1,7 @@
 ---
 name: Test Automation
+description: Usar para implementar pruebas Playwright a partir de casos automatizables y codigo base de pruebas.
+user-invocable: false
 layer: 2-creacion
 role: Implementa pruebas Playwright desde casos detallados automatizables.
 inputs:

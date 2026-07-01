@@ -1,5 +1,7 @@
 ---
 name: Test Generator
+description: Usar para generar casos de prueba detallados desde la matriz priorizada y preparar candidatos de automatizacion.
+user-invocable: false
 layer: 2-creacion
 role: Genera casos detallados a partir del plan priorizado.
 inputs:

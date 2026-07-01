@@ -1,5 +1,7 @@
 ---
 name: Test Documentation
+description: Usar para extraer y normalizar requisitos QA desde documentacion funcional, UI y API en un documentation_artifact.
+user-invocable: false
 layer: 1-planificacion
 role: Extrae y normaliza requisitos desde documentacion heterogenea.
 inputs:

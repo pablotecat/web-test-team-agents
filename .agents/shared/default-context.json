@@ -1,0 +1,65 @@
+{
+  "version": "1.0.0",
+  "workflow_id": "wf-REPLACE-ME",
+  "requested_at": "REPLACE-ISO-8601",
+  "status": "pending",
+  "request": {
+    "summary": "",
+    "scope": "UI + API",
+    "constraints": [
+      "No saltar etapas sin justificacion",
+      "Mantener workflow_id estable",
+      "Cada artifact debe incluir status y updated_by"
+    ]
+  },
+  "stages": {
+    "documentation": {
+      "status": "pending",
+      "owner_agent": "Test Documentation"
+    },
+    "planning": {
+      "status": "pending",
+      "owner_agent": "Test Planner"
+    },
+    "prioritization": {
+      "status": "pending",
+      "owner_agent": "Test Prioritization"
+    },
+    "generation": {
+      "status": "pending",
+      "owner_agent": "Test Generator"
+    },
+    "automation": {
+      "status": "pending",
+      "owner_agent": "Test Automation"
+    }
+  },
+  "artifacts": {
+    "documentation_artifact": {
+      "status": "missing",
+      "format": "json",
+      "updated_by": "orchestrator"
+    },
+    "test_plan_artifact": {
+      "status": "missing",
+      "format": "json",
+      "updated_by": "orchestrator"
+    },
+    "priority_matrix_artifact": {
+      "status": "missing",
+      "format": "json",
+      "updated_by": "orchestrator"
+    },
+    "generated_test_cases_artifact": {
+      "status": "missing",
+      "format": "json",
+      "updated_by": "orchestrator"
+    },
+    "automation_artifact": {
+      "status": "missing",
+      "format": "json",
+      "updated_by": "orchestrator"
+    }
+  },
+  "traceability": []
+}
