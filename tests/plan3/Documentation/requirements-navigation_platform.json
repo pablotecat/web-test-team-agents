@@ -1,0 +1,50 @@
+{
+  "area": "navigation_platform",
+  "file_path": "./tests/plan3/Documentation/requirements-navigation_platform.json",
+  "requirements": [
+    {
+      "id": "REQ-007",
+      "title": "Navegar entre Registro y Usuarios",
+      "description": "La aplicacion debe permitir navegar desde registro a listado y desde listado a registro mediante menu.",
+      "type": "functional",
+      "area": "navigation_platform",
+      "priority_hint": "medium",
+      "source": "public/index.html (nav), public/users.html (nav), tests/ui/navigation.spec.ts",
+      "acceptance_criteria": {
+        "given": [
+          "El usuario esta en la aplicacion web",
+          "El menu de navegacion esta visible"
+        ],
+        "when": [
+          "El usuario hace clic en Ver Usuarios o Registro"
+        ],
+        "then": [
+          "La URL cambia a /users o / segun corresponda",
+          "La pagina destino se renderiza correctamente"
+        ]
+      }
+    },
+    {
+      "id": "REQ-008",
+      "title": "Exponer API JSON con CORS y preflight",
+      "description": "El backend debe responder en JSON para endpoints API y permitir CORS con manejo de OPTIONS.",
+      "type": "non_functional",
+      "area": "navigation_platform",
+      "priority_hint": "medium",
+      "source": "server.js (headers CORS, OPTIONS, content-type JSON), tests/api/register.api.spec.ts (header content-type)",
+      "acceptance_criteria": {
+        "given": [
+          "Un cliente HTTP consume rutas bajo /api",
+          "La solicitud incluye origen cruzado o preflight"
+        ],
+        "when": [
+          "Se ejecuta una solicitud OPTIONS o request API normal"
+        ],
+        "then": [
+          "El servidor responde headers CORS esperados",
+          "Las respuestas de API usan content-type application/json"
+        ]
+      }
+    }
+  ]
+}

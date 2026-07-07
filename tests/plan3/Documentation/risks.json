@@ -1,0 +1,29 @@
+{
+  "file_path": "./tests/plan3/Documentation/risks.json",
+  "risks": [
+    {
+      "id": "RISK-001",
+      "description": "No hay persistencia: reiniciar servidor pierde usuarios en memoria.",
+      "impact": "high",
+      "likelihood": "high"
+    },
+    {
+      "id": "RISK-002",
+      "description": "No existe validacion robusta de formato email/phone en backend; posibles datos inconsistentes.",
+      "impact": "medium",
+      "likelihood": "medium"
+    },
+    {
+      "id": "RISK-003",
+      "description": "Uso de Date.now como id puede colisionar en escenarios de alta concurrencia.",
+      "impact": "medium",
+      "likelihood": "low"
+    },
+    {
+      "id": "RISK-004",
+      "description": "CORS abierto con origen * incrementa superficie para consumo no controlado de API.",
+      "impact": "medium",
+      "likelihood": "medium"
+    }
+  ]
+}

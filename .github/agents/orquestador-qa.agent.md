@@ -15,6 +15,11 @@ owned_decisions:
   - secuencia_de_ejecucion
   - invalidacion_aguas_abajo
 non_goals:
+  - generar_documentation_artifact
+  - generar_test_plan_artifact
+  - generar_priority_matrix_artifact
+  - generar_generated_test_cases_artifact
+  - generar_automation_artifact
   - crear_test_cases
   - escribir_specs_playwright
 ---
@@ -26,12 +31,44 @@ non_goals:
 Coordinar especialistas de QA para completar el flujo:
 Documentation -> Planner -> Prioritization -> Generator -> Automation.
 
+## Regla de dominio del orquestador
+
+- El orquestador coordina, enruta y sincroniza contexto; no genera artefactos de dominio especializado.
+- Esta prohibido crear manualmente `documentation_artifact`, `test_plan_artifact`, `priority_matrix_artifact`, `generated_test_cases_artifact` o `automation_artifact`.
+- Cada artefacto especializado debe ser producido por su agente propietario y reflejar `updated_by` del agente correspondiente.
+
+## Regla de inicio obligatorio
+
+- Siempre que se invoque al Orquestador QA, debe iniciar bootstrap de contexto antes de decidir routing.
+- Si llega `contexto_compartido`, validar y completar campos faltantes; si no llega, crear contexto nuevo valido.
+- Nunca se permite routing sin contexto normalizado.
+
+## Alcance solicitado del flujo
+
+- El orquestador debe ejecutar el flujo QA hasta la etapa solicitada por el usuario.
+- Si no se especifica corte, ejecutar el flujo completo hasta Automation.
+- Si se solicita una sola etapa (por ejemplo Documentation), ejecutar desde bootstrap y detenerse al completar esa etapa.
+- Si una etapa requerida depende de artefactos previos faltantes, enrutar secuencialmente por las etapas dependientes hasta alcanzar la etapa objetivo.
+
 ## Regla critica de fallos
 
 - Si un agente falla por cualquier motivo, esta prohibido completar manualmente su trabajo.
 - En cada fallo, registrar evento en log de errores del workflow.
 - Reintentar el mismo agente hasta `max_attempts: 3` (3 intentos totales, 2 reintentos).
 - Si agota intentos, abortar la orden con estado global `blocked` y documentar causas.
+
+## Mecanismo de invocacion por etapa
+
+- El orquestador debe invocar siempre al agente especializado de la etapa activa; nunca reemplazarlo con generacion manual.
+- Mapping de etapa a agente propietario:
+  - Documentation -> Test Documentation
+  - Planner -> Test Planner
+  - Prioritization -> Test Prioritization
+  - Generator -> Test Generator
+  - Automation -> Test Automation
+- Antes de invocar una etapa, validar precondiciones de artefactos de entrada.
+- Despues de invocar, validar output_contract del agente y consistencia de artefacto/etapa.
+- Si la salida no valida, registrar error y aplicar politica de retry; no completar manualmente.
 
 ## Modo de entrada minima
 
@@ -82,6 +119,8 @@ Definicion centralizada: `../skills/orquestador-qa.skills.md`.
 3. Si existe test_plan_artifact y falta clasificacion, enrutar a Test Prioritization.
 4. Si existe priority_matrix_artifact y faltan casos detallados, enrutar a Test Generator.
 5. Si existen casos automatizables y falta implementacion, enrutar a Test Automation.
+6. Respetar el `target_stage` solicitado y detener la ejecucion cuando esa etapa quede en `completed`.
+7. Si `target_stage` no se informa, asumir `target_stage = automation`.
 
 ## Regla de plan activo
 
@@ -98,6 +137,9 @@ Definicion centralizada: `../skills/orquestador-qa.skills.md`.
 - Validar que toda entrada de `error_log` apunte al mismo `workflow_id` activo.
 - Marcar `blocking_reason` explicita cuando se aborta por intentos agotados.
 - No marcar `documentation_artifact` como `ready` si falla validacion de schema.
+- Prohibido usar `updated_by: orchestrator` en artefactos especializados.
+- Si una etapa falla de forma definitiva, su artefacto debe quedar `missing` o `failed`, nunca `ready` por sustitucion manual.
+- El estado de `stages` y `artifacts` debe quedar sincronizado en cada transicion de etapa.
 
 ## Reglas de replanificacion
 
@@ -108,18 +150,20 @@ Si cambia un requisito:
 
 ## Regla de resolucion de fallos
 
-1. Detectar fallo del agente en etapa actual.
-2. Registrar error en log JSON y log textual por workflow.
-3. Reintentar el mismo agente mientras `attempt < max_attempts`.
-4. Si el siguiente intento falla, repetir registro y reintento.
-5. Si se agotan intentos, abortar orden y devolver estado `blocked`.
-6. Incluir en salida resumen de errores y motivo final de bloqueo.
+1. Detectar fallo del agente en etapa actual o invalidacion de su output_contract.
+2. Registrar error en `./tests/planN/agent-errors.json` y en `./tests/planN/logs/wf-<workflow_id>.log`.
+3. Si el error es retentable y `attempt < max_attempts`, reintentar el mismo agente con el mismo contexto normalizado.
+4. Si el error no es retentable o se agotan intentos, marcar etapa `blocked` con `blocking_reason` explicita.
+5. Marcar artefacto asociado como `missing` o `failed` y abortar la orden con `status_global: blocked`.
+6. Devolver resumen de errores, intentos realizados y motivo final de bloqueo.
+7. Bajo ningun escenario reemplazar la salida del agente con generacion manual del orquestador.
 
 ## Criterios de finalizacion
 
 - Todas las etapas implementadas en estado completed.
 - Artefactos listos o justificados como no aplicables.
 - Trazabilidad requirement -> artifact completa.
+- Si se solicito `target_stage`, el workflow puede finalizar cuando esa etapa quede `completed` y el resto permanezca `pending` o `not_applicable` con justificacion.
 
 ## Contrato de salida obligatorio
 

@@ -1,0 +1,146 @@
+{
+  "version": "1.0.0",
+  "workflow_id": "wf-qa-plan3-20260707",
+  "requested_at": "2026-07-07T00:00:00Z",
+  "status": "completed",
+  "request": {
+    "summary": "Generar la documentacion de la web y guardarla en tests/plan3.",
+    "scope": "Documentation",
+    "constraints": [
+      "Regla de plan activo: tests/plan3",
+      "No generar manualmente artefactos especializados del dominio",
+      "Ejecutar etapa Documentation con agente Test Documentation"
+    ]
+  },
+  "stages": {
+    "documentation": {
+      "status": "completed",
+      "owner_agent": "Test Documentation",
+      "started_at": "2026-07-07T00:00:00Z",
+      "finished_at": "2026-07-07T00:00:00Z"
+    },
+    "planning": {
+      "status": "pending",
+      "owner_agent": "Test Planner",
+      "started_at": null,
+      "finished_at": null
+    },
+    "prioritization": {
+      "status": "pending",
+      "owner_agent": "Test Prioritization",
+      "started_at": null,
+      "finished_at": null
+    },
+    "generation": {
+      "status": "pending",
+      "owner_agent": "Test Generator",
+      "started_at": null,
+      "finished_at": null
+    },
+    "automation": {
+      "status": "pending",
+      "owner_agent": "Test Automation",
+      "started_at": null,
+      "finished_at": null
+    }
+  },
+  "artifacts": {
+    "documentation_artifact": {
+      "status": "ready",
+      "path": "tests/plan3/documentation_artifact.json",
+      "format": "json",
+      "updated_by": "Test Documentation"
+    },
+    "test_plan_artifact": {
+      "status": "missing",
+      "path": "tests/plan3/test_plan_artifact.json",
+      "format": "json",
+      "updated_by": "Test Planner"
+    },
+    "priority_matrix_artifact": {
+      "status": "missing",
+      "path": "tests/plan3/priority_matrix_artifact.json",
+      "format": "json",
+      "updated_by": "Test Prioritization"
+    },
+    "generated_test_cases_artifact": {
+      "status": "missing",
+      "path": "tests/plan3/generated_test_cases_artifact.json",
+      "format": "json",
+      "updated_by": "Test Generator"
+    },
+    "automation_artifact": {
+      "status": "missing",
+      "path": "tests/plan3/automation_artifact.json",
+      "format": "json",
+      "updated_by": "Test Automation"
+    },
+    "process_log_artifact": {
+      "status": "ready",
+      "path": "tests/plan3/proceso.md",
+      "format": "md",
+      "updated_by": "orchestrator"
+    }
+  },
+  "retry_policy": {
+    "max_attempts": 3,
+    "backoff_strategy": "linear",
+    "retryable_error_types": [
+      "network",
+      "timeout",
+      "transient_tool_failure",
+      "schema_validation"
+    ]
+  },
+  "error_log": [],
+  "traceability": [
+    {
+      "requirement_id": "REQ-001",
+      "artifact": "documentation_artifact",
+      "agent": "Test Documentation",
+      "notes": "Registrar usuario con campos requeridos"
+    },
+    {
+      "requirement_id": "REQ-002",
+      "artifact": "documentation_artifact",
+      "agent": "Test Documentation",
+      "notes": "Telefono opcional en registro"
+    },
+    {
+      "requirement_id": "REQ-003",
+      "artifact": "documentation_artifact",
+      "agent": "Test Documentation",
+      "notes": "Validacion de name/email"
+    },
+    {
+      "requirement_id": "REQ-004",
+      "artifact": "documentation_artifact",
+      "agent": "Test Documentation",
+      "notes": "Listado y estado vacio"
+    },
+    {
+      "requirement_id": "REQ-005",
+      "artifact": "documentation_artifact",
+      "agent": "Test Documentation",
+      "notes": "Edicion desde modal"
+    },
+    {
+      "requirement_id": "REQ-006",
+      "artifact": "documentation_artifact",
+      "agent": "Test Documentation",
+      "notes": "Eliminacion con confirmacion"
+    },
+    {
+      "requirement_id": "REQ-007",
+      "artifact": "documentation_artifact",
+      "agent": "Test Documentation",
+      "notes": "Navegacion entre vistas"
+    },
+    {
+      "requirement_id": "REQ-008",
+      "artifact": "documentation_artifact",
+      "agent": "Test Documentation",
+      "notes": "API JSON con CORS/preflight"
+    }
+  ]
+}

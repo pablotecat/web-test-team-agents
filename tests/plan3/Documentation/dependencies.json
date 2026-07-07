@@ -1,0 +1,44 @@
+{
+  "file_path": "./tests/plan3/Documentation/dependencies.json",
+  "dependencies": [
+    {
+      "id": "DEP-001",
+      "title": "Listado depende de registro previo",
+      "requirement_id": "REQ-004",
+      "depends_on": [
+        "REQ-001"
+      ],
+      "description": "Para validar visualizacion de datos en tabla, debe existir al menos un usuario previamente registrado."
+    },
+    {
+      "id": "DEP-002",
+      "title": "Edicion depende de existencia de usuario",
+      "requirement_id": "REQ-005",
+      "depends_on": [
+        "REQ-001",
+        "REQ-004"
+      ],
+      "description": "No se puede editar sin un usuario creado y visible en listado."
+    },
+    {
+      "id": "DEP-003",
+      "title": "Eliminacion depende de listado y confirmacion",
+      "requirement_id": "REQ-006",
+      "depends_on": [
+        "REQ-004"
+      ],
+      "description": "La accion de eliminar se ejecuta desde la tabla y requiere interaccion de confirmacion en UI."
+    },
+    {
+      "id": "DEP-004",
+      "title": "API depende de runtime Node y puerto de escucha",
+      "requirement_id": "REQ-008",
+      "depends_on": [
+        "Node.js runtime",
+        "Puerto 3000 disponible"
+      ],
+      "description": "El comportamiento de API/CORS depende del servidor HTTP levantado correctamente.",
+      "external_reference": "README.md (Uso), server.js (const PORT = 3000)"
+    }
+  ]
+}

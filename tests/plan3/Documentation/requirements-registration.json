@@ -1,0 +1,72 @@
+{
+  "area": "registration",
+  "file_path": "./tests/plan3/Documentation/requirements-registration.json",
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "title": "Registrar usuario con campos requeridos",
+      "description": "El sistema debe permitir registrar un usuario cuando name y email estan presentes, tanto desde UI como por API.",
+      "type": "functional",
+      "area": "registration",
+      "priority_hint": "high",
+      "source": "README.md (POST /api/register), server.js (/api/register), public/index.html (campos requeridos), public/script.js (submit form), tests/api/register.api.spec.ts",
+      "acceptance_criteria": {
+        "given": [
+          "La aplicacion esta disponible en / y la API en /api/register",
+          "El usuario completa name y email validos"
+        ],
+        "when": [
+          "Se envia el formulario de registro o se ejecuta POST /api/register"
+        ],
+        "then": [
+          "La respuesta es exitosa con payload JSON",
+          "El usuario queda disponible en el almacenamiento en memoria"
+        ]
+      }
+    },
+    {
+      "id": "REQ-002",
+      "title": "Permitir telefono opcional en registro",
+      "description": "El campo phone no debe ser obligatorio para registrar un usuario.",
+      "type": "functional",
+      "area": "registration",
+      "priority_hint": "medium",
+      "source": "public/index.html (phone sin required), public/script.js (envio de phone), tests/api/register.api.spec.ts (required fields only), tests/ui/form.spec.ts",
+      "acceptance_criteria": {
+        "given": [
+          "El formulario de registro esta abierto",
+          "El usuario ingreso name y email validos"
+        ],
+        "when": [
+          "El usuario deja phone vacio y envia el formulario"
+        ],
+        "then": [
+          "El registro se procesa exitosamente",
+          "No se bloquea el flujo por ausencia de phone"
+        ]
+      }
+    },
+    {
+      "id": "REQ-003",
+      "title": "Validar obligatoriedad de name y email",
+      "description": "El sistema debe impedir el registro cuando faltan name o email, aplicando validacion en UI y respuesta de error en API.",
+      "type": "functional",
+      "area": "registration",
+      "priority_hint": "high",
+      "source": "public/index.html (required en name/email), server.js (400 Name and email are required), tests/ui/form.spec.ts, tests/api/register.api.spec.ts",
+      "acceptance_criteria": {
+        "given": [
+          "El usuario esta en la pantalla de registro",
+          "Falta name o email en los datos de entrada"
+        ],
+        "when": [
+          "Se intenta enviar el formulario o POST /api/register"
+        ],
+        "then": [
+          "La operacion no se completa como registro exitoso",
+          "La API responde error 400 con mensaje de campos requeridos"
+        ]
+      }
+    }
+  ]
+}

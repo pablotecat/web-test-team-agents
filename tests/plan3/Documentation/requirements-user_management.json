@@ -1,0 +1,72 @@
+{
+  "area": "user_management",
+  "file_path": "./tests/plan3/Documentation/requirements-user_management.json",
+  "requirements": [
+    {
+      "id": "REQ-004",
+      "title": "Listar usuarios registrados y estado vacio",
+      "description": "La pagina de usuarios debe mostrar tabla con usuarios cuando existen y mensaje de estado vacio cuando no hay registros.",
+      "type": "functional",
+      "area": "user_management",
+      "priority_hint": "high",
+      "source": "public/users.html (tabla y noUsers), public/users-script.js (loadUsers), server.js (GET /api/users)",
+      "acceptance_criteria": {
+        "given": [
+          "La pagina /users esta disponible",
+          "La API /api/users responde con arreglo de usuarios"
+        ],
+        "when": [
+          "La pagina carga y ejecuta loadUsers"
+        ],
+        "then": [
+          "Se muestra tabla con columnas de usuario cuando hay datos",
+          "Se muestra mensaje No hay usuarios registrados cuando el arreglo esta vacio"
+        ]
+      }
+    },
+    {
+      "id": "REQ-005",
+      "title": "Editar usuario existente desde modal",
+      "description": "El sistema debe permitir abrir modal de edicion, cargar datos por id y guardar cambios con PUT /api/users/:id.",
+      "type": "functional",
+      "area": "user_management",
+      "priority_hint": "high",
+      "source": "public/users.html (editModal), public/users-script.js (openEditModal, handleEditSubmit), server.js (GET/PUT /api/users/:id), tests/api/users.api.spec.ts",
+      "acceptance_criteria": {
+        "given": [
+          "Existe un usuario previamente registrado",
+          "El usuario abre la pantalla de listado"
+        ],
+        "when": [
+          "Se selecciona Editar, se modifican campos y se guarda"
+        ],
+        "then": [
+          "La API actualiza el recurso y retorna confirmacion",
+          "La UI cierra el modal y recarga la tabla con datos actualizados"
+        ]
+      }
+    },
+    {
+      "id": "REQ-006",
+      "title": "Eliminar usuario con confirmacion",
+      "description": "La interfaz debe solicitar confirmacion antes de eliminar y, al aceptar, eliminar el usuario por API y refrescar listado.",
+      "type": "functional",
+      "area": "user_management",
+      "priority_hint": "medium",
+      "source": "public/users-script.js (handleDelete), server.js (DELETE /api/users/:id)",
+      "acceptance_criteria": {
+        "given": [
+          "Existe al menos un usuario en la tabla",
+          "El usuario hace clic en Eliminar"
+        ],
+        "when": [
+          "Se confirma la accion en el dialogo de confirmacion"
+        ],
+        "then": [
+          "La API elimina el usuario y devuelve respuesta exitosa",
+          "La UI recarga el listado reflejando la eliminacion"
+        ]
+      }
+    }
+  ]
+}

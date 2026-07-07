@@ -1,0 +1,48 @@
+{
+  "plan_routing": {
+    "siguiente_agente": "none",
+    "razon_de_routing": "La etapa Documentation fue completada por Test Documentation y el usuario solicito detenerse en esta etapa.",
+    "precondiciones_validadas": [
+      "Contexto compartido bootstrap completado",
+      "Regla de plan activo configurada en tests/plan3",
+      "Etapa Documentation ejecutada y validada",
+      "documentation_artifact generado en tests/plan3"
+    ],
+    "reglas_aplicadas": [
+      "Regla de inicio obligatorio (bootstrap)",
+      "Routing por estado de artefactos",
+      "Target stage=Documentation",
+      "Criterio de finalizacion por etapa objetivo"
+    ]
+  },
+  "estado_workflow_actualizado": {
+    "status_global": "completed",
+    "stages": {
+      "documentation": "completed",
+      "planning": "pending",
+      "prioritization": "pending",
+      "generation": "pending",
+      "automation": "pending"
+    },
+    "artifacts": {
+      "documentation_artifact": "ready",
+      "test_plan_artifact": "missing",
+      "priority_matrix_artifact": "missing",
+      "generated_test_cases_artifact": "missing",
+      "automation_artifact": "missing",
+      "process_log_artifact": "ready"
+    },
+    "traceability": "partial",
+    "retry_policy": {
+      "max_attempts": 3,
+      "backoff_strategy": "linear",
+      "retryable_error_types": [
+        "network",
+        "timeout",
+        "transient_tool_failure",
+        "schema_validation"
+      ]
+    },
+    "error_log": []
+  }
+}

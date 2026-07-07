@@ -1,0 +1,73 @@
+{
+  "file_path": "./tests/plan3/Documentation/flows.json",
+  "flows": [
+    {
+      "id": "FLOW-001",
+      "name": "Registro de usuario desde formulario",
+      "acceptance_criteria": {
+        "given": [
+          "La pagina de registro esta disponible",
+          "El usuario completa name y email validos"
+        ],
+        "when": [
+          "El usuario envia el formulario"
+        ],
+        "then": [
+          "Se crea el usuario en memoria",
+          "La UI muestra mensaje de registro exitoso"
+        ]
+      }
+    },
+    {
+      "id": "FLOW-002",
+      "name": "Consulta y visualizacion del listado",
+      "acceptance_criteria": {
+        "given": [
+          "La pagina /users esta abierta",
+          "La API responde lista de usuarios"
+        ],
+        "when": [
+          "Se ejecuta la carga inicial de datos"
+        ],
+        "then": [
+          "La tabla se renderiza cuando hay usuarios",
+          "Se muestra estado vacio cuando no hay usuarios"
+        ]
+      }
+    },
+    {
+      "id": "FLOW-003",
+      "name": "Edicion de usuario existente",
+      "acceptance_criteria": {
+        "given": [
+          "Existe un usuario en el sistema",
+          "El usuario abre el modal de edicion"
+        ],
+        "when": [
+          "Se guardan cambios en el formulario de edicion"
+        ],
+        "then": [
+          "El backend actualiza el usuario por id",
+          "El listado se refresca con los datos nuevos"
+        ]
+      }
+    },
+    {
+      "id": "FLOW-004",
+      "name": "Eliminacion de usuario con confirmacion",
+      "acceptance_criteria": {
+        "given": [
+          "El usuario visualiza una fila de usuario en la tabla",
+          "Se muestra dialogo de confirmacion"
+        ],
+        "when": [
+          "El usuario confirma la eliminacion"
+        ],
+        "then": [
+          "La API elimina el usuario seleccionado",
+          "La UI recarga el listado sin el usuario eliminado"
+        ]
+      }
+    }
+  ]
+}
