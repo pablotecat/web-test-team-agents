@@ -24,7 +24,7 @@ Secuencia aplicada sin saltos:
 5. Test Automation
 
 ### 3.1 Documentation
-- Resultado: documentation_artifact.json
+- Resultado: documentation_artifact.json (legacy; el contrato actual usa Documentation/ como fuente de verdad)
 - Salida con requisitos REQ-001..REQ-025, flows, riesgos y acceptance criteria.
 
 ### 3.2 Planner
@@ -50,7 +50,7 @@ Secuencia aplicada sin saltos:
 
 ## 5) Archivos generados en tests/plan2
 - workflow_context.json
-- documentation_artifact.json
+- documentation_artifact.json (legacy; sustituido por Documentation/ en el contrato actual)
 - test_plan_artifact.json
 - priority_matrix_artifact.json
 - generated_test_cases_artifact.json

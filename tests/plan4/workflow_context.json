@@ -1,13 +1,14 @@
 {
   "version": "1.0.0",
-  "workflow_id": "wf-qa-plan3-20260707",
+  "workflow_id": "wf-qa-plan4-20260707",
   "requested_at": "2026-07-07T00:00:00Z",
   "status": "completed",
   "request": {
-    "summary": "Generar la documentacion de la web y guardarla en tests/plan3.",
+    "summary": "Generar la documentacion de esta web en tests/plan4.",
     "scope": "Documentation",
     "constraints": [
-      "Regla de plan activo: tests/plan3",
+      "Regla de plan activo: tests/plan4",
+      "Ignorar el resto de carpetas de tests/planN",
       "No generar manualmente artefactos especializados del dominio",
       "Ejecutar etapa Documentation con agente Test Documentation"
     ]
@@ -47,37 +48,37 @@
   "artifacts": {
     "documentation_directory": {
       "status": "ready",
-      "path": "tests/plan3/Documentation",
+      "path": "tests/plan4/Documentation",
       "format": "directory",
       "updated_by": "Test Documentation"
     },
     "test_plan_artifact": {
       "status": "missing",
-      "path": "tests/plan3/test_plan_artifact.json",
+      "path": "tests/plan4/test_plan_artifact.json",
       "format": "json",
       "updated_by": "Test Planner"
     },
     "priority_matrix_artifact": {
       "status": "missing",
-      "path": "tests/plan3/priority_matrix_artifact.json",
+      "path": "tests/plan4/priority_matrix_artifact.json",
       "format": "json",
       "updated_by": "Test Prioritization"
     },
     "generated_test_cases_artifact": {
       "status": "missing",
-      "path": "tests/plan3/generated_test_cases_artifact.json",
+      "path": "tests/plan4/generated_test_cases_artifact.json",
       "format": "json",
       "updated_by": "Test Generator"
     },
     "automation_artifact": {
       "status": "missing",
-      "path": "tests/plan3/automation_artifact.json",
+      "path": "tests/plan4/automation_artifact.json",
       "format": "json",
       "updated_by": "Test Automation"
     },
     "process_log_artifact": {
       "status": "ready",
-      "path": "tests/plan3/proceso.md",
+      "path": "tests/plan4/proceso.md",
       "format": "md",
       "updated_by": "orchestrator"
     }
@@ -95,52 +96,70 @@
   "error_log": [],
   "traceability": [
     {
-      "requirement_id": "REQ-001",
+      "requirement_id": "REQ-REG-001",
       "artifact": "documentation_directory",
       "agent": "Test Documentation",
-      "notes": "Registrar usuario con campos requeridos"
+      "notes": "Registro exitoso con campos obligatorios"
     },
     {
-      "requirement_id": "REQ-002",
+      "requirement_id": "REQ-REG-002",
+      "artifact": "documentation_directory",
+      "agent": "Test Documentation",
+      "notes": "Validacion de name y email requeridos"
+    },
+    {
+      "requirement_id": "REQ-REG-003",
       "artifact": "documentation_directory",
       "agent": "Test Documentation",
       "notes": "Telefono opcional en registro"
     },
     {
-      "requirement_id": "REQ-003",
+      "requirement_id": "REQ-REG-004",
       "artifact": "documentation_directory",
       "agent": "Test Documentation",
-      "notes": "Validacion de name/email"
+      "notes": "Feedback visual de alta en UI"
     },
     {
-      "requirement_id": "REQ-004",
+      "requirement_id": "REQ-UM-001",
       "artifact": "documentation_directory",
       "agent": "Test Documentation",
-      "notes": "Listado y estado vacio"
+      "notes": "Listado de usuarios"
     },
     {
-      "requirement_id": "REQ-005",
+      "requirement_id": "REQ-UM-002",
       "artifact": "documentation_directory",
       "agent": "Test Documentation",
-      "notes": "Edicion desde modal"
+      "notes": "Consulta de usuario por id"
     },
     {
-      "requirement_id": "REQ-006",
+      "requirement_id": "REQ-UM-003",
       "artifact": "documentation_directory",
       "agent": "Test Documentation",
-      "notes": "Eliminacion con confirmacion"
+      "notes": "Edicion de usuario"
     },
     {
-      "requirement_id": "REQ-007",
+      "requirement_id": "REQ-UM-004",
+      "artifact": "documentation_directory",
+      "agent": "Test Documentation",
+      "notes": "Eliminacion de usuario"
+    },
+    {
+      "requirement_id": "REQ-NAV-001",
       "artifact": "documentation_directory",
       "agent": "Test Documentation",
       "notes": "Navegacion entre vistas"
     },
     {
-      "requirement_id": "REQ-008",
+      "requirement_id": "REQ-NAV-002",
       "artifact": "documentation_directory",
       "agent": "Test Documentation",
-      "notes": "API JSON con CORS/preflight"
+      "notes": "Ruteo server para vistas principales"
+    },
+    {
+      "requirement_id": "REQ-NAV-003",
+      "artifact": "documentation_directory",
+      "agent": "Test Documentation",
+      "notes": "Soporte CORS y preflight"
     }
   ]
 }

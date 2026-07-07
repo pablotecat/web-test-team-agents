@@ -1,0 +1,69 @@
+{
+  "file_path": "tests/plan4/Documentation/risks.json",
+  "risks": [
+    {
+      "id": "RISK-001",
+      "title": "Validacion de email solo en cliente",
+      "description": "El backend no valida formato de email, por lo que clientes API pueden persistir emails invalidos.",
+      "type": "functional",
+      "severity": "high",
+      "probability": "medium",
+      "related_requirements": [
+        "REQ-REG-001",
+        "REQ-REG-002"
+      ],
+      "mitigation": "Agregar validacion de formato de email en POST y PUT con pruebas API negativas activas."
+    },
+    {
+      "id": "RISK-002",
+      "title": "Persistencia en memoria volatil",
+      "description": "Los usuarios se guardan en memoria y se pierden al reiniciar el servidor.",
+      "type": "functional",
+      "severity": "high",
+      "probability": "high",
+      "related_requirements": [
+        "REQ-UM-001",
+        "REQ-UM-004"
+      ],
+      "mitigation": "Migrar almacenamiento a base de datos o archivo con estrategia de backup."
+    },
+    {
+      "id": "RISK-003",
+      "title": "CORS abierto a cualquier origen",
+      "description": "Access-Control-Allow-Origin=* permite consumo desde cualquier dominio.",
+      "type": "non_functional",
+      "severity": "medium",
+      "probability": "high",
+      "related_requirements": [
+        "REQ-NAV-003"
+      ],
+      "mitigation": "Restringir origenes permitidos por entorno y agregar pruebas de seguridad."
+    },
+    {
+      "id": "RISK-004",
+      "title": "Cobertura incompleta de casos negativos en API",
+      "description": "Varias pruebas negativas estan marcadas como skip y pueden ocultar regresiones.",
+      "type": "non_functional",
+      "severity": "medium",
+      "probability": "medium",
+      "related_requirements": [
+        "REQ-REG-002",
+        "REQ-UM-004"
+      ],
+      "mitigation": "Habilitar y corregir tests skip para validaciones de formato y borrado."
+    },
+    {
+      "id": "RISK-005",
+      "title": "Posible colision de id por Date.now",
+      "description": "El id se genera con Date.now y puede colisionar en registros concurrentes.",
+      "type": "functional",
+      "severity": "medium",
+      "probability": "low",
+      "related_requirements": [
+        "REQ-REG-001",
+        "REQ-UM-002"
+      ],
+      "mitigation": "Usar generador de id robusto y agregar test de concurrencia."
+    }
+  ]
+}

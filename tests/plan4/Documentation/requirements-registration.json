@@ -1,0 +1,99 @@
+{
+  "area": "registration",
+  "file_path": "tests/plan4/Documentation/requirements-registration.json",
+  "requirements": [
+    {
+      "id": "REQ-REG-001",
+      "title": "Registro exitoso con campos obligatorios",
+      "description": "El sistema debe registrar un usuario cuando name y email son enviados en POST /api/register.",
+      "acceptance_criteria": {
+        "given": [
+          "Existe un cliente con acceso a POST /api/register",
+          "El payload contiene name no vacio y email no vacio"
+        ],
+        "when": [
+          "Se envia la solicitud de registro"
+        ],
+        "then": [
+          "La respuesta HTTP es 200",
+          "La respuesta incluye success=true y message",
+          "La respuesta incluye user con id, name, email y registeredAt"
+        ]
+      },
+      "source_traceability": [
+        "server.js:141",
+        "tests/api/register.api.spec.ts:6",
+        "public/script.js:12"
+      ]
+    },
+    {
+      "id": "REQ-REG-002",
+      "title": "Campos requeridos name y email",
+      "description": "El backend debe rechazar el registro cuando falta name o email.",
+      "acceptance_criteria": {
+        "given": [
+          "Existe un cliente con acceso a POST /api/register",
+          "El payload no contiene name o no contiene email"
+        ],
+        "when": [
+          "Se envia la solicitud de registro"
+        ],
+        "then": [
+          "La respuesta HTTP es 400",
+          "La respuesta contiene error=Name and email are required"
+        ]
+      },
+      "source_traceability": [
+        "server.js:146",
+        "tests/api/register.api.spec.ts:54"
+      ]
+    },
+    {
+      "id": "REQ-REG-003",
+      "title": "Campo phone opcional",
+      "description": "El registro debe permitir envio sin phone manteniendo alta exitosa.",
+      "acceptance_criteria": {
+        "given": [
+          "Existe un cliente con acceso a POST /api/register",
+          "El payload contiene name y email pero no phone"
+        ],
+        "when": [
+          "Se envia la solicitud de registro"
+        ],
+        "then": [
+          "La respuesta HTTP es 200",
+          "La respuesta incluye user.phone nulo, vacio o ausente sin error"
+        ]
+      },
+      "source_traceability": [
+        "server.js:154",
+        "tests/api/register.api.spec.ts:16",
+        "tests/ui/form.spec.ts:18"
+      ]
+    },
+    {
+      "id": "REQ-REG-004",
+      "title": "Feedback visual de registro en UI",
+      "description": "La UI de registro debe mostrar confirmacion visible en caso exitoso y limpiar el formulario.",
+      "acceptance_criteria": {
+        "given": [
+          "El usuario esta en la pagina de registro",
+          "Ingresa name y email validos"
+        ],
+        "when": [
+          "Presiona el boton Registrarse"
+        ],
+        "then": [
+          "Se muestra mensaje de exito en el contenedor message",
+          "El formulario se resetea",
+          "El mensaje se limpia automaticamente despues de unos segundos"
+        ]
+      },
+      "source_traceability": [
+        "public/index.html:12",
+        "public/script.js:22",
+        "tests/ui/form.spec.ts:8"
+      ]
+    }
+  ]
+}

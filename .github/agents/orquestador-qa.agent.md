@@ -15,7 +15,7 @@ owned_decisions:
   - secuencia_de_ejecucion
   - invalidacion_aguas_abajo
 non_goals:
-  - generar_documentation_artifact
+  - generar_documentation_directory
   - generar_test_plan_artifact
   - generar_priority_matrix_artifact
   - generar_generated_test_cases_artifact
@@ -34,7 +34,7 @@ Documentation -> Planner -> Prioritization -> Generator -> Automation.
 ## Regla de dominio del orquestador
 
 - El orquestador coordina, enruta y sincroniza contexto; no genera artefactos de dominio especializado.
-- Esta prohibido crear manualmente `documentation_artifact`, `test_plan_artifact`, `priority_matrix_artifact`, `generated_test_cases_artifact` o `automation_artifact`.
+- Esta prohibido crear manualmente `documentation_directory`, `test_plan_artifact`, `priority_matrix_artifact`, `generated_test_cases_artifact` o `automation_artifact`.
 - Cada artefacto especializado debe ser producido por su agente propietario y reflejar `updated_by` del agente correspondiente.
 
 ## Regla de inicio obligatorio
@@ -108,14 +108,14 @@ Definicion centralizada: `../skills/orquestador-qa.skills.md`.
 1. Generar `workflow_id` estable para toda la ejecucion.
 2. Inicializar `status` global en `pending`.
 3. Crear `stages` completos con owner por etapa y estado inicial `pending`.
-4. Crear `artifacts` completos con `status: missing`, `format: json` y `updated_by` inicial.
+4. Crear `artifacts` completos con `status: missing`, `path`, `format` apropiado y `updated_by` inicial.
 5. Construir bloque `request` desde `solicitud_qa` con `summary`, `scope` y `constraints` base.
 6. Validar estructura final contra `../../.agents/shared/context-schema.json` antes de enrutar.
 
 ## Reglas de routing
 
 1. Si la entrada no esta normalizada, iniciar con Test Documentation.
-2. Si existe documentation_artifact, validar contra `../../.agents/shared/documentation-artifact.schema.json`; solo si valida y falta estructura, enrutar a Test Planner.
+2. Si existe `documentation_directory`, validar que `./tests/planN/Documentation` contenga `requirements-*.json`, `flows.json`, `risks.json`, `dependencies.json` y `summary.md`; solo si cumple, enrutar a Test Planner.
 3. Si existe test_plan_artifact y falta clasificacion, enrutar a Test Prioritization.
 4. Si existe priority_matrix_artifact y faltan casos detallados, enrutar a Test Generator.
 5. Si existen casos automatizables y falta implementacion, enrutar a Test Automation.
@@ -136,7 +136,7 @@ Definicion centralizada: `../skills/orquestador-qa.skills.md`.
 - Mantener sincronizados `status` de etapa y estado de artifact asociado.
 - Validar que toda entrada de `error_log` apunte al mismo `workflow_id` activo.
 - Marcar `blocking_reason` explicita cuando se aborta por intentos agotados.
-- No marcar `documentation_artifact` como `ready` si falla validacion de schema.
+- No marcar `documentation_directory` como `ready` si faltan archivos minimos requeridos en `Documentation`.
 - Prohibido usar `updated_by: orchestrator` en artefactos especializados.
 - Si una etapa falla de forma definitiva, su artefacto debe quedar `missing` o `failed`, nunca `ready` por sustitucion manual.
 - El estado de `stages` y `artifacts` debe quedar sincronizado en cada transicion de etapa.

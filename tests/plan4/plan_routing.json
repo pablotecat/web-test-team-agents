@@ -1,16 +1,17 @@
 {
   "plan_routing": {
     "siguiente_agente": "none",
-    "razon_de_routing": "La etapa Documentation fue completada por Test Documentation y el usuario solicito detenerse en esta etapa.",
+    "razon_de_routing": "La etapa Documentation fue completada por Test Documentation y la solicitud indica detenerse en documentacion.",
     "precondiciones_validadas": [
       "Contexto compartido bootstrap completado",
-      "Regla de plan activo configurada en tests/plan3",
-      "Etapa Documentation ejecutada y validada",
-      "Documentation completo en tests/plan3/Documentation"
+      "Plan activo establecido en tests/plan4",
+      "Output de Test Documentation recibido y validado",
+      "Documentacion minima presente en tests/plan4/Documentation"
     ],
     "reglas_aplicadas": [
       "Regla de inicio obligatorio (bootstrap)",
-      "Routing por estado de artefactos",
+      "Mapping Documentation -> Test Documentation",
+      "Regla de plan activo",
       "Target stage=Documentation",
       "Criterio de finalizacion por etapa objetivo"
     ]

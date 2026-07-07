@@ -21,7 +21,7 @@ Validar que cada ejecucion del Orquestador QA cumpla bootstrap obligatorio, enru
 
 ## Controles de dominio
 
-- El orquestador no crea manualmente `documentation_artifact`.
+- El orquestador no crea manualmente `documentation_directory` ni archivos dentro de `Documentation`.
 - El orquestador no crea manualmente `test_plan_artifact`.
 - El orquestador no crea manualmente `priority_matrix_artifact`.
 - El orquestador no crea manualmente `generated_test_cases_artifact`.

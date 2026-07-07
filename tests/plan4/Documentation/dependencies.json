@@ -1,0 +1,89 @@
+{
+  "file_path": "tests/plan4/Documentation/dependencies.json",
+  "dependencies": [
+    {
+      "id": "DEP-TECH-001",
+      "title": "Node.js runtime para servidor HTTP",
+      "type": "external_technical",
+      "depends_on": [],
+      "impacts": [
+        "REQ-REG-001",
+        "REQ-UM-001",
+        "REQ-NAV-002"
+      ],
+      "description": "El backend usa modulos nativos http, fs, path y url en Node.js para API y estaticos.",
+      "evidence": [
+        "server.js:1",
+        "package.json:6"
+      ]
+    },
+    {
+      "id": "DEP-TECH-002",
+      "title": "Frontend browser APIs fetch y DOM",
+      "type": "external_technical",
+      "depends_on": [],
+      "impacts": [
+        "REQ-REG-004",
+        "REQ-UM-001",
+        "REQ-UM-003",
+        "REQ-UM-004"
+      ],
+      "description": "El cliente usa fetch para consumir API y eventos DOM para interacciones de formulario y tabla.",
+      "evidence": [
+        "public/script.js:12",
+        "public/users-script.js:27"
+      ]
+    },
+    {
+      "id": "DEP-TECH-003",
+      "title": "Playwright Test para validacion UI y API",
+      "type": "external_technical",
+      "depends_on": [],
+      "impacts": [
+        "REQ-REG-001",
+        "REQ-NAV-001",
+        "REQ-UM-003"
+      ],
+      "description": "La automatizacion usa Playwright para ejecutar specs API y UI en multiples navegadores.",
+      "evidence": [
+        "playwright.config.ts:1",
+        "tests/api/register.api.spec.ts:1",
+        "tests/ui/navigation.spec.ts:1",
+        "package.json:16"
+      ]
+    },
+    {
+      "id": "DEP-REQ-001",
+      "title": "Edicion depende de consulta por id",
+      "type": "internal_requirement",
+      "depends_on": [
+        "REQ-UM-002"
+      ],
+      "impacts": [
+        "REQ-UM-003"
+      ],
+      "description": "El flujo de edicion necesita cargar datos actuales con GET /api/users/:id antes de PUT.",
+      "evidence": [
+        "public/users-script.js:68"
+      ]
+    },
+    {
+      "id": "DEP-REQ-002",
+      "title": "Listado depende de registro",
+      "type": "internal_requirement",
+      "depends_on": [
+        "REQ-REG-001"
+      ],
+      "impacts": [
+        "REQ-UM-001",
+        "REQ-UM-002",
+        "REQ-UM-004"
+      ],
+      "description": "Para ver, editar o eliminar usuarios se requiere que existan altas previas en memoria.",
+      "evidence": [
+        "server.js:159",
+        "server.js:172"
+      ]
+    }
+  ]
+}

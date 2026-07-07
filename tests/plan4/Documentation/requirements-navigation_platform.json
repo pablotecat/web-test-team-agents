@@ -1,0 +1,72 @@
+{
+  "area": "navigation_platform",
+  "file_path": "tests/plan4/Documentation/requirements-navigation_platform.json",
+  "requirements": [
+    {
+      "id": "REQ-NAV-001",
+      "title": "Navegacion entre Registro y Ver Usuarios",
+      "description": "La plataforma debe permitir navegacion bidireccional entre / y /users desde el menu.",
+      "acceptance_criteria": {
+        "given": [
+          "El usuario se encuentra en pagina de registro o pagina de usuarios",
+          "El menu de navegacion esta visible"
+        ],
+        "when": [
+          "Hace click en el enlace del destino"
+        ],
+        "then": [
+          "La URL cambia al destino esperado",
+          "La pagina de destino se renderiza sin error"
+        ]
+      },
+      "source_traceability": [
+        "public/index.html:31",
+        "public/users.html:33",
+        "tests/ui/navigation.spec.ts:8"
+      ]
+    },
+    {
+      "id": "REQ-NAV-002",
+      "title": "Ruteo server para vistas principales",
+      "description": "El servidor debe resolver / a index.html y /users a users.html.",
+      "acceptance_criteria": {
+        "given": [
+          "El servidor esta en ejecucion"
+        ],
+        "when": [
+          "Se solicita GET / o GET /users"
+        ],
+        "then": [
+          "GET / retorna la vista de formulario",
+          "GET /users retorna la vista de listado"
+        ]
+      },
+      "source_traceability": [
+        "server.js:186",
+        "public/index.html:1",
+        "public/users.html:1"
+      ]
+    },
+    {
+      "id": "REQ-NAV-003",
+      "title": "Manejo basico CORS y preflight",
+      "description": "El backend debe responder headers CORS y solicitudes OPTIONS para permitir consumo desde cliente web.",
+      "acceptance_criteria": {
+        "given": [
+          "Una solicitud HTTP hacia el servidor"
+        ],
+        "when": [
+          "La solicitud incluye origen cruzado o metodo OPTIONS"
+        ],
+        "then": [
+          "La respuesta contiene Access-Control-Allow-Origin y metodos permitidos",
+          "OPTIONS retorna 200 sin procesar logica de negocio"
+        ]
+      },
+      "source_traceability": [
+        "server.js:56",
+        "server.js:61"
+      ]
+    }
+  ]
+}

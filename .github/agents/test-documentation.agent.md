@@ -1,6 +1,6 @@
 ---
 name: Test Documentation
-description: Usar para extraer y normalizar requisitos QA desde documentacion funcional, UI y API en un documentation_artifact.
+description: Usar para extraer y normalizar requisitos QA desde documentacion funcional, UI y API en entregables particionados dentro de Documentation.
 user-invocable: false
 layer: 1-planificacion
 role: Extrae y normaliza requisitos desde documentacion heterogenea.
@@ -9,11 +9,11 @@ inputs:
   - README
   - especificaciones_UI_API
 outputs:
-  - documentation_artifact
+  - documentation_directory
 input_contract:
   - texto libre, markdown, especificaciones y codigo relevante
 output_contract:
-  - JSON manifest con archivos particionados de requisitos, flujos, riesgos, dependencias y resumen
+  - Directorio `Documentation` con archivos particionados de requisitos, flujos, riesgos, dependencias y resumen
 non_goals:
   - disenar suites
   - asignar prioridad
@@ -23,7 +23,7 @@ non_goals:
 
 ## Objetivo
 
-Construir un artefacto de documentacion QA consumible por Test Planner.
+Construir entregables de documentacion QA consumibles por Test Planner sin generar un JSON agregador duplicado.
 
 ## Regla de salida documental por plan activo
 
@@ -56,26 +56,21 @@ Definicion centralizada: `../skills/test-documentation.skills.md`.
 
 1. Extraer funcionalidades, reglas de negocio y validaciones.
 2. Identificar endpoints y contratos visibles para QA.
-3. Normalizar en un JSON con ids de requisito.
+3. Normalizar la documentacion con ids de requisito consistentes entre archivos.
 4. Marcar ambiguedades para refinamiento.
 5. Agrupar requirements por area y generar `requirements-<area_slug>.json` por cada area dentro de `./tests/planN/Documentation`.
 6. Generar archivos separados `flows.json`, `risks.json` y `dependencies.json` dentro de `./tests/planN/Documentation`.
 7. Generar `summary.md` con listas de Requirements, Flows, Risks y Dependencies mostrando `id` y `title`.
-8. Validar que `documentation_artifact.json` cumpla `../../.agents/shared/documentation-artifact.schema.json`.
+8. Validar que existan los archivos minimos requeridos dentro de `./tests/planN/Documentation`.
 
 ## Formato minimo de salida
 
-- artifact_type: documentation_artifact
-- version: string
-- workflow_id: string
-- summary: string
-- application_under_test: objeto con `name`, `type`, `stack[]`, `entry_points[]`
 - output_directory: `./tests/planN/Documentation`
-- requirements_by_area: array con `area`, `file_path`, `requirements[]`
-- flows_file: objeto con `file_path`, `flows[]`
-- risks_file: objeto con `file_path`, `risks[]`
-- dependencies_file: objeto con `file_path`, `dependencies[]`
-- summary_markdown: objeto con `file_path` y secciones `requirements`, `flows`, `risks`, `dependencies` con items `id` y `title`
+- `requirements-<area_slug>.json`: uno o mas archivos, cada uno con `area`, `file_path` y `requirements[]`
+- `flows.json`: objeto con `file_path` y `flows[]`
+- `risks.json`: objeto con `file_path` y `risks[]`
+- `dependencies.json`: objeto con `file_path` y `dependencies[]`
+- `summary.md`: resumen con listas de Requirements, Flows, Risks y Dependencies mostrando `id` y `title`
 
 ## Regla de acceptance criteria
 
@@ -93,5 +88,5 @@ Definicion centralizada: `../skills/test-documentation.skills.md`.
 - Salida valida para consumo de Test Planner.
 - Existen archivos `requirements-<area_slug>.json`, `flows.json`, `risks.json`, `dependencies.json` y `summary.md` en `./tests/planN/Documentation`.
 - `summary.md` incluye listas de Requirements, Flows, Risks y Dependencies con `id` y `title`.
-- `dependencies_file.dependencies[]` refleja dependencias entre requirements locales o externos.
-- La salida valida contra `../../.agents/shared/documentation-artifact.schema.json`.
+- `dependencies.json` refleja dependencias entre requirements locales o externos.
+- No se genera `documentation_artifact.json` en ejecuciones normales.

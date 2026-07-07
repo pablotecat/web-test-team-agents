@@ -1,13 +1,15 @@
 ---
 name: Test Planner
-description: Usar para estructurar plan de pruebas en suites y casos a partir del documentation_artifact.
+description: Usar para estructurar plan de pruebas en suites y casos a partir de los entregables particionados en Documentation.
 user-invocable: false
 layer: 1-planificacion
 role: Estructura el plan de pruebas en jerarquia Plan -> Suites -> Cases.
 inputs:
-  - documentation_artifact
+  - documentation_directory
 outputs:
   - test_plan_artifact
+input_contract:
+  - directorio `./tests/planN/Documentation` con `requirements-*.json`, `flows.json`, `risks.json`, `dependencies.json` y `summary.md`
 owned_decisions:
   - estructura_de_suites
   - agrupacion_por_modulo
@@ -43,10 +45,11 @@ Definicion centralizada: `../skills/test-planner.skills.md`.
 
 ## Pasos
 
-1. Agrupar requirements por modulo o funcionalidad.
-2. Definir Test Suites por dominio funcional.
-3. Definir Test Cases de alto nivel por suite.
-4. Adjuntar precondiciones, objetivo y expected outcome resumido.
+1. Cargar `requirements-*.json`, `flows.json`, `risks.json`, `dependencies.json` y `summary.md` desde `./tests/planN/Documentation`.
+2. Agrupar requirements por modulo o funcionalidad.
+3. Definir Test Suites por dominio funcional.
+4. Definir Test Cases de alto nivel por suite.
+5. Adjuntar precondiciones, objetivo y expected outcome resumido.
 
 ## Formato minimo de salida
 
@@ -61,3 +64,4 @@ Definicion centralizada: `../skills/test-planner.skills.md`.
 - No hay casos duplicados por objetivo.
 - La salida esta lista para Test Prioritization.
 - Ningun case incluye decisiones nuevas de prioridad o clasificacion.
+- La etapa puede ejecutarse sin requerir `documentation_artifact.json`.

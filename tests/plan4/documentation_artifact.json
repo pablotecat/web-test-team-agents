@@ -1,0 +1,24 @@
+{
+  "plan": "plan4",
+  "output_directory": "tests/plan4/Documentation",
+  "generated_at": "2026-07-07",
+  "files": [
+    "tests/plan4/Documentation/requirements-registration.json",
+    "tests/plan4/Documentation/requirements-user_management.json",
+    "tests/plan4/Documentation/requirements-navigation_platform.json",
+    "tests/plan4/Documentation/flows.json",
+    "tests/plan4/Documentation/risks.json",
+    "tests/plan4/Documentation/dependencies.json",
+    "tests/plan4/Documentation/summary.md"
+  ],
+  "counts": {
+    "requirements": 11,
+    "flows": 5,
+    "risks": 5,
+    "dependencies": 5
+  },
+  "notes": [
+    "No files were generated in plan1, plan2, or plan3.",
+    "All acceptance_criteria objects in requirements and flows use given/when/then arrays."
+  ]
+}

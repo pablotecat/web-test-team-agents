@@ -57,7 +57,7 @@ Accion tomada:
 - Se completo manualmente generated_test_cases_artifact con 18 casos detallados y mapeo completo a requirements.
 
 ## 5. Artefactos generados en tests/plan1
-1. tests/plan1/documentation_artifact.json
+1. tests/plan1/documentation_artifact.json (legacy; reemplazado por Documentation/ como fuente de verdad en el contrato actual)
 2. tests/plan1/test_plan_artifact.json
 3. tests/plan1/priority_matrix_artifact.json
 4. tests/plan1/generated_test_cases_artifact.json

@@ -26,8 +26,8 @@ No implementados por ahora (placeholders sin logica):
 | Agente | Capa | Entrada principal | Salida principal | Dependencias | Limites |
 |---|---|---|---|---|---|
 | Orquestador | 0 | solicitud_qa (minimo) + contexto workflow (opcional) | Routing, plan de ejecucion por etapas, estado normalizado | Todos los implementados | No crea casos ni tests directamente |
-| Test Documentation | 1 Planificacion | Documentacion funcional, API, UI, historias | documentation_artifact JSON | Orquestador | No define suites ni prioridades |
-| Test Planner | 1 Planificacion | documentation_artifact JSON | test_plan_artifact JSON | Test Documentation | No clasifica Smoke/Regresion/Automatizacion |
+| Test Documentation | 1 Planificacion | Documentacion funcional, API, UI, historias | Documentation directory particionado | Orquestador | No define suites ni prioridades |
+| Test Planner | 1 Planificacion | Documentation directory particionado | test_plan_artifact JSON | Test Documentation | No clasifica Smoke/Regresion/Automatizacion |
 | Test Prioritization | 1 Planificacion | test_plan_artifact JSON | priority_matrix_artifact JSON | Test Planner | No escribe codigo de tests |
 | Test Generator | 2 Creacion | priority_matrix_artifact JSON | generated_test_cases_artifact JSON | Test Prioritization | No implementa pruebas Playwright |
 | Test Automation | 2 Creacion | generated_test_cases_artifact JSON | automation_artifact JSON + specs | Test Generator | No replanifica ni reprioriza |
@@ -51,7 +51,7 @@ No implementados por ahora (placeholders sin logica):
 ## Contrato de intercambio
 
 - Todos los handoffs entre agentes usan JSON segun shared/context-schema.json.
-- El artefacto `documentation_artifact` debe validar contra `../.agents/shared/documentation-artifact.schema.json`.
+- La etapa Documentation se considera lista cuando existen los archivos minimos requeridos dentro de `./tests/planN/Documentation`.
 - Cada agente debe declarar:
   - input_contract
   - output_contract

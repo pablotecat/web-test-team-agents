@@ -1,0 +1,100 @@
+{
+  "area": "user_management",
+  "file_path": "tests/plan4/Documentation/requirements-user_management.json",
+  "requirements": [
+    {
+      "id": "REQ-UM-001",
+      "title": "Listado de usuarios registrados",
+      "description": "El sistema debe exponer GET /api/users y la UI users debe renderizar la tabla con resultados.",
+      "acceptance_criteria": {
+        "given": [
+          "Existen usuarios registrados en memoria",
+          "El usuario abre la vista /users"
+        ],
+        "when": [
+          "La UI solicita GET /api/users"
+        ],
+        "then": [
+          "La respuesta HTTP es 200 con JSON array",
+          "La tabla muestra filas con id, name, email, phone y registeredAt",
+          "Cuando no hay usuarios se muestra mensaje No hay usuarios registrados"
+        ]
+      },
+      "source_traceability": [
+        "server.js:172",
+        "public/users-script.js:27",
+        "public/users.html:13"
+      ]
+    },
+    {
+      "id": "REQ-UM-002",
+      "title": "Consulta de usuario por id",
+      "description": "El sistema debe permitir consultar usuario individual por GET /api/users/:id y responder 404 si no existe.",
+      "acceptance_criteria": {
+        "given": [
+          "Existe un id de usuario valido o invalido"
+        ],
+        "when": [
+          "Se envia GET /api/users/:id"
+        ],
+        "then": [
+          "Si existe el id, la respuesta HTTP es 200 con los datos del usuario",
+          "Si no existe el id, la respuesta HTTP es 404 con error User not found"
+        ]
+      },
+      "source_traceability": [
+        "server.js:69",
+        "tests/api/users.api.spec.ts:12",
+        "public/users-script.js:70"
+      ]
+    },
+    {
+      "id": "REQ-UM-003",
+      "title": "Edicion de usuario",
+      "description": "La UI debe permitir editar usuario y persistir cambios via PUT /api/users/:id con name y email requeridos.",
+      "acceptance_criteria": {
+        "given": [
+          "Existe un usuario en listado",
+          "El usuario abre modal de edicion"
+        ],
+        "when": [
+          "Ingresa datos validos y envia el formulario de edicion"
+        ],
+        "then": [
+          "Se envia PUT /api/users/:id con body JSON",
+          "La respuesta HTTP es 200 y message User updated successfully",
+          "La tabla se refresca y refleja los cambios"
+        ]
+      },
+      "source_traceability": [
+        "server.js:84",
+        "public/users-script.js:92",
+        "tests/api/users.api.spec.ts:33"
+      ]
+    },
+    {
+      "id": "REQ-UM-004",
+      "title": "Eliminacion de usuario",
+      "description": "La UI debe permitir eliminar usuario con confirmacion previa y backend debe removerlo via DELETE /api/users/:id.",
+      "acceptance_criteria": {
+        "given": [
+          "Existe un usuario en listado",
+          "El usuario confirma la accion de eliminar"
+        ],
+        "when": [
+          "Se ejecuta DELETE /api/users/:id"
+        ],
+        "then": [
+          "La respuesta HTTP es 200 y message User deleted successfully",
+          "El usuario ya no aparece en la tabla",
+          "Si el id no existe, la respuesta HTTP es 404"
+        ]
+      },
+      "source_traceability": [
+        "server.js:120",
+        "public/users-script.js:120",
+        "public/users.html:22"
+      ]
+    }
+  ]
+}

@@ -31,13 +31,13 @@
 ## Skill 6: Mapeo de dependencias
 
 - Identificar dependencias entre funcionalidades.
-- Incluir `dependencies` en `documentation_artifact`.
+- Incluir `dependencies` en `dependencies.json`.
 - Aportar contexto para priorizacion basada en impacto cruzado.
 - Modelar dependencias por requirement con `id`, `title`, `requirement_id`, `depends_on[]`, `description` y `external_reference` opcional.
 
 ## Reglas de formato obligatorias
 
-- El JSON final debe validar contra `../../.agents/shared/documentation-artifact.schema.json`.
 - `acceptance_criteria` de nivel raiz no debe existir.
 - Cada `flow` debe incluir `acceptance_criteria` Gherkin (`given[]`, `when[]`, `then[]`).
 - La salida debe usar estructura particionada por archivos dentro de `./tests/planN/Documentation`.
+- No se debe generar `documentation_artifact.json` en ejecuciones normales.

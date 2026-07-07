@@ -12,5 +12,5 @@
 5. Cierre de workflow en etapa objetivo (Documentation).
 
 ## Resultado
-- `documentation_artifact.json`: ready
+- `Documentation/`: ready
 - Etapas restantes: pending (fuera de alcance solicitado)

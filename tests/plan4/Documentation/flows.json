@@ -1,0 +1,143 @@
+{
+  "file_path": "tests/plan4/Documentation/flows.json",
+  "flows": [
+    {
+      "id": "FLOW-001",
+      "title": "Registro de usuario desde formulario",
+      "description": "Usuario completa formulario de registro y obtiene confirmacion.",
+      "related_requirements": [
+        "REQ-REG-001",
+        "REQ-REG-003",
+        "REQ-REG-004"
+      ],
+      "acceptance_criteria": {
+        "given": [
+          "El usuario abre la pagina de registro",
+          "El formulario presenta campos name, email y phone"
+        ],
+        "when": [
+          "Completa name y email validos",
+          "Envia el formulario"
+        ],
+        "then": [
+          "Se invoca POST /api/register",
+          "Se muestra mensaje de registro exitoso",
+          "El formulario se limpia"
+        ]
+      },
+      "source_traceability": [
+        "public/index.html:12",
+        "public/script.js:8",
+        "tests/ui/form.spec.ts:8"
+      ]
+    },
+    {
+      "id": "FLOW-002",
+      "title": "Consulta de listado de usuarios",
+      "description": "Usuario navega a vista de usuarios y visualiza listado o estado vacio.",
+      "related_requirements": [
+        "REQ-UM-001",
+        "REQ-NAV-001"
+      ],
+      "acceptance_criteria": {
+        "given": [
+          "El usuario se encuentra en la aplicacion",
+          "Existe acceso al menu de navegacion"
+        ],
+        "when": [
+          "Navega a Ver Usuarios"
+        ],
+        "then": [
+          "La UI consulta GET /api/users",
+          "Muestra tabla con usuarios cuando hay datos",
+          "Muestra mensaje No hay usuarios registrados cuando no hay datos"
+        ]
+      },
+      "source_traceability": [
+        "public/users.html:10",
+        "public/users-script.js:27",
+        "tests/ui/navigation.spec.ts:8"
+      ]
+    },
+    {
+      "id": "FLOW-003",
+      "title": "Edicion de usuario desde modal",
+      "description": "Usuario abre modal de edicion, actualiza datos y confirma cambios.",
+      "related_requirements": [
+        "REQ-UM-002",
+        "REQ-UM-003"
+      ],
+      "acceptance_criteria": {
+        "given": [
+          "Existe al menos un usuario en tabla",
+          "El boton Editar esta visible"
+        ],
+        "when": [
+          "El usuario abre modal y envia cambios validos"
+        ],
+        "then": [
+          "La UI hace GET /api/users/:id para precarga",
+          "La UI hace PUT /api/users/:id",
+          "Se cierra modal y se refresca el listado"
+        ]
+      },
+      "source_traceability": [
+        "public/users-script.js:68",
+        "public/users-script.js:92",
+        "tests/api/users.api.spec.ts:33"
+      ]
+    },
+    {
+      "id": "FLOW-004",
+      "title": "Eliminacion de usuario con confirmacion",
+      "description": "Usuario elimina un registro desde la tabla luego de aceptar confirm dialog.",
+      "related_requirements": [
+        "REQ-UM-004"
+      ],
+      "acceptance_criteria": {
+        "given": [
+          "Existe al menos un usuario en tabla",
+          "El boton Eliminar esta visible"
+        ],
+        "when": [
+          "El usuario confirma la eliminacion"
+        ],
+        "then": [
+          "La UI envia DELETE /api/users/:id",
+          "Se notifica eliminacion exitosa",
+          "El listado se vuelve a cargar"
+        ]
+      },
+      "source_traceability": [
+        "public/users-script.js:120",
+        "server.js:120"
+      ]
+    },
+    {
+      "id": "FLOW-005",
+      "title": "Navegacion bidireccional entre vistas",
+      "description": "Usuario cambia entre Registro y Ver Usuarios desde links del nav.",
+      "related_requirements": [
+        "REQ-NAV-001",
+        "REQ-NAV-002"
+      ],
+      "acceptance_criteria": {
+        "given": [
+          "La aplicacion esta disponible en el navegador"
+        ],
+        "when": [
+          "El usuario hace click en links de navegacion"
+        ],
+        "then": [
+          "El servidor resuelve la ruta solicitada",
+          "La URL final coincide con / o /users",
+          "La pagina destino se renderiza correctamente"
+        ]
+      },
+      "source_traceability": [
+        "tests/ui/navigation.spec.ts:15",
+        "server.js:186"
+      ]
+    }
+  ]
+}
