@@ -1,0 +1,308 @@
+{
+  "artifact_type": "documentation_artifact",
+  "version": "1.0",
+  "workflow_id": "wf-qa-plan3-20260707",
+  "generated_at": "2026-07-07T00:00:00Z",
+  "summary": "Documentacion funcional y tecnica de la aplicacion web de registro y administracion basica de usuarios. Incluye comportamiento UI, contratos API REST, validaciones, flujo de datos en memoria, manejo de errores y criterios de prueba para QA manual y automatizada.",
+  "application_under_test": {
+    "name": "Web Test Application - Registro y Usuarios",
+    "type": "Aplicacion web con backend Node.js y frontend vanilla",
+    "stack": [
+      "Node.js (http, fs, path, url)",
+      "HTML5",
+      "CSS3",
+      "JavaScript (vanilla)",
+      "In-memory storage"
+    ],
+    "execution": {
+      "start_command": "npm start",
+      "base_url": "http://localhost:3000",
+      "default_port": 3000
+    }
+  },
+  "ui_surfaces": [
+    {
+      "id": "UI-REG-001",
+      "route": "/",
+      "title": "Formulario de Registro",
+      "purpose": "Registrar nuevos usuarios",
+      "elements": [
+        "Campo Nombre (required)",
+        "Campo Email (type=email, required)",
+        "Campo Telefono (optional)",
+        "Boton Registrarse",
+        "Contenedor de mensajes",
+        "Navegacion a listado"
+      ],
+      "behaviors": [
+        "Envio de formulario por fetch a POST /api/register",
+        "Muestra mensaje de exito en alta correcta",
+        "Resetea formulario tras registro exitoso",
+        "Limpia mensaje de exito a los ~3 segundos",
+        "Muestra mensaje de error si API falla"
+      ]
+    },
+    {
+      "id": "UI-USR-001",
+      "route": "/users",
+      "title": "Listado de Usuarios",
+      "purpose": "Visualizar y gestionar usuarios registrados",
+      "elements": [
+        "Tabla con columnas ID, Nombre, Email, Telefono, Fecha de Registro, Acciones",
+        "Estado vacio: No hay usuarios registrados",
+        "Botones Editar y Eliminar por fila",
+        "Modal de edicion con formulario",
+        "Navegacion a registro"
+      ],
+      "behaviors": [
+        "Carga inicial de usuarios via GET /api/users",
+        "Muestra tabla si hay datos y estado vacio si no hay datos",
+        "Editar abre modal con datos de GET /api/users/:id",
+        "Guardar cambios envia PUT /api/users/:id y recarga tabla",
+        "Eliminar solicita confirmacion y ejecuta DELETE /api/users/:id",
+        "Actualiza la tabla luego de editar o eliminar"
+      ]
+    }
+  ],
+  "api_contract": {
+    "cors": {
+      "enabled": true,
+      "allow_origin": "*",
+      "allow_methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+      "allow_headers": ["Content-Type"]
+    },
+    "content_type": "application/json",
+    "endpoints": [
+      {
+        "method": "POST",
+        "path": "/api/register",
+        "description": "Registra un usuario nuevo",
+        "request": {
+          "required_fields": ["name", "email"],
+          "optional_fields": ["phone"]
+        },
+        "responses": [
+          {
+            "status": 200,
+            "body_shape": {
+              "success": true,
+              "message": "User registered successfully",
+              "user": "{ id, name, email, phone, registeredAt }"
+            }
+          },
+          {
+            "status": 400,
+            "body_shape": {
+              "error": "Name and email are required | Invalid request"
+            }
+          }
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/api/users",
+        "description": "Obtiene arreglo de usuarios en memoria",
+        "responses": [
+          {
+            "status": 200,
+            "body_shape": [
+              "{ id, name, email, phone, registeredAt }"
+            ]
+          }
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/api/users/:id",
+        "description": "Obtiene un usuario por id numerico",
+        "responses": [
+          {
+            "status": 200,
+            "body_shape": "{ id, name, email, phone, registeredAt }"
+          },
+          {
+            "status": 404,
+            "body_shape": {
+              "error": "User not found"
+            }
+          }
+        ]
+      },
+      {
+        "method": "PUT",
+        "path": "/api/users/:id",
+        "description": "Actualiza datos de usuario existente",
+        "request": {
+          "required_fields": ["name", "email"],
+          "optional_fields": ["phone"]
+        },
+        "responses": [
+          {
+            "status": 200,
+            "body_shape": {
+              "success": true,
+              "message": "User updated successfully",
+              "user": "{ id, name, email, phone, registeredAt }"
+            }
+          },
+          {
+            "status": 400,
+            "body_shape": {
+              "error": "Name and email are required | Invalid request"
+            }
+          },
+          {
+            "status": 404,
+            "body_shape": {
+              "error": "User not found"
+            }
+          }
+        ]
+      },
+      {
+        "method": "DELETE",
+        "path": "/api/users/:id",
+        "description": "Elimina un usuario existente",
+        "responses": [
+          {
+            "status": 200,
+            "body_shape": {
+              "success": true,
+              "message": "User deleted successfully",
+              "user": "{ id, name, email, phone, registeredAt }"
+            }
+          },
+          {
+            "status": 404,
+            "body_shape": {
+              "error": "User not found"
+            }
+          }
+        ]
+      }
+    ],
+    "error_handling": [
+      {
+        "status": 400,
+        "cause": "JSON invalido o validacion de campos requeridos"
+      },
+      {
+        "status": 403,
+        "cause": "Intento de acceso fuera de carpeta public (directory traversal)"
+      },
+      {
+        "status": 404,
+        "cause": "Endpoint API inexistente o recurso no encontrado"
+      }
+    ]
+  },
+  "business_rules": [
+    {
+      "id": "BR-001",
+      "rule": "name y email son obligatorios para crear y actualizar usuarios"
+    },
+    {
+      "id": "BR-002",
+      "rule": "phone es opcional en registro por API y UI de alta"
+    },
+    {
+      "id": "BR-003",
+      "rule": "El listado depende completamente de datos en memoria del proceso"
+    },
+    {
+      "id": "BR-004",
+      "rule": "Tras reiniciar servidor, los usuarios se pierden"
+    },
+    {
+      "id": "BR-005",
+      "rule": "Las operaciones edit/delete se aplican por id numerico"
+    }
+  ],
+  "data_model": {
+    "entity": "User",
+    "fields": [
+      { "name": "id", "type": "number", "source": "Date.now()" },
+      { "name": "name", "type": "string", "required": true },
+      { "name": "email", "type": "string", "required": true },
+      { "name": "phone", "type": "string", "required": false },
+      { "name": "registeredAt", "type": "string", "source": "new Date().toLocaleString()" }
+    ],
+    "storage": "Array users en memoria del servidor"
+  },
+  "non_functional_considerations": [
+    {
+      "id": "NFR-001",
+      "area": "Persistencia",
+      "detail": "No existe persistencia durable; la data se reinicia con el proceso"
+    },
+    {
+      "id": "NFR-002",
+      "area": "Seguridad",
+      "detail": "Se protege directory traversal en archivos estaticos; no hay autenticacion"
+    },
+    {
+      "id": "NFR-003",
+      "area": "Compatibilidad",
+      "detail": "La validacion de email de UI depende del navegador por input type=email"
+    },
+    {
+      "id": "NFR-004",
+      "area": "Observabilidad",
+      "detail": "Errores de frontend se registran en consola; no hay telemetry centralizada"
+    }
+  ],
+  "qa_focus": {
+    "smoke": [
+      "Carga de / y /users",
+      "Alta exitosa via UI",
+      "Visualizacion de usuario en tabla",
+      "Edicion y eliminacion basicas",
+      "GET /api/users operativo"
+    ],
+    "regression": [
+      "Validaciones de campos requeridos POST/PUT",
+      "Errores 404 para ids inexistentes",
+      "Estado vacio del listado",
+      "Confirmacion de eliminacion",
+      "Manejo de JSON invalido"
+    ],
+    "api": [
+      "Contratos de respuesta por status",
+      "Integridad del objeto user retornado",
+      "Consistencia entre CRUD y UI"
+    ]
+  },
+  "traceability_seed": [
+    { "requirement_id": "REQ-001", "mapped_to": "UI-REG-001", "coverage": "form fields + required" },
+    { "requirement_id": "REQ-002", "mapped_to": "UI-REG-001", "coverage": "email format validation" },
+    { "requirement_id": "REQ-003", "mapped_to": "POST /api/register", "coverage": "phone optional" },
+    { "requirement_id": "REQ-004", "mapped_to": "POST /api/register", "coverage": "success path" },
+    { "requirement_id": "REQ-005", "mapped_to": "POST /api/register", "coverage": "400 required fields" },
+    { "requirement_id": "REQ-006", "mapped_to": "POST /api/register", "coverage": "invalid json" },
+    { "requirement_id": "REQ-007", "mapped_to": "UI-REG-001", "coverage": "success message" },
+    { "requirement_id": "REQ-008", "mapped_to": "UI-REG-001", "coverage": "form reset" },
+    { "requirement_id": "REQ-009", "mapped_to": "UI-REG-001", "coverage": "message timeout" },
+    { "requirement_id": "REQ-010", "mapped_to": "GET /api/users", "coverage": "users list" },
+    { "requirement_id": "REQ-011", "mapped_to": "UI-USR-001", "coverage": "empty state" },
+    { "requirement_id": "REQ-012", "mapped_to": "UI-USR-001", "coverage": "users table render" },
+    { "requirement_id": "REQ-013", "mapped_to": "GET /api/users/:id", "coverage": "existing user" },
+    { "requirement_id": "REQ-014", "mapped_to": "GET /api/users/:id", "coverage": "404 not found" },
+    { "requirement_id": "REQ-015", "mapped_to": "PUT /api/users/:id", "coverage": "update success" },
+    { "requirement_id": "REQ-016", "mapped_to": "PUT /api/users/:id", "coverage": "400 validation" },
+    { "requirement_id": "REQ-017", "mapped_to": "PUT /api/users/:id", "coverage": "404 not found" },
+    { "requirement_id": "REQ-018", "mapped_to": "DELETE /api/users/:id", "coverage": "delete success" },
+    { "requirement_id": "REQ-019", "mapped_to": "DELETE /api/users/:id", "coverage": "404 not found" }
+  ],
+  "sources": [
+    "README.md",
+    "server.js",
+    "public/index.html",
+    "public/script.js",
+    "public/users.html",
+    "public/users-script.js",
+    "tests/api/register.api.spec.ts",
+    "tests/api/users.api.spec.ts",
+    "ui/form.spec.ts",
+    "ui/navigation.spec.ts"
+  ]
+}

@@ -1,5 +1,5 @@
 {
-  "artifact": "documentation_artifact",
+  "artifact_type": "documentation_artifact",
   "version": "1.0",
   "workflow_id": "wf-qa-plan2-20260701",
   "summary": "Documentacion QA del sistema web de registro y listado de usuarios con API REST. Se identifican requisitos funcionales y no funcionales, flujos de negocio y riesgos para cobertura de formulario, validaciones HTML/API, navegacion, listado, persistencia en memoria y manejo de errores HTTP.",
@@ -31,7 +31,18 @@
       "type": "functional",
       "area": "UI",
       "priority_hint": "high",
-      "source": "public/index.html"
+      "source": "public/index.html",
+      "acceptance_criteria": {
+        "given": [
+          "El sistema y precondiciones del modulo estan disponibles."
+        ],
+        "when": [
+          "Se evalua REQ-001: Campos requeridos en formulario de registro."
+        ],
+        "then": [
+          "La pantalla de registro debe exponer campos name, email y phone; name y email deben ser obligatorios en cliente."
+        ]
+      }
     },
     {
       "id": "REQ-002",
@@ -40,7 +51,18 @@
       "type": "functional",
       "area": "Validation",
       "priority_hint": "high",
-      "source": "public/index.html, tests/ui/form.spec.ts"
+      "source": "public/index.html, tests/ui/form.spec.ts",
+      "acceptance_criteria": {
+        "given": [
+          "El sistema y precondiciones del modulo estan disponibles."
+        ],
+        "when": [
+          "Se evalua REQ-002: Validacion de email en cliente."
+        ],
+        "then": [
+          "El campo email debe usar validacion de formato de correo del navegador (input type=email) y bloquear envio invalido."
+        ]
+      }
     },
     {
       "id": "REQ-003",
@@ -49,7 +71,18 @@
       "type": "functional",
       "area": "Validation",
       "priority_hint": "medium",
-      "source": "public/index.html, tests/ui/form.spec.ts, tests/api/register.api.spec.ts"
+      "source": "public/index.html, tests/ui/form.spec.ts, tests/api/register.api.spec.ts",
+      "acceptance_criteria": {
+        "given": [
+          "El sistema y precondiciones del modulo estan disponibles."
+        ],
+        "when": [
+          "Se evalua REQ-003: Campo telefono opcional."
+        ],
+        "then": [
+          "El formulario debe permitir enviar registro sin phone."
+        ]
+      }
     },
     {
       "id": "REQ-004",
@@ -58,7 +91,18 @@
       "type": "functional",
       "area": "API",
       "priority_hint": "high",
-      "source": "server.js, tests/api/register.api.spec.ts"
+      "source": "server.js, tests/api/register.api.spec.ts",
+      "acceptance_criteria": {
+        "given": [
+          "El sistema y precondiciones del modulo estan disponibles."
+        ],
+        "when": [
+          "Se evalua REQ-004: Alta de usuario por API."
+        ],
+        "then": [
+          "POST /api/register con name y email validos debe responder 200 con success=true, message y objeto user con id y registeredAt."
+        ]
+      }
     },
     {
       "id": "REQ-005",
@@ -67,7 +111,18 @@
       "type": "functional",
       "area": "Validation",
       "priority_hint": "high",
-      "source": "server.js, tests/api/register.api.spec.ts"
+      "source": "server.js, tests/api/register.api.spec.ts",
+      "acceptance_criteria": {
+        "given": [
+          "El sistema y precondiciones del modulo estan disponibles."
+        ],
+        "when": [
+          "Se evalua REQ-005: Validacion backend de campos requeridos en alta."
+        ],
+        "then": [
+          "POST /api/register sin name o sin email debe responder 400 con error descriptivo."
+        ]
+      }
     },
     {
       "id": "REQ-006",
@@ -76,7 +131,18 @@
       "type": "functional",
       "area": "API",
       "priority_hint": "high",
-      "source": "server.js"
+      "source": "server.js",
+      "acceptance_criteria": {
+        "given": [
+          "El sistema y precondiciones del modulo estan disponibles."
+        ],
+        "when": [
+          "Se evalua REQ-006: Manejo de JSON invalido en alta."
+        ],
+        "then": [
+          "POST /api/register con body JSON invalido debe responder 400 con error de solicitud invalida."
+        ]
+      }
     },
     {
       "id": "REQ-007",
@@ -85,7 +151,18 @@
       "type": "functional",
       "area": "UI",
       "priority_hint": "medium",
-      "source": "public/script.js, tests/ui/form.spec.ts"
+      "source": "public/script.js, tests/ui/form.spec.ts",
+      "acceptance_criteria": {
+        "given": [
+          "El sistema y precondiciones del modulo estan disponibles."
+        ],
+        "when": [
+          "Se evalua REQ-007: Feedback visual de alta exitosa."
+        ],
+        "then": [
+          "Tras registro exitoso en UI, debe mostrarse mensaje de exito visible para el usuario."
+        ]
+      }
     },
     {
       "id": "REQ-008",
@@ -94,7 +171,18 @@
       "type": "functional",
       "area": "UI",
       "priority_hint": "medium",
-      "source": "public/script.js"
+      "source": "public/script.js",
+      "acceptance_criteria": {
+        "given": [
+          "El sistema y precondiciones del modulo estan disponibles."
+        ],
+        "when": [
+          "Se evalua REQ-008: Reseteo de formulario tras alta."
+        ],
+        "then": [
+          "Tras respuesta exitosa de registro, el formulario debe limpiarse (reset)."
+        ]
+      }
     },
     {
       "id": "REQ-009",
@@ -103,7 +191,18 @@
       "type": "functional",
       "area": "UI",
       "priority_hint": "low",
-      "source": "public/script.js"
+      "source": "public/script.js",
+      "acceptance_criteria": {
+        "given": [
+          "El sistema y precondiciones del modulo estan disponibles."
+        ],
+        "when": [
+          "Se evalua REQ-009: Expiracion de mensaje de exito."
+        ],
+        "then": [
+          "El mensaje de exito de registro debe limpiarse automaticamente alrededor de 3 segundos despues de mostrarse."
+        ]
+      }
     },
     {
       "id": "REQ-010",
@@ -112,7 +211,18 @@
       "type": "functional",
       "area": "API",
       "priority_hint": "high",
-      "source": "server.js, tests/api/users.api.spec.ts"
+      "source": "server.js, tests/api/users.api.spec.ts",
+      "acceptance_criteria": {
+        "given": [
+          "El sistema y precondiciones del modulo estan disponibles."
+        ],
+        "when": [
+          "Se evalua REQ-010: Listado de usuarios por API."
+        ],
+        "then": [
+          "GET /api/users debe responder 200 con arreglo JSON de usuarios en memoria."
+        ]
+      }
     },
     {
       "id": "REQ-011",
@@ -121,7 +231,18 @@
       "type": "functional",
       "area": "UI",
       "priority_hint": "medium",
-      "source": "public/users.html, public/users-script.js"
+      "source": "public/users.html, public/users-script.js",
+      "acceptance_criteria": {
+        "given": [
+          "El sistema y precondiciones del modulo estan disponibles."
+        ],
+        "when": [
+          "Se evalua REQ-011: Estado vacio de listado."
+        ],
+        "then": [
+          "Si no existen usuarios, la pagina /users debe mostrar mensaje No hay usuarios registrados y ocultar la tabla."
+        ]
+      }
     },
     {
       "id": "REQ-012",
@@ -130,7 +251,18 @@
       "type": "functional",
       "area": "UI",
       "priority_hint": "high",
-      "source": "public/users.html, public/users-script.js"
+      "source": "public/users.html, public/users-script.js",
+      "acceptance_criteria": {
+        "given": [
+          "El sistema y precondiciones del modulo estan disponibles."
+        ],
+        "when": [
+          "Se evalua REQ-012: Render de tabla de usuarios."
+        ],
+        "then": [
+          "Si existen usuarios, la pagina /users debe mostrar tabla con columnas ID, Nombre, Email, Telefono, Fecha de Registro y Acciones."
+        ]
+      }
     },
     {
       "id": "REQ-013",
@@ -139,7 +271,18 @@
       "type": "functional",
       "area": "API",
       "priority_hint": "high",
-      "source": "server.js, tests/api/users.api.spec.ts"
+      "source": "server.js, tests/api/users.api.spec.ts",
+      "acceptance_criteria": {
+        "given": [
+          "El sistema y precondiciones del modulo estan disponibles."
+        ],
+        "when": [
+          "Se evalua REQ-013: Consulta de usuario por id."
+        ],
+        "then": [
+          "GET /api/users/:id para usuario existente debe responder 200 con objeto de usuario."
+        ]
+      }
     },
     {
       "id": "REQ-014",
@@ -148,7 +291,18 @@
       "type": "functional",
       "area": "API",
       "priority_hint": "high",
-      "source": "server.js"
+      "source": "server.js",
+      "acceptance_criteria": {
+        "given": [
+          "El sistema y precondiciones del modulo estan disponibles."
+        ],
+        "when": [
+          "Se evalua REQ-014: 404 en consulta de usuario inexistente."
+        ],
+        "then": [
+          "GET /api/users/:id para id no existente debe responder 404 con error User not found."
+        ]
+      }
     },
     {
       "id": "REQ-015",
@@ -157,7 +311,18 @@
       "type": "functional",
       "area": "API",
       "priority_hint": "high",
-      "source": "server.js, tests/api/users.api.spec.ts"
+      "source": "server.js, tests/api/users.api.spec.ts",
+      "acceptance_criteria": {
+        "given": [
+          "El sistema y precondiciones del modulo estan disponibles."
+        ],
+        "when": [
+          "Se evalua REQ-015: Actualizacion de usuario existente."
+        ],
+        "then": [
+          "PUT /api/users/:id para usuario existente debe responder 200 y devolver datos actualizados del usuario."
+        ]
+      }
     },
     {
       "id": "REQ-016",
@@ -166,7 +331,18 @@
       "type": "functional",
       "area": "Validation",
       "priority_hint": "high",
-      "source": "server.js"
+      "source": "server.js",
+      "acceptance_criteria": {
+        "given": [
+          "El sistema y precondiciones del modulo estan disponibles."
+        ],
+        "when": [
+          "Se evalua REQ-016: Validacion backend en actualizacion."
+        ],
+        "then": [
+          "PUT /api/users/:id debe requerir name y email; si faltan, debe responder 400."
+        ]
+      }
     },
     {
       "id": "REQ-017",
@@ -175,7 +351,18 @@
       "type": "functional",
       "area": "API",
       "priority_hint": "high",
-      "source": "server.js"
+      "source": "server.js",
+      "acceptance_criteria": {
+        "given": [
+          "El sistema y precondiciones del modulo estan disponibles."
+        ],
+        "when": [
+          "Se evalua REQ-017: 404 en actualizacion de usuario inexistente."
+        ],
+        "then": [
+          "PUT /api/users/:id para id no existente debe responder 404 con error User not found."
+        ]
+      }
     },
     {
       "id": "REQ-018",
@@ -184,7 +371,18 @@
       "type": "functional",
       "area": "Data",
       "priority_hint": "high",
-      "source": "server.js, public/users-script.js"
+      "source": "server.js, public/users-script.js",
+      "acceptance_criteria": {
+        "given": [
+          "El sistema y precondiciones del modulo estan disponibles."
+        ],
+        "when": [
+          "Se evalua REQ-018: Eliminacion de usuario existente."
+        ],
+        "then": [
+          "DELETE /api/users/:id para usuario existente debe responder 200 y retirar el usuario del almacenamiento en memoria."
+        ]
+      }
     },
     {
       "id": "REQ-019",
@@ -193,7 +391,18 @@
       "type": "functional",
       "area": "API",
       "priority_hint": "high",
-      "source": "server.js"
+      "source": "server.js",
+      "acceptance_criteria": {
+        "given": [
+          "El sistema y precondiciones del modulo estan disponibles."
+        ],
+        "when": [
+          "Se evalua REQ-019: 404 en eliminacion de usuario inexistente."
+        ],
+        "then": [
+          "DELETE /api/users/:id para id no existente debe responder 404 con error User not found."
+        ]
+      }
     },
     {
       "id": "REQ-020",
@@ -202,7 +411,18 @@
       "type": "functional",
       "area": "Navigation",
       "priority_hint": "high",
-      "source": "public/index.html, public/users.html, tests/ui/navigation.spec.ts"
+      "source": "public/index.html, public/users.html, tests/ui/navigation.spec.ts",
+      "acceptance_criteria": {
+        "given": [
+          "El sistema y precondiciones del modulo estan disponibles."
+        ],
+        "when": [
+          "Se evalua REQ-020: Navegacion entre pantallas principales."
+        ],
+        "then": [
+          "Debe existir navegacion bidireccional entre / (Registro) y /users (Ver Usuarios)."
+        ]
+      }
     },
     {
       "id": "REQ-021",
@@ -211,7 +431,18 @@
       "type": "functional",
       "area": "Data",
       "priority_hint": "high",
-      "source": "server.js"
+      "source": "server.js",
+      "acceptance_criteria": {
+        "given": [
+          "El sistema y precondiciones del modulo estan disponibles."
+        ],
+        "when": [
+          "Se evalua REQ-021: Persistencia temporal en memoria."
+        ],
+        "then": [
+          "Los usuarios creados deben permanecer disponibles entre requests mientras el proceso Node.js siga activo."
+        ]
+      }
     },
     {
       "id": "REQ-022",
@@ -220,7 +451,18 @@
       "type": "functional",
       "area": "Data",
       "priority_hint": "medium",
-      "source": "server.js"
+      "source": "server.js",
+      "acceptance_criteria": {
+        "given": [
+          "El sistema y precondiciones del modulo estan disponibles."
+        ],
+        "when": [
+          "Se evalua REQ-022: No persistencia tras reinicio de servidor."
+        ],
+        "then": [
+          "Al reiniciar el servidor, el arreglo de usuarios debe reinicializarse vacio por ser almacenamiento en memoria."
+        ]
+      }
     },
     {
       "id": "REQ-023",
@@ -229,7 +471,18 @@
       "type": "functional",
       "area": "API",
       "priority_hint": "medium",
-      "source": "server.js"
+      "source": "server.js",
+      "acceptance_criteria": {
+        "given": [
+          "El sistema y precondiciones del modulo estan disponibles."
+        ],
+        "when": [
+          "Se evalua REQ-023: Manejo de endpoint API inexistente."
+        ],
+        "then": [
+          "Cualquier ruta bajo /api no implementada debe responder 404 con error API endpoint not found."
+        ]
+      }
     },
     {
       "id": "REQ-024",
@@ -238,7 +491,18 @@
       "type": "non_functional",
       "area": "API",
       "priority_hint": "medium",
-      "source": "server.js, tests/api/register.api.spec.ts"
+      "source": "server.js, tests/api/register.api.spec.ts",
+      "acceptance_criteria": {
+        "given": [
+          "El sistema y precondiciones del modulo estan disponibles."
+        ],
+        "when": [
+          "Se evalua REQ-024: Contrato de tipo de contenido JSON."
+        ],
+        "then": [
+          "Las respuestas de endpoints API deben incluir Content-Type application/json."
+        ]
+      }
     },
     {
       "id": "REQ-025",
@@ -247,103 +511,124 @@
       "type": "non_functional",
       "area": "API",
       "priority_hint": "low",
-      "source": "server.js"
+      "source": "server.js",
+      "acceptance_criteria": {
+        "given": [
+          "El sistema y precondiciones del modulo estan disponibles."
+        ],
+        "when": [
+          "Se evalua REQ-025: Soporte CORS y preflight."
+        ],
+        "then": [
+          "El servidor debe exponer cabeceras CORS y responder OPTIONS con 200 para habilitar preflight."
+        ]
+      }
     }
   ],
   "flows": [
     {
       "id": "FLOW-001",
       "name": "Registro exitoso desde UI",
-      "preconditions": [
-        "Servidor iniciado en puerto 3000",
-        "Usuario en pagina /"
-      ],
-      "steps": [
-        "Completar name y email validos",
-        "Completar phone opcionalmente",
-        "Enviar formulario",
-        "Esperar respuesta de POST /api/register"
-      ],
-      "expected": [
-        "Respuesta API 200 con success=true",
-        "Se muestra mensaje de exito en UI",
-        "Formulario se limpia",
-        "Nuevo usuario queda disponible en GET /api/users"
-      ]
+      "acceptance_criteria": {
+        "given": [
+          "Servidor iniciado en puerto 3000",
+          "Usuario en pagina /"
+        ],
+        "when": [
+          "Completar name y email validos",
+          "Completar phone opcionalmente",
+          "Enviar formulario",
+          "Esperar respuesta de POST /api/register"
+        ],
+        "then": [
+          "Respuesta API 200 con success=true",
+          "Se muestra mensaje de exito en UI",
+          "Formulario se limpia",
+          "Nuevo usuario queda disponible en GET /api/users"
+        ]
+      }
     },
     {
       "id": "FLOW-002",
       "name": "Visualizacion de listado de usuarios",
-      "preconditions": [
-        "Servidor iniciado",
-        "Usuario en pagina /users"
-      ],
-      "steps": [
-        "Cargar pantalla de usuarios",
-        "Ejecutar GET /api/users",
-        "Evaluar longitud de arreglo"
-      ],
-      "expected": [
-        "Si arreglo vacio: mostrar mensaje No hay usuarios registrados",
-        "Si arreglo con elementos: renderizar tabla y ocultar mensaje vacio",
-        "Cada fila muestra ID, Nombre, Email, Telefono, Fecha y botones Editar/Eliminar"
-      ]
+      "acceptance_criteria": {
+        "given": [
+          "Servidor iniciado",
+          "Usuario en pagina /users"
+        ],
+        "when": [
+          "Cargar pantalla de usuarios",
+          "Ejecutar GET /api/users",
+          "Evaluar longitud de arreglo"
+        ],
+        "then": [
+          "Si arreglo vacio: mostrar mensaje No hay usuarios registrados",
+          "Si arreglo con elementos: renderizar tabla y ocultar mensaje vacio",
+          "Cada fila muestra ID, Nombre, Email, Telefono, Fecha y botones Editar/Eliminar"
+        ]
+      }
     },
     {
       "id": "FLOW-003",
       "name": "Edicion y eliminacion de usuario",
-      "preconditions": [
-        "Existe al menos un usuario registrado",
-        "Usuario en pantalla /users"
-      ],
-      "steps": [
-        "Seleccionar Editar en una fila",
-        "Cargar datos por GET /api/users/:id y abrir modal",
-        "Actualizar datos y enviar PUT /api/users/:id",
-        "Seleccionar Eliminar y confirmar",
-        "Enviar DELETE /api/users/:id"
-      ],
-      "expected": [
-        "PUT responde 200 y persiste cambios en memoria",
-        "Tabla se refresca mostrando datos editados",
-        "DELETE responde 200",
-        "Usuario eliminado no aparece en el listado"
-      ]
+      "acceptance_criteria": {
+        "given": [
+          "Existe al menos un usuario registrado",
+          "Usuario en pantalla /users"
+        ],
+        "when": [
+          "Seleccionar Editar en una fila",
+          "Cargar datos por GET /api/users/:id y abrir modal",
+          "Actualizar datos y enviar PUT /api/users/:id",
+          "Seleccionar Eliminar y confirmar",
+          "Enviar DELETE /api/users/:id"
+        ],
+        "then": [
+          "PUT responde 200 y persiste cambios en memoria",
+          "Tabla se refresca mostrando datos editados",
+          "DELETE responde 200",
+          "Usuario eliminado no aparece en el listado"
+        ]
+      }
     },
     {
       "id": "FLOW-004",
       "name": "Manejo de errores HTTP de API",
-      "preconditions": [
-        "Servidor iniciado"
-      ],
-      "steps": [
-        "Enviar POST /api/register sin name o email",
-        "Enviar PUT /api/users/:id con id inexistente",
-        "Enviar GET /api/users/:id con id inexistente",
-        "Invocar endpoint /api inexistente"
-      ],
-      "expected": [
-        "POST invalido responde 400",
-        "PUT id inexistente responde 404",
-        "GET id inexistente responde 404",
-        "Endpoint API inexistente responde 404",
-        "Errores retornan payload JSON con campo error"
-      ]
+      "acceptance_criteria": {
+        "given": [
+          "Servidor iniciado"
+        ],
+        "when": [
+          "Enviar POST /api/register sin name o email",
+          "Enviar PUT /api/users/:id con id inexistente",
+          "Enviar GET /api/users/:id con id inexistente",
+          "Invocar endpoint /api inexistente"
+        ],
+        "then": [
+          "POST invalido responde 400",
+          "PUT id inexistente responde 404",
+          "GET id inexistente responde 404",
+          "Endpoint API inexistente responde 404",
+          "Errores retornan payload JSON con campo error"
+        ]
+      }
     },
     {
       "id": "FLOW-005",
       "name": "Navegacion entre Registro y Usuarios",
-      "preconditions": [
-        "Servidor iniciado"
-      ],
-      "steps": [
-        "Desde / abrir enlace Ver Usuarios",
-        "Desde /users abrir enlace Registro"
-      ],
-      "expected": [
-        "Navegacion a /users exitosa",
-        "Navegacion de regreso a / exitosa"
-      ]
+      "acceptance_criteria": {
+        "given": [
+          "Servidor iniciado"
+        ],
+        "when": [
+          "Desde / abrir enlace Ver Usuarios",
+          "Desde /users abrir enlace Registro"
+        ],
+        "then": [
+          "Navegacion a /users exitosa",
+          "Navegacion de regreso a / exitosa"
+        ]
+      }
     }
   ],
   "risks": [
@@ -378,17 +663,104 @@
       "likelihood": "medium"
     }
   ],
-  "acceptance_criteria": [
-    "Existen al menos 14 requisitos atomicos, univocos y verificables con datos de entrada/salida observables.",
-    "El formulario permite registrar usuarios con name y email validos y retorna feedback visual de exito.",
-    "La validacion de requeridos (name/email) se aplica en backend y retorna HTTP 400 cuando corresponde.",
-    "El campo phone es opcional en alta y su omision no impide el registro.",
-    "El listado en /users refleja correctamente estado vacio y estado con datos.",
-    "Las operaciones GET por id, PUT y DELETE implementan respuesta 404 cuando el usuario no existe.",
-    "Las rutas API no implementadas bajo /api retornan HTTP 404 con payload JSON de error.",
-    "La navegacion entre / y /users funciona en ambos sentidos.",
-    "La persistencia de usuarios se mantiene durante la vida del proceso y se pierde al reiniciar servidor.",
-    "Las respuestas API usan JSON con cabeceras de tipo de contenido coherentes.",
-    "Se contempla cobertura de errores HTTP y escenarios negativos para registro, consulta, edicion y borrado."
+  "dependencies": [
+    {
+      "requirement_id": "REQ-004",
+      "depends_on": [
+        "REQ-001",
+        "REQ-005"
+      ],
+      "description": "El alta por API depende de campos requeridos definidos y validados."
+    },
+    {
+      "requirement_id": "REQ-007",
+      "depends_on": [
+        "REQ-004"
+      ],
+      "description": "El feedback visual de alta exitosa depende de una respuesta exitosa de registro."
+    },
+    {
+      "requirement_id": "REQ-008",
+      "depends_on": [
+        "REQ-004"
+      ],
+      "description": "El reseteo de formulario sucede despues de una alta exitosa."
+    },
+    {
+      "requirement_id": "REQ-010",
+      "depends_on": [
+        "REQ-004"
+      ],
+      "description": "El listado por API refleja registros creados previamente."
+    },
+    {
+      "requirement_id": "REQ-011",
+      "depends_on": [
+        "REQ-010"
+      ],
+      "description": "El estado vacio de la UI depende del resultado de GET /api/users."
+    },
+    {
+      "requirement_id": "REQ-012",
+      "depends_on": [
+        "REQ-010"
+      ],
+      "description": "El render de tabla depende del contrato de listado de usuarios."
+    },
+    {
+      "requirement_id": "REQ-013",
+      "depends_on": [
+        "REQ-010"
+      ],
+      "description": "La consulta por id parte del dominio de usuarios mantenido por el listado/alta."
+    },
+    {
+      "requirement_id": "REQ-015",
+      "depends_on": [
+        "REQ-013"
+      ],
+      "description": "La actualizacion requiere localizar previamente al usuario por id."
+    },
+    {
+      "requirement_id": "REQ-016",
+      "depends_on": [
+        "REQ-015"
+      ],
+      "description": "La validacion en actualizacion depende del endpoint de actualizacion."
+    },
+    {
+      "requirement_id": "REQ-018",
+      "depends_on": [
+        "REQ-013"
+      ],
+      "description": "La eliminacion requiere identificar al usuario existente."
+    },
+    {
+      "requirement_id": "REQ-020",
+      "depends_on": [
+        "REQ-001",
+        "REQ-012"
+      ],
+      "description": "La navegacion conecta las pantallas de registro y listado."
+    },
+    {
+      "requirement_id": "REQ-024",
+      "depends_on": [
+        "REQ-004",
+        "REQ-010",
+        "REQ-013",
+        "REQ-015",
+        "REQ-018"
+      ],
+      "description": "El contrato JSON aplica a los endpoints principales."
+    },
+    {
+      "requirement_id": "REQ-025",
+      "depends_on": [
+        "REQ-024"
+      ],
+      "description": "CORS y preflight complementan el contrato API para consumo cruzado.",
+      "external_reference": "infra:browser-cors-policy"
+    }
   ]
 }

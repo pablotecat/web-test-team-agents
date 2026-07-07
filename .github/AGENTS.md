@@ -51,6 +51,7 @@ No implementados por ahora (placeholders sin logica):
 ## Contrato de intercambio
 
 - Todos los handoffs entre agentes usan JSON segun shared/context-schema.json.
+- El artefacto `documentation_artifact` debe validar contra `../.agents/shared/documentation-artifact.schema.json`.
 - Cada agente debe declarar:
   - input_contract
   - output_contract
@@ -76,6 +77,6 @@ No implementados por ahora (placeholders sin logica):
 
 ## Regla de documentacion por plan activo
 
-- Test Documentation genera entregables por funcionalidad dentro de `./tests/planN/documentation/<feature_slug>/`.
-- Debe mantener un indice en la raiz del plan activo con la ubicacion de cada funcionalidad.
-- El artefacto documental debe incluir dependencias entre funcionalidades.
+- Test Documentation genera entregables dentro de `./tests/planN/Documentation`.
+- Debe crear un archivo `requirements-<area_slug>.json` por area, y archivos `flows.json`, `risks.json`, `dependencies.json`.
+- Debe crear `summary.md` con listas de Requirements, Flows, Risks y Dependencies usando `id` y `title`.

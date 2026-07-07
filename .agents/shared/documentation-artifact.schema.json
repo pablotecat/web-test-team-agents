@@ -1,0 +1,380 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://local.qa-agents/schemas/documentation-artifact.schema.json",
+  "title": "Documentation Artifact Manifest",
+  "description": "Canonical output contract for partitioned Test Documentation artifacts.",
+  "type": "object",
+  "required": [
+    "artifact_type",
+    "version",
+    "workflow_id",
+    "summary",
+    "application_under_test",
+    "output_directory",
+    "requirements_by_area",
+    "flows_file",
+    "risks_file",
+    "dependencies_file",
+    "summary_markdown"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "artifact_type": {
+      "type": "string",
+      "const": "documentation_artifact"
+    },
+    "version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workflow_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 1
+    },
+    "application_under_test": {
+      "type": "object",
+      "required": ["name", "type", "stack", "entry_points"],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "type": {
+          "type": "string",
+          "minLength": 1
+        },
+        "stack": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "entry_points": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "output_directory": {
+      "type": "string",
+      "pattern": "^\\./tests/plan(?:N|[0-9]+)/Documentation$"
+    },
+    "requirements_by_area": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/requirementsByAreaFile"
+      }
+    },
+    "flows_file": {
+      "$ref": "#/$defs/flowsFile"
+    },
+    "risks_file": {
+      "$ref": "#/$defs/risksFile"
+    },
+    "dependencies_file": {
+      "$ref": "#/$defs/dependenciesFile"
+    },
+    "summary_markdown": {
+      "$ref": "#/$defs/summaryMarkdown"
+    }
+  },
+  "$defs": {
+    "gherkinCriteria": {
+      "type": "object",
+      "required": ["given", "when", "then"],
+      "additionalProperties": false,
+      "properties": {
+        "given": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "when": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "then": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "requirementsByAreaFile": {
+      "type": "object",
+      "required": ["area", "file_path", "requirements"],
+      "additionalProperties": false,
+      "properties": {
+        "area": {
+          "type": "string",
+          "minLength": 1
+        },
+        "file_path": {
+          "type": "string",
+          "pattern": "^\\./tests/plan(?:N|[0-9]+)/Documentation/requirements-[a-z0-9_-]+\\.json$"
+        },
+        "requirements": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/requirement"
+          }
+        }
+      }
+    },
+    "flowsFile": {
+      "type": "object",
+      "required": ["file_path", "flows"],
+      "additionalProperties": false,
+      "properties": {
+        "file_path": {
+          "type": "string",
+          "pattern": "^\\./tests/plan(?:N|[0-9]+)/Documentation/flows\\.json$"
+        },
+        "flows": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/flow"
+          }
+        }
+      }
+    },
+    "risksFile": {
+      "type": "object",
+      "required": ["file_path", "risks"],
+      "additionalProperties": false,
+      "properties": {
+        "file_path": {
+          "type": "string",
+          "pattern": "^\\./tests/plan(?:N|[0-9]+)/Documentation/risks\\.json$"
+        },
+        "risks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/risk"
+          }
+        }
+      }
+    },
+    "dependenciesFile": {
+      "type": "object",
+      "required": ["file_path", "dependencies"],
+      "additionalProperties": false,
+      "properties": {
+        "file_path": {
+          "type": "string",
+          "pattern": "^\\./tests/plan(?:N|[0-9]+)/Documentation/dependencies\\.json$"
+        },
+        "dependencies": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/dependency"
+          }
+        }
+      }
+    },
+    "summaryMarkdown": {
+      "type": "object",
+      "required": ["file_path", "sections"],
+      "additionalProperties": false,
+      "properties": {
+        "file_path": {
+          "type": "string",
+          "pattern": "^\\./tests/plan(?:N|[0-9]+)/Documentation/summary\\.md$"
+        },
+        "sections": {
+          "type": "object",
+          "required": ["requirements", "flows", "risks", "dependencies"],
+          "additionalProperties": false,
+          "properties": {
+            "requirements": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/summaryItem"
+              }
+            },
+            "flows": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/summaryItem"
+              }
+            },
+            "risks": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/summaryItem"
+              }
+            },
+            "dependencies": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/summaryItem"
+              }
+            }
+          }
+        }
+      }
+    },
+    "summaryItem": {
+      "type": "object",
+      "required": ["id", "title"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "requirement": {
+      "type": "object",
+      "required": [
+        "id",
+        "title",
+        "description",
+        "type",
+        "area",
+        "priority_hint",
+        "source",
+        "acceptance_criteria"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^REQ-[0-9]{3}$"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1
+        },
+        "type": {
+          "type": "string",
+          "enum": ["functional", "non_functional"]
+        },
+        "area": {
+          "type": "string",
+          "minLength": 1
+        },
+        "priority_hint": {
+          "type": "string",
+          "enum": ["high", "medium", "low"]
+        },
+        "source": {
+          "type": "string",
+          "minLength": 1
+        },
+        "acceptance_criteria": {
+          "$ref": "#/$defs/gherkinCriteria"
+        }
+      }
+    },
+    "flow": {
+      "type": "object",
+      "required": ["id", "name", "acceptance_criteria"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^FLOW-[0-9]{3}$"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "acceptance_criteria": {
+          "$ref": "#/$defs/gherkinCriteria"
+        }
+      }
+    },
+    "risk": {
+      "type": "object",
+      "required": ["id", "description", "impact", "likelihood"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^RISK-[0-9]{3}$"
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1
+        },
+        "impact": {
+          "type": "string",
+          "enum": ["high", "medium", "low"]
+        },
+        "likelihood": {
+          "type": "string",
+          "enum": ["high", "medium", "low"]
+        }
+      }
+    },
+    "dependency": {
+      "type": "object",
+      "required": ["id", "title", "requirement_id", "depends_on", "description"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^DEP-[0-9]{3}$"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "requirement_id": {
+          "type": "string",
+          "pattern": "^REQ-[0-9]{3}$"
+        },
+        "depends_on": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1
+        },
+        "external_reference": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  }
+}

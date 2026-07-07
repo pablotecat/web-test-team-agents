@@ -13,7 +13,7 @@ outputs:
 input_contract:
   - texto libre, markdown, especificaciones y codigo relevante
 output_contract:
-  - JSON con requisitos, entidades, reglas, riesgos, trazabilidad
+  - JSON manifest con archivos particionados de requisitos, flujos, riesgos, dependencias y resumen
 non_goals:
   - disenar suites
   - asignar prioridad
@@ -28,13 +28,15 @@ Construir un artefacto de documentacion QA consumible por Test Planner.
 ## Regla de salida documental por plan activo
 
 - Generar documentacion en el plan activo del workflow bajo `./tests/planN`.
-- Organizar la documentacion en carpetas por funcionalidad, por ejemplo:
-  - `./tests/planN/documentation/<feature_slug>/overview.md`
-  - `./tests/planN/documentation/<feature_slug>/requirements.json`
-  - `./tests/planN/documentation/<feature_slug>/notes.md`
-- En la raiz del plan activo, mantener indice de ubicaciones de funcionalidades:
-  - `./tests/planN/documentation_index.json`
-  - `./tests/planN/documentation_index.md` (opcional)
+- Guardar todo el output en `./tests/planN/Documentation`.
+- Crear un JSON por cada area de requirements:
+  - `./tests/planN/Documentation/requirements-<area_slug>.json`
+- Guardar arrays separados en archivos dedicados:
+  - `./tests/planN/Documentation/flows.json`
+  - `./tests/planN/Documentation/risks.json`
+  - `./tests/planN/Documentation/dependencies.json`
+- Crear resumen markdown obligatorio:
+  - `./tests/planN/Documentation/summary.md`
 - No escribir documentacion fuera del plan activo en ejecuciones normales.
 
 ## Skills operativas consolidadas
@@ -45,7 +47,7 @@ Skills disponibles:
 2. Normalizacion de lenguaje
 3. Trazabilidad a fuentes
 4. Identificacion de huecos
-5. Particionado por funcionalidad
+5. Particionado por area
 6. Mapeo de dependencias
 
 Definicion centralizada: `../skills/test-documentation.skills.md`.
@@ -56,23 +58,40 @@ Definicion centralizada: `../skills/test-documentation.skills.md`.
 2. Identificar endpoints y contratos visibles para QA.
 3. Normalizar en un JSON con ids de requisito.
 4. Marcar ambiguedades para refinamiento.
-5. Particionar entregables por funcionalidad en `./tests/planN/documentation/<feature_slug>/`.
-6. Actualizar `documentation_index.json` en la raiz de `./tests/planN`.
+5. Agrupar requirements por area y generar `requirements-<area_slug>.json` por cada area dentro de `./tests/planN/Documentation`.
+6. Generar archivos separados `flows.json`, `risks.json` y `dependencies.json` dentro de `./tests/planN/Documentation`.
+7. Generar `summary.md` con listas de Requirements, Flows, Risks y Dependencies mostrando `id` y `title`.
+8. Validar que `documentation_artifact.json` cumpla `../../.agents/shared/documentation-artifact.schema.json`.
 
 ## Formato minimo de salida
 
 - artifact_type: documentation_artifact
-- requirements: array de objetos con requirement_id y descripcion
-- entities: array de objetos de dominio
-- assumptions: array
-- open_questions: array
-- dependencies: array de objetos con `feature_id`, `depends_on`, `description`
-- documentation_locations: array con ubicacion por funcionalidad dentro de `./tests/planN`
+- version: string
+- workflow_id: string
+- summary: string
+- application_under_test: objeto con `name`, `type`, `stack[]`, `entry_points[]`
+- output_directory: `./tests/planN/Documentation`
+- requirements_by_area: array con `area`, `file_path`, `requirements[]`
+- flows_file: objeto con `file_path`, `flows[]`
+- risks_file: objeto con `file_path`, `risks[]`
+- dependencies_file: objeto con `file_path`, `dependencies[]`
+- summary_markdown: objeto con `file_path` y secciones `requirements`, `flows`, `risks`, `dependencies` con items `id` y `title`
+
+## Regla de acceptance criteria
+
+- El campo `acceptance_criteria` de nivel raiz esta prohibido.
+- Cada elemento de `requirements[]` debe incluir `acceptance_criteria` en formato Gherkin:
+  - `given`: array de una o mas acciones
+  - `when`: array de una o mas acciones
+  - `then`: array de una o mas acciones
+- Cada elemento de `flows[]` debe incluir `acceptance_criteria` con la misma estructura Gherkin.
 
 ## Criterios de finalizacion
 
 - Todo requirement tiene identificador unico.
 - Existen notas de trazabilidad a fuente.
 - Salida valida para consumo de Test Planner.
-- Existe indice de ubicaciones de funcionalidades en la raiz del plan activo.
-- El campo `dependencies` refleja dependencias entre funcionalidades.
+- Existen archivos `requirements-<area_slug>.json`, `flows.json`, `risks.json`, `dependencies.json` y `summary.md` en `./tests/planN/Documentation`.
+- `summary.md` incluye listas de Requirements, Flows, Risks y Dependencies con `id` y `title`.
+- `dependencies_file.dependencies[]` refleja dependencias entre requirements locales o externos.
+- La salida valida contra `../../.agents/shared/documentation-artifact.schema.json`.

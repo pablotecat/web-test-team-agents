@@ -78,7 +78,7 @@ Definicion centralizada: `../skills/orquestador-qa.skills.md`.
 ## Reglas de routing
 
 1. Si la entrada no esta normalizada, iniciar con Test Documentation.
-2. Si existe documentation_artifact listo y falta estructura, enrutar a Test Planner.
+2. Si existe documentation_artifact, validar contra `../../.agents/shared/documentation-artifact.schema.json`; solo si valida y falta estructura, enrutar a Test Planner.
 3. Si existe test_plan_artifact y falta clasificacion, enrutar a Test Prioritization.
 4. Si existe priority_matrix_artifact y faltan casos detallados, enrutar a Test Generator.
 5. Si existen casos automatizables y falta implementacion, enrutar a Test Automation.
@@ -97,6 +97,7 @@ Definicion centralizada: `../skills/orquestador-qa.skills.md`.
 - Mantener sincronizados `status` de etapa y estado de artifact asociado.
 - Validar que toda entrada de `error_log` apunte al mismo `workflow_id` activo.
 - Marcar `blocking_reason` explicita cuando se aborta por intentos agotados.
+- No marcar `documentation_artifact` como `ready` si falla validacion de schema.
 
 ## Reglas de replanificacion
 
