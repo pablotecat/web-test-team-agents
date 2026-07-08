@@ -5,7 +5,9 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "node server.js"
+    "dev": "node server.js",
+    "validate:qa:protobuf": "node scripts/validate-qa-protobuf.js",
+    "validate:qa:protobuf:strict": "node scripts/validate-qa-protobuf.js --strict"
   },
   "keywords": [
     "testing",
@@ -16,7 +18,8 @@
   "license": "ISC",
   "devDependencies": {
     "@playwright/test": "^1.60.0",
-    "@types/node": "^25.9.2"
+    "@types/node": "^25.9.2",
+    "protobufjs": "^8.7.0"
   },
   "dependencies": {
     "playwright": "^1.61.1"

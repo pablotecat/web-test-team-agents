@@ -1,0 +1,190 @@
+syntax = "proto3";
+
+package qa.workflow.v1;
+
+option java_multiple_files = true;
+
+// Canonical machine-first contracts for QA agent handoffs.
+
+message WorkflowRequest {
+  string summary = 1;
+  string scope = 2;
+  repeated string constraints = 3;
+  Stage target_stage = 4;
+}
+
+enum Stage {
+  STAGE_UNSPECIFIED = 0;
+  STAGE_DOCUMENTATION = 1;
+  STAGE_PLANNING = 2;
+  STAGE_PRIORITIZATION = 3;
+  STAGE_GENERATION = 4;
+  STAGE_AUTOMATION = 5;
+}
+
+enum Status {
+  STATUS_UNSPECIFIED = 0;
+  STATUS_PENDING = 1;
+  STATUS_IN_PROGRESS = 2;
+  STATUS_COMPLETED = 3;
+  STATUS_BLOCKED = 4;
+  STATUS_FAILED = 5;
+  STATUS_MISSING = 6;
+  STATUS_NOT_APPLICABLE = 7;
+}
+
+message RetryPolicy {
+  uint32 max_attempts = 1;
+  string backoff_strategy = 2;
+  repeated string retryable_error_types = 3;
+}
+
+message StageState {
+  Stage stage = 1;
+  string owner_agent = 2;
+  Status status = 3;
+  string blocking_reason = 4;
+}
+
+message ArtifactState {
+  string artifact_key = 1;
+  string path = 2;
+  string format = 3;
+  Status status = 4;
+  string updated_by = 5;
+}
+
+message TraceLink {
+  string source_id = 1;
+  string target_id = 2;
+  string relation = 3;
+}
+
+message ErrorEvent {
+  string event_id = 1;
+  string timestamp = 2;
+  string workflow_id = 3;
+  string agent = 4;
+  Stage stage = 5;
+  uint32 attempt = 6;
+  string error_type = 7;
+  string error_message = 8;
+  string action_taken = 9;
+  Status resolution_status = 10;
+}
+
+message ErrorEventLog {
+  string workflow_id = 1;
+  repeated ErrorEvent events = 2;
+}
+
+message WorkflowState {
+  string version = 1;
+  string workflow_id = 2;
+  string requested_at = 3;
+  Status status_global = 4;
+  WorkflowRequest request = 5;
+  repeated StageState stages = 6;
+  repeated ArtifactState artifacts = 7;
+  repeated TraceLink traceability = 8;
+  RetryPolicy retry_policy = 9;
+  repeated ErrorEvent error_log = 10;
+}
+
+message RoutingDecision {
+  string workflow_id = 1;
+  Stage current_stage = 2;
+  string next_agent = 3;
+  string reason = 4;
+  repeated string preconditions_validated = 5;
+  repeated string rules_applied = 6;
+}
+
+message Requirement {
+  string requirement_id = 1;
+  string title = 2;
+  string description = 3;
+  repeated string given = 4;
+  repeated string when = 5;
+  repeated string then = 6;
+  repeated string source_traceability = 7;
+}
+
+message Flow {
+  string flow_id = 1;
+  string title = 2;
+  repeated string steps = 3;
+}
+
+message Risk {
+  string risk_id = 1;
+  string title = 2;
+  string impact = 3;
+  string mitigation = 4;
+}
+
+message Dependency {
+  string dependency_id = 1;
+  string title = 2;
+  string description = 3;
+}
+
+message DocumentationHandoff {
+  string workflow_id = 1;
+  string produced_by = 2;
+  repeated Requirement requirements = 3;
+  repeated Flow flows = 4;
+  repeated Risk risks = 5;
+  repeated Dependency dependencies = 6;
+}
+
+message PlannedCase {
+  string case_id = 1;
+  string suite_id = 2;
+  string title = 3;
+  repeated string requirement_ids = 4;
+  repeated string preconditions = 5;
+}
+
+message PlanningHandoff {
+  string workflow_id = 1;
+  string produced_by = 2;
+  string plan_name = 3;
+  repeated PlannedCase cases = 4;
+}
+
+message PrioritizedCase {
+  string case_id = 1;
+  string bucket = 2;
+  bool automation_candidate = 3;
+  string rationale = 4;
+}
+
+message PrioritizationHandoff {
+  string workflow_id = 1;
+  string produced_by = 2;
+  repeated PrioritizedCase entries = 3;
+}
+
+message DetailedCase {
+  string case_id = 1;
+  string title = 2;
+  repeated string preconditions = 3;
+  repeated string steps = 4;
+  repeated string expected_results = 5;
+}
+
+message GenerationHandoff {
+  string workflow_id = 1;
+  string produced_by = 2;
+  repeated DetailedCase test_cases = 3;
+  repeated string automation_candidates = 4;
+}
+
+message AutomationHandoff {
+  string workflow_id = 1;
+  string produced_by = 2;
+  repeated string implemented_cases = 3;
+  repeated string created_or_updated_files = 4;
+  repeated string execution_notes = 5;
+}

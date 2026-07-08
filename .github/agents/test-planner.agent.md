@@ -5,11 +5,11 @@ user-invocable: false
 layer: 1-planificacion
 role: Estructura el plan de pruebas en jerarquia Plan -> Suites -> Cases.
 inputs:
-  - documentation_directory
+  - documentation.pb
 outputs:
-  - test_plan_artifact
+  - test_plan.pb
 input_contract:
-  - directorio `./tests/planN/Documentation` con `requirements-*.json`, `flows.json`, `risks.json`, `dependencies.json` y `summary.md`
+  - `./tests/planN/documentation.pb` valido contra `.github/spec/qa_workflow.proto#DocumentationHandoff`
 owned_decisions:
   - estructura_de_suites
   - agrupacion_por_modulo
@@ -45,7 +45,7 @@ Definicion centralizada: `../skills/test-planner.skills.md`.
 
 ## Pasos
 
-1. Cargar `requirements-*.json`, `flows.json`, `risks.json`, `dependencies.json` y `summary.md` desde `./tests/planN/Documentation`.
+1. Cargar `./tests/planN/documentation.pb` y validar `DocumentationHandoff`.
 2. Agrupar requirements por modulo o funcionalidad.
 3. Definir Test Suites por dominio funcional.
 4. Definir Test Cases de alto nivel por suite.
@@ -53,7 +53,8 @@ Definicion centralizada: `../skills/test-planner.skills.md`.
 
 ## Formato minimo de salida
 
-- artifact_type: test_plan_artifact
+- artifact_type: test_plan.pb
+- schema: `.github/spec/qa_workflow.proto#PlanningHandoff`
 - test_plan: nombre, alcance, criterios de entrada y salida
 - suites: array con suite_id, nombre, objetivo
 - cases: array con case_id, suite_id, requirement_ids
@@ -64,4 +65,4 @@ Definicion centralizada: `../skills/test-planner.skills.md`.
 - No hay casos duplicados por objetivo.
 - La salida esta lista para Test Prioritization.
 - Ningun case incluye decisiones nuevas de prioridad o clasificacion.
-- La etapa puede ejecutarse sin requerir `documentation_artifact.json`.
+- JSON esta deprecado para esta etapa.

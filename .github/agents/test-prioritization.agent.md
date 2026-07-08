@@ -5,9 +5,9 @@ user-invocable: false
 layer: 1-planificacion
 role: Clasifica casos en Regresion, Smoke y Automatizacion segun riesgo y valor.
 inputs:
-  - test_plan_artifact
+  - test_plan.pb
 outputs:
-  - priority_matrix_artifact
+  - priority_matrix.pb
 owned_decisions:
   - bucket_de_prioridad
   - automatizable_si_no
@@ -62,7 +62,8 @@ Definicion centralizada: `../skills/test-prioritization.skills.md`.
 
 ## Formato minimo de salida
 
-- artifact_type: priority_matrix_artifact
+- artifact_type: priority_matrix.pb
+- schema: `.github/spec/qa_workflow.proto#PrioritizationHandoff`
 - entries: array con case_id, bucket, rationale, automation_candidate
 - summary: conteo por bucket
 
@@ -72,3 +73,4 @@ Definicion centralizada: `../skills/test-prioritization.skills.md`.
 - Cada decision incluye rationale.
 - La salida es consumible por Test Generator y Test Automation.
 - Si hubo sobrescritura de valores previos, queda trazabilidad del motivo por case.
+- JSON esta deprecado para esta etapa.

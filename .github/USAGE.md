@@ -11,18 +11,18 @@ solicitud_qa: Necesito cobertura QA end-to-end para registro y listado de usuari
 ## Comportamiento esperado
 
 1. El Orquestador detecta que falta `contexto_compartido`.
-2. Ejecuta bootstrap usando `../shared/default-context.json` como plantilla base.
-3. Normaliza y valida el contexto contra `../shared/context-schema.json`.
+2. Ejecuta bootstrap y construye `workflow_state.pb` segun `.github/spec/qa_workflow.proto`.
+3. Normaliza y valida el contexto con el contrato protobuf (sin JSON).
 4. Devuelve routing y estado actualizado.
 
 ## Salida obligatoria
 
-- `plan_routing`
+- `plan_routing.pb`
   - `siguiente_agente`
   - `razon_de_routing`
   - `precondiciones_validadas`
   - `reglas_aplicadas`
-- `estado_workflow_actualizado`
+- `estado_workflow_actualizado` (`workflow_state.pb`)
   - `status_global`
   - `stages`
   - `artifacts`

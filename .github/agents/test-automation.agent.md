@@ -5,10 +5,10 @@ user-invocable: false
 layer: 2-creacion
 role: Implementa pruebas Playwright desde casos detallados automatizables.
 inputs:
-  - generated_test_cases_artifact
+  - generated_test_cases.pb
   - codigo_base_tests
 outputs:
-  - automation_artifact
+  - automation.pb
   - playwright_specs
 owned_decisions:
   - estrategia_de_implementacion_por_case
@@ -50,7 +50,8 @@ Definicion centralizada: `../skills/test-automation.skills.md`.
 
 ## Formato minimo de salida
 
-- artifact_type: automation_artifact
+- artifact_type: automation.pb
+- schema: `.github/spec/qa_workflow.proto#AutomationHandoff`
 - implemented_cases: array de case_id
 - created_or_updated_files: array de rutas
 - execution_notes: resultados de verificacion
@@ -60,3 +61,4 @@ Definicion centralizada: `../skills/test-automation.skills.md`.
 - Los casos implementados compilan y se ejecutan sin errores bloqueantes.
 - Existe trazabilidad case_id -> archivo spec.
 - Se minimiza duplicacion de codigo en POM.
+- JSON esta deprecado para esta etapa.

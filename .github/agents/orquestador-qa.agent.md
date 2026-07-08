@@ -8,18 +8,18 @@ inputs:
   - solicitud_qa
   - contexto_compartido (opcional)
 outputs:
-  - plan_routing
-  - estado_workflow_actualizado
+  - plan_routing.pb
+  - workflow_state.pb
 owned_decisions:
   - seleccion_de_agente_por_etapa
   - secuencia_de_ejecucion
   - invalidacion_aguas_abajo
 non_goals:
   - generar_documentation_directory
-  - generar_test_plan_artifact
-  - generar_priority_matrix_artifact
-  - generar_generated_test_cases_artifact
-  - generar_automation_artifact
+  - generar_test_plan_pb
+  - generar_priority_matrix_pb
+  - generar_generated_test_cases_pb
+  - generar_automation_pb
   - crear_test_cases
   - escribir_specs_playwright
 ---
@@ -34,7 +34,7 @@ Documentation -> Planner -> Prioritization -> Generator -> Automation.
 ## Regla de dominio del orquestador
 
 - El orquestador coordina, enruta y sincroniza contexto; no genera artefactos de dominio especializado.
-- Esta prohibido crear manualmente `documentation_directory`, `test_plan_artifact`, `priority_matrix_artifact`, `generated_test_cases_artifact` o `automation_artifact`.
+- Esta prohibido crear manualmente `documentation.pb`, `test_plan.pb`, `priority_matrix.pb`, `generated_test_cases.pb` o `automation.pb`.
 - Cada artefacto especializado debe ser producido por su agente propietario y reflejar `updated_by` del agente correspondiente.
 
 ## Regla de inicio obligatorio
@@ -73,7 +73,7 @@ Documentation -> Planner -> Prioritization -> Generator -> Automation.
 ## Modo de entrada minima
 
 - Entrada minima soportada: solo `solicitud_qa`.
-- Si `contexto_compartido` no llega, ejecutar bootstrap y generar contexto valido segun `../../.agents/shared/context-schema.json`.
+- Si `contexto_compartido` no llega, ejecutar bootstrap y generar contexto valido segun `../../.github/spec/qa_workflow.proto`.
 - El contexto autogenerado debe incluir: `version`, `workflow_id`, `requested_at`, `status`, `request`, `stages`, `artifacts`, `traceability`.
 - Si faltan datos para continuar, devolver estado `blocked` con lista de campos minimos faltantes y defaults propuestos.
 
@@ -82,9 +82,9 @@ Documentation -> Planner -> Prioritization -> Generator -> Automation.
 - Politica por defecto:
   - `retry_policy.max_attempts: 3`
   - `retry_policy.backoff_strategy: linear`
-  - `retry_policy.retryable_error_types: [network, timeout, transient_tool_failure, schema_validation]`
+  - `retry_policy.retryable_error_types: [network, timeout, transient_tool_failure, protobuf_validation]`
 - Logging obligatorio por intento fallido:
-  - Log JSON central: `./tests/planN/agent-errors.json`
+  - Log protobuf central: `./tests/planN/error_events.pb`
   - Log textual por workflow: `./tests/planN/logs/wf-<workflow_id>.log`
 - Campos minimos por entrada de error: `timestamp`, `workflow_id`, `agent`, `stage`, `attempt`, `error_type`, `error_message`, `action_taken`, `resolution_status`.
 - Secuencia obligatoria ante fallo: `log -> retry` hasta agotar intentos; luego `log -> abort`.
@@ -108,16 +108,16 @@ Definicion centralizada: `../skills/orquestador-qa.skills.md`.
 1. Generar `workflow_id` estable para toda la ejecucion.
 2. Inicializar `status` global en `pending`.
 3. Crear `stages` completos con owner por etapa y estado inicial `pending`.
-4. Crear `artifacts` completos con `status: missing`, `path`, `format` apropiado y `updated_by` inicial.
+4. Crear `artifacts` completos con `status: missing`, `path` `.pb`, `format: protobuf` y `updated_by` inicial.
 5. Construir bloque `request` desde `solicitud_qa` con `summary`, `scope` y `constraints` base.
-6. Validar estructura final contra `../../.agents/shared/context-schema.json` antes de enrutar.
+6. Validar estructura final contra `../../.github/spec/qa_workflow.proto` antes de enrutar.
 
 ## Reglas de routing
 
 1. Si la entrada no esta normalizada, iniciar con Test Documentation.
-2. Si existe `documentation_directory`, validar que `./tests/planN/Documentation` contenga `requirements-*.json`, `flows.json`, `risks.json`, `dependencies.json` y `summary.md`; solo si cumple, enrutar a Test Planner.
-3. Si existe test_plan_artifact y falta clasificacion, enrutar a Test Prioritization.
-4. Si existe priority_matrix_artifact y faltan casos detallados, enrutar a Test Generator.
+2. Si existe `documentation.pb`, validar su estructura protobuf y que exista `./tests/planN/Documentation/summary.md`; solo si cumple, enrutar a Test Planner.
+3. Si existe `test_plan.pb` y falta clasificacion, enrutar a Test Prioritization.
+4. Si existe `priority_matrix.pb` y faltan casos detallados, enrutar a Test Generator.
 5. Si existen casos automatizables y falta implementacion, enrutar a Test Automation.
 6. Respetar el `target_stage` solicitado y detener la ejecucion cuando esa etapa quede en `completed`.
 7. Si `target_stage` no se informa, asumir `target_stage = automation`.
@@ -136,7 +136,7 @@ Definicion centralizada: `../skills/orquestador-qa.skills.md`.
 - Mantener sincronizados `status` de etapa y estado de artifact asociado.
 - Validar que toda entrada de `error_log` apunte al mismo `workflow_id` activo.
 - Marcar `blocking_reason` explicita cuando se aborta por intentos agotados.
-- No marcar `documentation_directory` como `ready` si faltan archivos minimos requeridos en `Documentation`.
+- No marcar `documentation.pb` como `ready` si falla validacion protobuf o falta `summary.md` humano.
 - Prohibido usar `updated_by: orchestrator` en artefactos especializados.
 - Si una etapa falla de forma definitiva, su artefacto debe quedar `missing` o `failed`, nunca `ready` por sustitucion manual.
 - El estado de `stages` y `artifacts` debe quedar sincronizado en cada transicion de etapa.
@@ -151,7 +151,7 @@ Si cambia un requisito:
 ## Regla de resolucion de fallos
 
 1. Detectar fallo del agente en etapa actual o invalidacion de su output_contract.
-2. Registrar error en `./tests/planN/agent-errors.json` y en `./tests/planN/logs/wf-<workflow_id>.log`.
+2. Registrar error en `./tests/planN/error_events.pb` y en `./tests/planN/logs/wf-<workflow_id>.log`.
 3. Si el error es retentable y `attempt < max_attempts`, reintentar el mismo agente con el mismo contexto normalizado.
 4. Si el error no es retentable o se agotan intentos, marcar etapa `blocked` con `blocking_reason` explicita.
 5. Marcar artefacto asociado como `missing` o `failed` y abortar la orden con `status_global: blocked`.
@@ -169,13 +169,13 @@ Si cambia un requisito:
 
 Siempre devolver:
 
-1. `plan_routing`
+1. `plan_routing.pb`
   - `siguiente_agente`
   - `razon_de_routing`
   - `precondiciones_validadas`
   - `reglas_aplicadas`
 
-2. `estado_workflow_actualizado`
+2. `workflow_state.pb`
   - `status_global`
   - `stages`
   - `artifacts`

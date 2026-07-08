@@ -1,0 +1,2 @@
+
+wf-plan1-20260707-001"!target_stage automation completed*documentation.pb decode ok*test_plan.pb decode ok*priority_matrix.pb decode ok*!generated_test_cases.pb decode ok*automation.pb decode ok2bootstrap_context2sequential_stage_routing2retry_on_transient_failure2stop_on_target_stage_completed

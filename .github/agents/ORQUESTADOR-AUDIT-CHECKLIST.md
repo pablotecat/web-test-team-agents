@@ -22,10 +22,10 @@ Validar que cada ejecucion del Orquestador QA cumpla bootstrap obligatorio, enru
 ## Controles de dominio
 
 - El orquestador no crea manualmente `documentation_directory` ni archivos dentro de `Documentation`.
-- El orquestador no crea manualmente `test_plan_artifact`.
-- El orquestador no crea manualmente `priority_matrix_artifact`.
-- El orquestador no crea manualmente `generated_test_cases_artifact`.
-- El orquestador no crea manualmente `automation_artifact`.
+- El orquestador no crea manualmente `test_plan.pb`.
+- El orquestador no crea manualmente `priority_matrix.pb`.
+- El orquestador no crea manualmente `generated_test_cases.pb`.
+- El orquestador no crea manualmente `automation.pb`.
 - Ningun artefacto especializado usa `updated_by: orchestrator`.
 
 ## Controles de consistencia
@@ -36,7 +36,7 @@ Validar que cada ejecucion del Orquestador QA cumpla bootstrap obligatorio, enru
 
 ## Controles de fallo y retry
 
-- Cada fallo se registra en `./tests/planN/agent-errors.json`.
+- Cada fallo se registra en `./tests/planN/error_events.pb`.
 - Cada fallo se registra tambien en `./tests/planN/logs/wf-<workflow_id>.log`.
 - Se aplica secuencia `log -> retry` hasta `max_attempts`.
 - Si se agotan intentos, el workflow termina en `status_global: blocked`.
