@@ -1,0 +1,87 @@
+{
+  "handoff": {
+    "metadata": {
+      "from_agent": "test_planner",
+      "to_agent": "test_priorization",
+      "session_id": "550e8400-e29b-41d4-a716-446655440000",
+      "timestamp": "2026-07-08T11:15:00Z",
+      "retry_count": 0,
+      "correlation_id": "planner-to-prior-cycle-001"
+    },
+    "context": {
+      "user_request_id": "solicitud-qa-001",
+      "phase": "planning_layer",
+      "status": "ready_for_handoff"
+    },
+    "executive_summary": {
+      "state_snapshot": "Diseño de suites completado: 3 suites (Auth, Registration, UserMgmt), 28 escenarios totales, cobertura 92%",
+      "critical_findings": [
+        "🔴 Suite Auth: HIGH complexity, 12 escenarios, bloqueante para el resto",
+        "🟡 Suite Registration: MEDIUM complexity, 9 escenarios, depende de Auth",
+        "🟢 Suite UserMgmt: LOW complexity, 7 escenarios, independiente - puede paralelizarse"
+      ],
+      "recommendation": "Priorization debe tratar Auth como CRITICAL y bloqueante. Considerar ejecutar UserMgmt en paralelo con Auth."
+    },
+    "artifacts_references": {
+      "path_pattern": "Documentation/test_planning/",
+      "summary_md": "Documentation/HANDOFF_Summary.md",
+      "raw_data": "Documentation/test_planning/suites/",
+      "version_hash": "sha256:b2c3d4e5f6g7"
+    },
+    "delta_changes": {
+      "added": [
+        "Suite: Auth (12 escenarios Gherkin - Login, MFA, Session, Recovery patterns)",
+        "Suite: Registration (9 escenarios - Happy path, validation errors, edge cases)",
+        "Suite: UserMgmt (7 escenarios - CRUD operations, permissions, edge cases)",
+        "Precondiciones definidas por suite y escenario",
+        "Dependencies documentadas: Auth → Registration, UserMgmt independent"
+      ],
+      "modified": [],
+      "removed": [],
+      "updated_by": "test_planner",
+      "rationale": "Suites diseñadas considerando gaps de Documentation (Auth SLA, email validation, session expiry). Trazabilidad estructural verificada. Precondiciones definidas de forma clara para facilitar implementación."
+    },
+    "validation_checklist": {
+      "status": "passed",
+      "checks": {
+        "coverage_modeled": true,
+        "suites_designed": true,
+        "structural_traceability": true,
+        "preconditions_defined": true,
+        "no_test_case_details": true,
+        "dependencies_clear": true,
+        "execution_order_rational": true
+      }
+    },
+    "next_agent_instructions": {
+      "must_validate": [
+        "Evaluar riesgo de Auth suite por su complejidad (12 escenarios)",
+        "Justificar selección de qué casos automatizar vs manual testing",
+        "Considerar costo de implementación vs valor de cobertura"
+      ],
+      "can_skip": [
+        "No necesitas re-diseñar suites; diseño es completo",
+        "No necesitas cambiar precondiciones; ya están definidas",
+        "No necesitas re-modelar cobertura; ya está calculada en 92%"
+      ],
+      "decision_points": [
+        "¿Automatizar todos los 12 escenarios de Auth o solo Smoke + key Regression?",
+        "¿Vale la pena automatizar Registration si depende de Auth (acoplamiento)?",
+        "¿Cómo priorizar entre Auth complexity y UserMgmt independence?"
+      ]
+    },
+    "feedback_hooks": {
+      "if_gaps_found": {
+        "escalate_to": "test_documentation",
+        "note": "Si Priorization identifica gaps que impiden evaluación de riesgo, volver a Documentation para clarificación"
+      },
+      "if_coverage_impossible": {
+        "escalate_to": "test_planner",
+        "note": "Si Priorization considera que 92% cobertura no es factible, Planner re-diseña con trade-offs auditados"
+      },
+      "if_conflict_detected": {
+        "conflict_resolution_strategy": "Si hay conflicto entre suite complexity y automatización feasibility, escalar a orchestrator con análisis"
+      }
+    }
+  }
+}

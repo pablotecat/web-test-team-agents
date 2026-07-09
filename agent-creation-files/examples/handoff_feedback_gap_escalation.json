@@ -1,0 +1,71 @@
+{
+  "handoff": {
+    "metadata": {
+      "from_agent": "test_planner",
+      "to_agent": "test_documentation",
+      "session_id": "550e8400-e29b-41d4-a716-446655440000",
+      "timestamp": "2026-07-08T11:45:00Z",
+      "retry_count": 1,
+      "correlation_id": "planner-feedback-gap-escalation-001"
+    },
+    "context": {
+      "user_request_id": "solicitud-qa-001",
+      "phase": "planning_layer",
+      "status": "escalated"
+    },
+    "executive_summary": {
+      "state_snapshot": "Diseño de suites en progreso, pero bloqueado por gaps de Documentation",
+      "critical_findings": [
+        "🔴 BLOCKER: Session expiry behavior no documentado → imposible definir precondiciones de Auth suite",
+        "🟡 HIGH: Performance SLA para login no especificada → imposible validar en tests",
+        "🟡 HIGH: Email validation rules conflictivas → confusión en precondiciones de Registration"
+      ],
+      "recommendation": "Documentation debe re-extraer y clarificar estos puntos. Planner espera nuevo handoff para continuar."
+    },
+    "artifacts_references": {
+      "path_pattern": "Documentation/requirements/extracted/",
+      "summary_md": "Documentation/HANDOFF_Summary.md",
+      "raw_data": "Documentation/requirements/extracted/by_area/",
+      "version_hash": "sha256:a1b2c3d4e5f6"
+    },
+    "delta_changes": {
+      "added": [],
+      "modified": [],
+      "removed": [],
+      "updated_by": "test_planner",
+      "rationale": "No se han realizado cambios; esta es una escalada para clarificación. Los gaps identificados por Documentation impiden que Planner defina precondiciones adecuadas para suite Auth."
+    },
+    "validation_checklist": {
+      "status": "warning",
+      "checks": {
+        "gaps_impact_design": true,
+        "preconditions_definable": false,
+        "coverage_modelable": false,
+        "trazability_clear": false
+      }
+    },
+    "next_agent_instructions": {
+      "must_validate": [
+        "Re-extraer requisitos de session management (con contexto de lifecycle)",
+        "Clarificar SLA expectations para Auth operations",
+        "Resolver contradicciones en email validation rules entre módulos",
+        "Volver a Planner con nuevo handoff que incluya estos puntos"
+      ],
+      "can_skip": [],
+      "decision_points": []
+    },
+    "feedback_hooks": {
+      "if_gaps_found": {
+        "escalate_to": "test_documentation",
+        "note": "CURRENT STATE: Esperando que Documentation re-procese"
+      },
+      "if_coverage_impossible": {
+        "escalate_to": "orchestrator",
+        "note": "Si Documentation no puede resolver gaps, será decision de Orchestrator avanzar con coverage parcial"
+      },
+      "if_conflict_detected": {
+        "conflict_resolution_strategy": "Documentation debe resolver conflictos en requisitos antes de que Planner continúe"
+      }
+    }
+  }
+}

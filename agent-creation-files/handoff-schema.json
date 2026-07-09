@@ -1,0 +1,241 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Handoff Schema for QA Agents",
+  "type": "object",
+  "required": ["handoff"],
+  "properties": {
+    "handoff": {
+      "type": "object",
+      "required": [
+        "metadata",
+        "context",
+        "executive_summary",
+        "artifacts_references",
+        "delta_changes",
+        "validation_checklist",
+        "next_agent_instructions",
+        "feedback_hooks"
+      ],
+      "properties": {
+        "metadata": {
+          "type": "object",
+          "required": [
+            "from_agent",
+            "to_agent",
+            "session_id",
+            "timestamp",
+            "retry_count",
+            "correlation_id"
+          ],
+          "properties": {
+            "from_agent": {
+              "type": "string",
+              "enum": [
+                "test_documentation",
+                "test_planner",
+                "test_priorization",
+                "orchestrator"
+              ]
+            },
+            "to_agent": {
+              "type": "string",
+              "enum": [
+                "test_documentation",
+                "test_planner",
+                "test_priorization",
+                "orchestrator"
+              ]
+            },
+            "session_id": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+            },
+            "timestamp": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "retry_count": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 3
+            },
+            "correlation_id": {
+              "type": "string"
+            }
+          }
+        },
+        "context": {
+          "type": "object",
+          "required": ["user_request_id", "phase", "status"],
+          "properties": {
+            "user_request_id": {
+              "type": "string"
+            },
+            "phase": {
+              "type": "string",
+              "enum": ["planning_layer", "creation_layer", "execution_layer", "analysis_layer"]
+            },
+            "status": {
+              "type": "string",
+              "enum": ["ready_for_handoff", "escalated", "failed", "completed"]
+            }
+          }
+        },
+        "executive_summary": {
+          "type": "object",
+          "required": ["state_snapshot", "critical_findings", "recommendation"],
+          "properties": {
+            "state_snapshot": {
+              "type": "string"
+            },
+            "critical_findings": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "recommendation": {
+              "type": "string"
+            }
+          }
+        },
+        "artifacts_references": {
+          "type": "object",
+          "required": ["path_pattern", "summary_md", "raw_data", "version_hash"],
+          "properties": {
+            "path_pattern": {
+              "type": "string"
+            },
+            "summary_md": {
+              "type": "string"
+            },
+            "raw_data": {
+              "type": "string"
+            },
+            "version_hash": {
+              "type": "string"
+            }
+          }
+        },
+        "delta_changes": {
+          "type": "object",
+          "required": ["added", "modified", "removed", "updated_by", "rationale"],
+          "properties": {
+            "added": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "modified": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "removed": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "updated_by": {
+              "type": "string",
+              "enum": [
+                "test_documentation",
+                "test_planner",
+                "test_priorization"
+              ]
+            },
+            "rationale": {
+              "type": "string"
+            }
+          }
+        },
+        "validation_checklist": {
+          "type": "object",
+          "required": ["status", "checks"],
+          "properties": {
+            "status": {
+              "type": "string",
+              "enum": ["passed", "warning", "failed"]
+            },
+            "checks": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "boolean"
+              }
+            }
+          }
+        },
+        "next_agent_instructions": {
+          "type": "object",
+          "required": ["must_validate", "can_skip", "decision_points"],
+          "properties": {
+            "must_validate": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "can_skip": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "decision_points": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "feedback_hooks": {
+          "type": "object",
+          "required": ["if_gaps_found", "if_coverage_impossible", "if_conflict_detected"],
+          "properties": {
+            "if_gaps_found": {
+              "type": "object",
+              "required": ["escalate_to"],
+              "properties": {
+                "escalate_to": {
+                  "type": "string",
+                  "enum": [
+                    "test_documentation",
+                    "test_planner",
+                    "orchestrator"
+                  ]
+                }
+              }
+            },
+            "if_coverage_impossible": {
+              "type": "object",
+              "required": ["escalate_to"],
+              "properties": {
+                "escalate_to": {
+                  "type": "string",
+                  "enum": [
+                    "test_documentation",
+                    "test_planner",
+                    "orchestrator"
+                  ]
+                }
+              }
+            },
+            "if_conflict_detected": {
+              "type": "object",
+              "required": ["conflict_resolution_strategy"],
+              "properties": {
+                "conflict_resolution_strategy": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
